@@ -1,10 +1,12 @@
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 
 import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import session from "cookie-session";
 import { config } from "./common/config/app.config";
+import connectDatabase from "./common/config/database.config";
+import { HTTPSTATUS } from "./common/config/http.config";
 
 const app = express();
 const BASE_PATH = config.BASE_PATH;
@@ -31,11 +33,12 @@ app.use(
 );
 
 app.get("/status", (req: Request, res: Response, next: NextFunction) => {
-  res.status(200).json({
+  res.status(HTTPSTATUS.OK).json({
     status: "ok",
   });
 });
 
 app.listen(config.PORT, async () => {
   console.log(`Server listening on port ${config.PORT} in ${config.NODE_ENV}`);
+  await connectDatabase();
 });
