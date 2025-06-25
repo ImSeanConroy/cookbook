@@ -12,7 +12,6 @@ const appConfig = () => ({
   POSTGRES_DB: getEnv("POSTGRES_DB"),
   POSTGRES_PASSWORD: getEnv("POSTGRES_PASSWORD"),
   POSTGRES_PORT: getEnv("POSTGRES_PORT"),
-  DATABASE_URI: getEnv("DATABASE_URI"),
 
   FRONTEND_ORIGIN: getEnv("FRONTEND_ORIGIN", "localhost"),
 });

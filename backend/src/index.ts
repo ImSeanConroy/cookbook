@@ -6,6 +6,8 @@ import cors from "cors";
 import session from "cookie-session";
 import { config } from "./common/config/app.config";
 import connectDatabase from "./common/config/database.config";
+import { errorHandler } from "./middleware/errorHandler.middleware";
+import { asyncHandler } from "./middleware/asyncHandler.middleware";
 import { HTTPSTATUS } from "./common/config/http.config";
 
 const app = express();
@@ -32,11 +34,16 @@ app.use(
   })
 );
 
-app.get("/status", (req: Request, res: Response, next: NextFunction) => {
-  res.status(HTTPSTATUS.OK).json({
-    status: "ok",
-  });
-});
+app.get(
+  `/status`,
+  asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    return res.status(HTTPSTATUS.OK).json({
+      status: "ok",
+    });
+  })
+);
+
+app.use(errorHandler);
 
 app.listen(config.PORT, async () => {
   console.log(`Server listening on port ${config.PORT} in ${config.NODE_ENV}`);
