@@ -1,1 +1,1 @@
-# recipe-app
+# Cookbook: all your recipes in one place
