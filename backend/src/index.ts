@@ -10,6 +10,8 @@ import { errorHandler } from "./middleware/errorHandler.middleware";
 import { asyncHandler } from "./middleware/asyncHandler.middleware";
 import { HTTPSTATUS } from "./common/config/http.config";
 
+import recipeRoutes from "./routes/recipe.route";
+
 const app = express();
 const BASE_PATH = config.BASE_PATH;
 
@@ -35,13 +37,15 @@ app.use(
 );
 
 app.get(
-  `/status`,
+  `${BASE_PATH}/status`,
   asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     return res.status(HTTPSTATUS.OK).json({
       status: "ok",
     });
   })
 );
+
+app.use(`${BASE_PATH}/recipe`, recipeRoutes);
 
 app.use(errorHandler);
 
