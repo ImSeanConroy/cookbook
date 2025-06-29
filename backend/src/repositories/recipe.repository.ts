@@ -2,18 +2,11 @@ import { Recipe } from "../common/interface/recipe.interface";
 import { toCamelCase } from "../utils/toCamelCase";
 import { query } from "../common/config/database.config";
 
-export const findById = async (id: string): Promise<Recipe | null> => {
-  const res = await query("SELECT * FROM recipes WHERE id = $1", [id]);
-  return toCamelCase(res.rows)[0] || null;
-};
-
-export const getAll = async (): Promise<Recipe[]> => {
-  const res = await query("SELECT * FROM recipes");
-  return toCamelCase(res.rows);
-};
-
 export const create = async (
-  data: Omit<Recipe, "id" | "created_at" | "updated_at">
+  data: Omit<
+    Recipe,
+    "id" | "ingredients" | "steps" | "created_at" | "updated_at"
+  >
 ): Promise<Recipe> => {
   const res = await query(
     `INSERT INTO recipes (
@@ -33,6 +26,16 @@ export const create = async (
     ]
   );
   return toCamelCase(res.rows)[0];
+};
+
+export const findById = async (id: string): Promise<Recipe | null> => {
+  const res = await query("SELECT * FROM recipes WHERE id = $1", [id]);
+  return toCamelCase(res.rows)[0] || null;
+};
+
+export const getAll = async (): Promise<Recipe[]> => {
+  const res = await query("SELECT * FROM recipes");
+  return toCamelCase(res.rows);
 };
 
 export const update = async (

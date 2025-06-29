@@ -12,4 +12,18 @@ export interface Recipe {
   image_url: string;
   created_at: string;
   updated_at: string;
+  ingredients: Ingredient[];
+  steps: string[];
 }
+
+export interface Ingredient {
+  name: string;
+  quantity: string;
+}
+
+export interface Step {
+  step_number: number;
+  instruction: string;
+}
+
+export type RecipeInput = Omit<Recipe, 'id' | 'created_at' | 'updated_at'>;

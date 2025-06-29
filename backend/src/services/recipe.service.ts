@@ -1,29 +1,100 @@
-import { Recipe } from "../common/interface/recipe.interface";
+import {
+  Ingredient,
+  Recipe,
+  RecipeInput,
+  Step,
+} from "../common/interface/recipe.interface";
 import { BadRequestException, NotFoundException } from "../utils/appError";
 import * as RecipeRepo from "../repositories/recipe.repository";
+import * as IngredientRepo from "../repositories/ingredient.repository";
+import * as StepRepo from "../repositories/step.repository";
 
 export const createRecipeService = async (
-  body: Omit<Recipe, "id" | "created_at" | "updated_at">
+  body: RecipeInput
 ): Promise<Recipe> => {
-  return await RecipeRepo.create(body);
+  const { ingredients, steps, ...recipeData } = body;
+
+  const newRecipe = await RecipeRepo.create(recipeData);
+  if (!newRecipe) {
+    throw new BadRequestException("Failed to create recipe");
+  }
+
+  const newIngredients = await Promise.all(
+    ingredients.map(async (ingredient: Ingredient) => {
+      const newIngredient = await IngredientRepo.create(
+        newRecipe.id,
+        ingredient
+      );
+      if (!newIngredient) {
+        throw new BadRequestException("Failed to create recipe ingredient");
+      }
+      return newIngredient;
+    })
+  );
+
+  const stepsWithNumbers: Step[] = steps.map((instruction, index) => ({
+    step_number: index + 1,
+    instruction,
+  }));
+
+  const newSteps = await Promise.all(
+    stepsWithNumbers.map(async (step) => {
+      const newStep = await StepRepo.create(newRecipe.id, step);
+      if (!newStep) {
+        throw new BadRequestException("Failed to create recipe step");
+      }
+      return newStep;
+    })
+  );
+
+  return {
+    ...newRecipe,
+    ingredients: newIngredients,
+    steps: newSteps.map((step) => step.instruction),
+  };
+};
+
+export const getRecipeByIdService = async (
+  recipeId: string
+): Promise<Recipe> => {
+  const recipe = await RecipeRepo.findById(recipeId);
+  if (!recipe) {
+    throw new NotFoundException("Recipe not found");
+  }
+
+  const ingredients = await IngredientRepo.findByRecipeId(recipeId);
+  if (!ingredients) {
+    throw new NotFoundException("Ingredients not found");
+  }
+
+  const steps = await StepRepo.findByRecipeId(recipeId);
+  if (!steps) {
+    throw new NotFoundException("Steps not found");
+  }
+
+  return {
+    ...recipe,
+    ingredients,
+    steps: steps.map((step) => step.instruction),
+  };
+};
+
+export const getAllRecipesService = async () => {
+  return await RecipeRepo.getAll();
 };
 
 export const updateRecipeService = async (
   recipeId: string,
-  body: Partial<Omit<Recipe, "id" | "created_at" | "updated_at">>
+  body: Partial<RecipeInput>
 ): Promise<Recipe> => {
   const existingRecipe = await RecipeRepo.findById(recipeId);
   if (!existingRecipe) {
     throw new NotFoundException("Recipe not found");
   }
 
-  const {
-    created_at,
-    updated_at,
-    ...safeExistingRecipe
-  } = existingRecipe;
+  const { created_at, updated_at, ...safeExistingRecipe } = existingRecipe;
 
-  const merged = {
+  const mergedRecipe = {
     id: recipeId,
     title: body.title || safeExistingRecipe.title,
     description: body.description || safeExistingRecipe.description,
@@ -35,26 +106,55 @@ export const updateRecipeService = async (
     image_url: body.image_url || safeExistingRecipe.image_url,
   };
 
-  const updated = await RecipeRepo.update(merged);
-  if (!updated) {
+  const updatedRecipe = await RecipeRepo.update(mergedRecipe);
+  if (!updatedRecipe) {
     throw new BadRequestException("Update failed");
   }
 
-  return updated;
-};
+  let updatedIngredients: Ingredient[] = [];
+  if (body.ingredients) {
+    await IngredientRepo.deleteByRecipeId(recipeId);
 
-export const getAllRecipesService = async () => {
-  return await RecipeRepo.getAll();
-};
-
-export const getRecipeByIdService = async (
-  recipeId: string
-): Promise<Recipe> => {
-  const recipe = await RecipeRepo.findById(recipeId);
-  if (!recipe) {
-    throw new NotFoundException("Recipe not found");
+    updatedIngredients = await Promise.all(
+      body.ingredients.map(async (ingredient: Ingredient) => {
+        const newIngredient = await IngredientRepo.create(recipeId, ingredient);
+        if (!newIngredient) {
+          throw new BadRequestException("Failed to update recipe ingredient");
+        }
+        return newIngredient;
+      })
+    );
+  } else {
+    updatedIngredients = await IngredientRepo.findByRecipeId(recipeId);
   }
-  return recipe;
+
+  let updatedSteps: Step[] = [];
+  if (body.steps) {
+    await StepRepo.deleteByRecipeId(recipeId);
+
+    const stepsWithNumbers: Step[] = body.steps.map((instruction, index) => ({
+      step_number: index + 1,
+      instruction,
+    }));
+
+    updatedSteps = await Promise.all(
+      stepsWithNumbers.map(async (step) => {
+        const newStep = await StepRepo.create(recipeId, step);
+        if (!newStep) {
+          throw new BadRequestException("Failed to create recipe step");
+        }
+        return newStep;
+      })
+    );
+  } else {
+    updatedSteps = await StepRepo.findByRecipeId(recipeId);
+  }
+
+  return {
+    ...updatedRecipe,
+    ingredients: updatedIngredients,
+    steps: updatedSteps.map((step) => step.instruction),
+  };
 };
 
 export const deleteRecipeService = async (recipeId: string): Promise<void> => {
