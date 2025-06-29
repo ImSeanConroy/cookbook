@@ -6,13 +6,14 @@ import {
   getRecipeByIdController,
   updateRecipeController,
 } from "../controllers/recipe.controller";
+import isReadOnly from "../middleware/readOnly.middleware";
 
 const taskRoutes = Router();
 
-taskRoutes.post("/", createRecipeController);
-taskRoutes.get("/all", getAllRecipesController);
+taskRoutes.post("/", isReadOnly, createRecipeController);
+taskRoutes.get("/", getAllRecipesController);
 taskRoutes.get("/:id", getRecipeByIdController);
-taskRoutes.put("/:id", updateRecipeController);
-taskRoutes.delete("/:id", deleteRecipeController);
+taskRoutes.put("/:id", isReadOnly, updateRecipeController);
+taskRoutes.delete("/:id", isReadOnly, deleteRecipeController);
 
 export default taskRoutes;
