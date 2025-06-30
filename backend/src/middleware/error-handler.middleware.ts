@@ -1,6 +1,6 @@
 import { ErrorRequestHandler, Response } from "express";
 import { HTTPSTATUS } from "../common/config/http.config";
-import { AppError } from "../utils/appError";
+import { AppError } from "../utils/app-error";
 import { z, ZodError } from "zod";
 import { ErrorCodeEnum } from "../common/enums/error-code.enum";
 

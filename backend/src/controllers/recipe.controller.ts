@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { asyncHandler } from "../middleware/asyncHandler.middleware";
+import { asyncHandler } from "../middleware/async-handler.middleware";
 import {
   createRecipeSchema,
   recipeIdSchema,

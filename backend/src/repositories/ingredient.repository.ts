@@ -1,6 +1,6 @@
 import { query } from "../common/config/database.config";
 import { Ingredient } from "../common/interface/recipe.interface";
-import { toCamelCase } from "../utils/toCamelCase";
+import { toCamelCase } from "../utils/to-camel-case";
 
 export const create = async (
   recipe_id: string,

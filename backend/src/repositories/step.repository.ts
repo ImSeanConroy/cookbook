@@ -1,6 +1,6 @@
 import { query } from "../common/config/database.config";
 import { Step } from "../common/interface/recipe.interface";
-import { toCamelCase } from "../utils/toCamelCase";
+import { toCamelCase } from "../utils/to-camel-case";
 
 export const create = async (recipe_id: string, data: Step): Promise<Step> => {
   const res = await query(

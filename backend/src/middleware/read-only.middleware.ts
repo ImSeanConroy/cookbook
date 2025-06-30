@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { UnauthorizedException } from "../utils/appError";
+import { UnauthorizedException } from "../utils/app-error";
 import { config } from "../common/config/app.config";
 
 const isReadOnly = (req: Request, res: Response, next: NextFunction) => {

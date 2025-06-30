@@ -1,5 +1,5 @@
 import { Recipe } from "../common/interface/recipe.interface";
-import { toCamelCase } from "../utils/toCamelCase";
+import { toCamelCase } from "../utils/to-camel-case";
 import { query } from "../common/config/database.config";
 
 export const create = async (

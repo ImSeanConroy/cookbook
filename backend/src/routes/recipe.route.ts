@@ -6,7 +6,7 @@ import {
   getRecipeByIdController,
   updateRecipeController,
 } from "../controllers/recipe.controller";
-import isReadOnly from "../middleware/readOnly.middleware";
+import isReadOnly from "../middleware/read-only.middleware";
 
 const taskRoutes = Router();
 

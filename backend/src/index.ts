@@ -6,8 +6,8 @@ import cors from "cors";
 import session from "cookie-session";
 import { config } from "./common/config/app.config";
 import connectDatabase from "./common/config/database.config";
-import { errorHandler } from "./middleware/errorHandler.middleware";
-import { asyncHandler } from "./middleware/asyncHandler.middleware";
+import { errorHandler } from "./middleware/error-handler.middleware";
+import { asyncHandler } from "./middleware/async-handler.middleware";
 import { HTTPSTATUS } from "./common/config/http.config";
 
 import recipeRoutes from "./routes/recipe.route";

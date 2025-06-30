@@ -4,7 +4,7 @@ import {
   RecipeInput,
   Step,
 } from "../common/interface/recipe.interface";
-import { BadRequestException, NotFoundException } from "../utils/appError";
+import { BadRequestException, NotFoundException } from "../utils/app-error";
 import * as RecipeRepo from "../repositories/recipe.repository";
 import * as IngredientRepo from "../repositories/ingredient.repository";
 import * as StepRepo from "../repositories/step.repository";
