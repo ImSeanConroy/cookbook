@@ -1,0 +1,47 @@
+name: Test & Lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  backend-test:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        cache-dependency-path: backend/package-lock.json
+
+    - name: Install Dependencies
+      run: npm ci
+
+    # Optional: Lint Step
+    # - name: Lint Code
+    #   run: npm run lint
+
+    - name: Run Tests with Coverage
+      run: npm run test -- --coverage
+
+    # Optional: Upload Coverage Report
+    # - name: Upload Coverage Report
+    #   if: success() && always()
+    #   uses: actions/upload-artifact@v4
+    #   with:
+    #     name: coverage-report
+    #     path: backend/coverage/

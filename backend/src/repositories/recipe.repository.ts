@@ -46,8 +46,6 @@ export const update = async (
   let i = 1;
 
   for (const [key, val] of Object.entries(data)) {
-    console.log(key);
-
     if (val !== undefined && key !== "id") {
       fields.push(`${key} = $${i++}`);
       values.push(val);

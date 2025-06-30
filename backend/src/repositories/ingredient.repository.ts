@@ -20,7 +20,7 @@ export const findByRecipeId = async (
     `SELECT name, quantity FROM ingredients WHERE recipe_id = $1 ORDER BY id ASC`,
     [recipe_id]
   );
-  return toCamelCase(res.rows) || null;
+  return toCamelCase(res.rows);
 };
 
 export const deleteByRecipeId = async (recipe_id: string): Promise<void> => {

@@ -9,7 +9,7 @@ import {
 import { HTTPSTATUS } from "../../src/common/config/http.config";
 import { ErrorCodeEnum } from "../../src/common/enums/error-code.enum";
 
-describe("AppError and subclasses", () => {
+describe("AppError Util", () => {
   it("AppError sets message, statusCode, and errorCode", () => {
     const err = new AppError("fail", HTTPSTATUS.BAD_REQUEST, ErrorCodeEnum.VALIDATION_ERROR);
     expect(err.message).toBe("fail");

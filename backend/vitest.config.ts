@@ -6,5 +6,6 @@ export default defineConfig({
     globals: true,        // allows using `describe`, `it`, `expect` globally
     environment: 'node',  // or 'jsdom' for browser-like environment
     include: ['**/*.test.ts'],
+    setupFiles: ["./vitest.setup.ts"],
   },
 });
