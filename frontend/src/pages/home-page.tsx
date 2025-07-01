@@ -42,28 +42,31 @@ const HomePage = () => {
   if (recipes.length === 0) return <p>No recipes found.</p>;
 
   return (
-    <div>
-      <h1>Recipes</h1>
-      <div>
+    <div className="flex flex-col gap-10 px-16">
+      <div className="px-10 py-10 bg-zinc-100 rounded-3xl h-[350px] flex flex-col justify-center">
+        <p>Let's Cook</p>
+        <h1 className="text-5xl font-semibold">All your recipes in one place</h1>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 ">
         {recipes.map((recipe) => (
-          <div key={recipe.id}>
-            <Link to={`/recipe/${recipe.id}`}>
-              <h2>{recipe.title}</h2>
+          <div key={recipe.id} className="px-6 py-5 bg-zinc-100 rounded-3xl">
+            <Link to={`/recipe/${recipe.id}`} className="flex flex-col gap-5">
+              <h2 className="text-4xl font-semibold  flex-grow">{recipe.title}</h2>
               <img
                 src={recipe.imageUrl}
                 alt={recipe.title}
-                width="300"
-                height="200"
+                className="rounded-2xl bg-zinc-200 w-full h-[450px]"
               />
+              <div className="bg-zinc-900 rounded-full">
+                <p className="text-white p-3 px-5">See complete recipe</p>
+              </div>
             </Link>
-            <p>{recipe.description}</p>
-            <p>Total Time: {recipe.prepTime + recipe.cookTime} minutes</p>
-            <p>Servings: {recipe.servings}</p>
-            <hr />
           </div>
         ))}
       </div>
     </div>
+
   );
 };
 
