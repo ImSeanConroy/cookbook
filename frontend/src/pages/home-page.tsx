@@ -30,10 +30,10 @@ const HomePage = () => {
   if (recipes.length === 0) return <p>No recipes found.</p>;
 
   return (
-    <div className="flex flex-col gap-10">
-      <div className="px-10 py-10 bg-zinc-100 rounded-3xl h-[350px] flex flex-col justify-center">
-        <p>Let's Cook</p>
-        <h1 className="text-5xl font-semibold">All your recipes in one place</h1>
+    <div className="flex flex-col gap-6">
+      <div className="p-6 lg:p-10 bg-zinc-100 rounded-3xl h-[450px] flex flex-col justify-center">
+        <p className="text-zinc-500">Let's Cook</p>
+        <h1 className="text-4xl sm:text-5xl font-semibold">All your <span className="text-lime-500">recipes</span> in one place</h1>
       </div>
 
       <RecipeGrid recipes={recipes} />

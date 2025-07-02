@@ -6,11 +6,13 @@ import {
   IoPersonOutline,
   IoTimeOutline,
   IoFastFoodOutline,
-  IoStarOutline,
+  IoSpeedometerOutline,
 } from "react-icons/io5";
 
 const RecipeInfoBar = ({ data }: { data: Recipe }) => (
-  <div className="flex flex-row justify-between pr-6">
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 ">
+
+
     <RecipeInfoCard
       icon={<IoEarthOutline />}
       label="Cuisine"
@@ -19,20 +21,20 @@ const RecipeInfoBar = ({ data }: { data: Recipe }) => (
     <RecipeInfoCard
       icon={<IoPersonOutline />}
       label="Servings"
-      value={`${data.servings} Persons`}
+      value={`${data.servings} ${data.servings > 1 ? "Persons" : "Person"}`}
     />
     <RecipeInfoCard
       icon={<IoTimeOutline />}
       label="Prep Time"
-      value={`${data.prepTime} minutes`}
+      value={`${data.prepTime} ${data.servings > 1 ? "minutes" : "minute"}`}
     />
     <RecipeInfoCard
       icon={<IoFastFoodOutline />}
       label="Cook Time"
-      value={`${data.cookTime} minutes`}
+      value={`${data.cookTime} ${data.servings > 1 ? "minutes" : "minute"}`}
     />
     <RecipeInfoCard
-      icon={<IoStarOutline />}
+      icon={<IoSpeedometerOutline />}
       label="Difficulty"
       value={`${
         data.difficulty.charAt(0).toUpperCase() + data.difficulty.slice(1)
