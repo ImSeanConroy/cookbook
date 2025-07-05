@@ -7,16 +7,21 @@ interface RecipeCardProps {
 }
 
 const RecipeCard = ({ id, title, imageUrl }: RecipeCardProps) => (
-  <div className="p-5 md:p-6 bg-zinc-100 rounded-3xl">
-    <Link to={`/recipe/${id}`} className="flex flex-col gap-5 md:gap-6">
-      <h2 className="text-3xl lg:text-4xl font-semibold flex-grow">{title}</h2>
+  <div className=" bg-zinc-100 rounded-2xl">
+    <Link to={`/recipe/${id}`} className="flex flex-col">
       <img
         src={imageUrl}
         alt={title}
-        className="rounded-2xl bg-zinc-200 w-full h-[300px] md:h-[350px] lg:h-[400px]"
+        className="rounded-t-2xl bg-zinc-200 w-full h-[300px] md:h-[350px] lg:h-[300px] object-cover"
       />
-      <div className="bg-zinc-900 rounded-2xl">
-        <p className="text-white p-3 px-5">See complete recipe</p>
+      <div className="p-4 px-5">
+        <h2 className="text-xl lg:text-xl font-semibold flex-grow">{title}</h2>
+        <p className="truncate">Roasted Cauliflower and Zesty Jasmine Rice</p>
+        <div className="pt-4 flex flex-row divide-x divide-gray-400 text-gray-500">
+          <p className="pr-3">15 min</p>
+          <p className="px-3">Italian</p>
+          <p className="pl-3">Intermediate</p>
+        </div>
       </div>
     </Link>
   </div>

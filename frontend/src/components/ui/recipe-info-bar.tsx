@@ -10,13 +10,11 @@ import {
 } from "react-icons/io5";
 
 const RecipeInfoBar = ({ data }: { data: Recipe }) => (
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 ">
-
-
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-6 bg-neutral-100 p-6 rounded-2xl">
     <RecipeInfoCard
       icon={<IoEarthOutline />}
       label="Cuisine"
-      value={`${data.cuisine} Food`}
+      value={data.cuisine}
     />
     <RecipeInfoCard
       icon={<IoPersonOutline />}
@@ -36,9 +34,9 @@ const RecipeInfoBar = ({ data }: { data: Recipe }) => (
     <RecipeInfoCard
       icon={<IoSpeedometerOutline />}
       label="Difficulty"
-      value={`${
+      value={
         data.difficulty.charAt(0).toUpperCase() + data.difficulty.slice(1)
-      } Level`}
+      }
     />
   </div>
 );

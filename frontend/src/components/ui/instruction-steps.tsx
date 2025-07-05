@@ -6,7 +6,7 @@ const InstructionSteps = ({ steps }: { steps: string[] }) => (
     {steps.map((step, i) => (
       <div
         key={i}
-        className="flex flex-row gap-6 items-center bg-zinc-100 p-6 md:p-8 rounded-2xl mb-4"
+        className="flex flex-row gap-6 items-center bg-neutral-100 p-6 md:p-8 rounded-2xl mb-5"
       >
         <p className="text-3xl font-semibold text-lime-500">
           {(i + 1).toString().padStart(2, "0")}

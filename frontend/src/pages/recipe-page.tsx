@@ -7,6 +7,7 @@ import IngredientsList from "@/components/ui/Ingredients-list";
 import InstructionSteps from "@/components/ui/instruction-steps";
 import type { Recipe } from "@/types/recipe";
 import { config } from "@/config";
+import RecipeCard from "@/components/ui/recipe-card";
 
 const RecipePage = () => {
   const { id } = useParams<{ id: string }>();
@@ -41,19 +42,55 @@ const RecipePage = () => {
   if (!data) return <p>No recipe found.</p>;
 
   return (
-    <div className="flex flex-col gap-10 md:gap-12">
-      <RecipeHeader title={data.title} />
-      <RecipeInfoBar data={data} />
-      <div className="flex flex-col lg:flex-row gap-x-8 gap-y-10 md:gap-y-12">
-        <div className="lg:w-7/10 w-full flex flex-col gap-10 md:gap-12">
-          <p className="text-zinc-500 leading-6.5 pb-6 md:pb-12">{data.description}</p>
+    <div className="flex flex-col gap-12">
+      <div className="flex flex-col gap-6">
+        <RecipeHeader title={data.title} />
+        <RecipeInfoBar data={data} />
+      </div>
+
+      <div className="flex flex-col lg:flex-row gap-8">
+        <div className="lg:w-7/10 w-full flex flex-col gap-10">
+          <p className="text-zinc-500 leading-6.5">{data.description}</p>
           <IngredientsList ingredients={data.ingredients} />
           <InstructionSteps steps={data.steps} />
         </div>
 
-        <div className="lg:w-3/10 w-full flex flex-col gap-8">
-          <div className="px-10 py-10 bg-zinc-100 rounded-2xl h-[250px] flex flex-col justify-end"></div>
-          <div className="px-10 py-10 bg-zinc-100 rounded-2xl h-[450px] flex flex-col justify-end"></div>
+        <div className="lg:w-3/10 w-full flex flex-col gap-6">
+          <div className="px-10 py-10 bg-neutral-100 rounded-2xl h-[450px] flex flex-col justify-end"></div>
+
+          <div className="gap-6 items-center bg-neutral-100 p-6 md:p-8 rounded-2xl">
+            <h2 className="text-2xl mb-3 font-semibold">
+              Nutritional information
+            </h2>
+            <ul className="columns-1 md:columns-2 gap-4">
+              <li className="py-1 text-zinc-500">Test</li>
+              <li className="py-1 text-zinc-500">Test</li>
+              <li className="py-1 text-zinc-500">Test</li>
+              <li className="py-1 text-zinc-500">Test</li>
+            </ul>
+          </div>
+
+          <div className="gap-6 items-center bg-neutral-100 p-6 md:p-8 rounded-2xl">
+            <h2 className="text-2xl mb-3 font-semibold">Utensils</h2>
+            <ul className="columns-1 md:columns-2 gap-4">
+              <li className="py-1 text-zinc-500">Test</li>
+              <li className="py-1 text-zinc-500">Test</li>
+              <li className="py-1 text-zinc-500">Test</li>
+              <li className="py-1 text-zinc-500">Test</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h2 className="text-4xl mb-5 font-semibold">
+          Related <span className="text-lime-500">Recipes</span>
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-4 gap-6">
+          <RecipeCard id="1" title="Chicken and Bacon Pie" imageUrl="" />
+          <RecipeCard id="1" title="Chicken and Bacon Pie" imageUrl="" />
+          <RecipeCard id="1" title="Chicken and Bacon Pie" imageUrl="" />
+          <RecipeCard id="1" title="Chicken and Bacon Pie" imageUrl="" />
         </div>
       </div>
     </div>
