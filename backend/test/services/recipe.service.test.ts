@@ -116,15 +116,12 @@ describe("Recipe Service", () => {
       const mockRecipes = [{ id: "1" }, { id: "2" }];
       const mockTotal = 5;
 
-      // Mock RecipeRepo.getAll to accept pagination params and return recipes
       vi.spyOn(RecipeRepo, "getAll").mockImplementation(
         async ({ offset, limit }) => {
-          // You can optionally check offset and limit if you want
           return mockRecipes;
         }
       );
 
-      // Mock RecipeRepo.getCount to return total count
       vi.spyOn(RecipeRepo, "getCount").mockResolvedValue(mockTotal);
 
       const page = 2;
@@ -150,7 +147,7 @@ describe("Recipe Service", () => {
       expect(result.data).toEqual(mockRecipes);
       expect(result.currentPage).toBe(1);
       expect(result.totalItems).toBe(mockTotal);
-      expect(result.totalPages).toBe(Math.ceil(mockTotal / 10)); // default limit = 10
+      expect(result.totalPages).toBe(Math.ceil(mockTotal / 10));
     });
   });
 

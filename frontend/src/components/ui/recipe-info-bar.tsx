@@ -24,12 +24,12 @@ const RecipeInfoBar = ({ data }: { data: Recipe }) => (
     <RecipeInfoCard
       icon={<IoTimeOutline />}
       label="Prep Time"
-      value={`${data.prepTime} ${data.servings > 1 ? "minutes" : "minute"}`}
+      value={`${data.prepTime} ${data.prepTime > 1 ? "minutes" : "minute"}`}
     />
     <RecipeInfoCard
       icon={<IoFastFoodOutline />}
       label="Cook Time"
-      value={`${data.cookTime} ${data.servings > 1 ? "minutes" : "minute"}`}
+      value={`${data.cookTime} ${data.cookTime > 1 ? "minutes" : "minute"}`}
     />
     <RecipeInfoCard
       icon={<IoSpeedometerOutline />}
