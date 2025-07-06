@@ -33,8 +33,22 @@ export const findById = async (id: string): Promise<Recipe | null> => {
   return toCamelCase(res.rows)[0] || null;
 };
 
-export const getAll = async (): Promise<Recipe[]> => {
-  const res = await query("SELECT * FROM recipes");
+export const getCount = async (): Promise<number> => {
+  const res = await query("SELECT COUNT(*) FROM recipes");
+  return parseInt(res.rows[0].count, 10);
+};
+
+export const getAll = async ({
+  offset = 0,
+  limit = 10,
+}: {
+  offset?: number;
+  limit?: number;
+}): Promise<Recipe[]> => {
+  const res = await query(
+    "SELECT * FROM recipes ORDER BY created_at DESC LIMIT $1 OFFSET $2",
+    [limit, offset]
+  );
   return toCamelCase(res.rows);
 };
 

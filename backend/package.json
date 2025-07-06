@@ -12,7 +12,8 @@
     "migrate:create": "node-pg-migrate --migration-file-language sql create",
     "test": "vitest",
     "test:watch": "vitest --watch",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "seed": "ts-node src/seeders/recipe.seeder.ts"
   },
   "author": "Sean Conroy",
   "license": "MIT",

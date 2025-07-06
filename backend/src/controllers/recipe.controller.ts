@@ -43,11 +43,17 @@ export const updateRecipeController = asyncHandler(
 
 export const getAllRecipesController = asyncHandler(
   async (req: Request, res: Response) => {
-    const result = await getAllRecipesService();
+    const page = parseInt(req.query.page as string, 10) || 1;
+    const limit = parseInt(req.query.limit as string, 10) || 12;
+
+    const result = await getAllRecipesService(page, limit);
 
     return res.status(HTTPSTATUS.OK).json({
       message: "All recipes fetched successfully",
-      recipes: result,
+      recipes: result.data,
+      recipeCount: result.totalItems,
+      currentPage: result.currentPage,
+      totalPages: result.totalPages
     });
   }
 );

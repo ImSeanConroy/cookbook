@@ -89,25 +89,55 @@ describe("Recipe Repository", () => {
   });
 
   describe("getAll", () => {
-    it("returns all recipes", async () => {
+    it("returns paginated recipes with offset and limit", async () => {
       const mockRows = [{ title: "A" }, { title: "B" }];
       mockedQuery.mockResolvedValue({ rows: mockRows });
 
-      const result = await RecipeRepo.getAll();
+      const result = await RecipeRepo.getAll({ offset: 0, limit: 2 });
+
+      expect(mockedQuery).toHaveBeenCalledWith(
+        "SELECT * FROM recipes ORDER BY created_at DESC LIMIT $1 OFFSET $2",
+        [2, 0]
+      );
       expect(result).toEqual(mockRows);
     });
 
-    it("returns empty array if no recipes", async () => {
-      mockedQuery.mockResolvedValue({ rows: [] });
+    it("uses default pagination params if none passed", async () => {
+      const mockRows = [{ title: "X" }];
+      mockedQuery.mockResolvedValue({ rows: mockRows });
+      
+      const result = await RecipeRepo.getAll({});
 
-      const result = await RecipeRepo.getAll();
-      expect(result).toEqual([]);
+      expect(mockedQuery).toHaveBeenCalledWith(
+        "SELECT * FROM recipes ORDER BY created_at DESC LIMIT $1 OFFSET $2",
+        [10, 0]
+      );
+      expect(result).toEqual(mockRows);
     });
 
     it("throws if DB query fails", async () => {
       mockedQuery.mockRejectedValue(new Error("DB failure"));
 
-      await expect(RecipeRepo.getAll()).rejects.toThrow("DB failure");
+      await expect(RecipeRepo.getAll({ offset: 0, limit: 10 })).rejects.toThrow(
+        "DB failure"
+      );
+    });
+  });
+
+  describe("getCount", () => {
+    it("returns total number of recipes", async () => {
+      mockedQuery.mockResolvedValue({ rows: [{ count: "42" }] });
+
+      const result = await RecipeRepo.getCount();
+
+      expect(mockedQuery).toHaveBeenCalledWith("SELECT COUNT(*) FROM recipes");
+      expect(result).toBe(42);
+    });
+
+    it("throws if DB query fails", async () => {
+      mockedQuery.mockRejectedValue(new Error("DB failure"));
+
+      await expect(RecipeRepo.getCount()).rejects.toThrow("DB failure");
     });
   });
 

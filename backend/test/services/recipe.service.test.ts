@@ -112,13 +112,45 @@ describe("Recipe Service", () => {
   });
 
   describe("getAllRecipesService", () => {
-    it("returns all recipes", async () => {
-      const recipes = [{ id: "1" }, { id: "2" }];
-      vi.spyOn(RecipeRepo, "getAll").mockResolvedValue(recipes);
+    it("returns paginated recipes with meta data", async () => {
+      const mockRecipes = [{ id: "1" }, { id: "2" }];
+      const mockTotal = 5;
+
+      // Mock RecipeRepo.getAll to accept pagination params and return recipes
+      vi.spyOn(RecipeRepo, "getAll").mockImplementation(
+        async ({ offset, limit }) => {
+          // You can optionally check offset and limit if you want
+          return mockRecipes;
+        }
+      );
+
+      // Mock RecipeRepo.getCount to return total count
+      vi.spyOn(RecipeRepo, "getCount").mockResolvedValue(mockTotal);
+
+      const page = 2;
+      const limit = 2;
+
+      const result = await RecipeService.getAllRecipesService(page, limit);
+
+      expect(result.data).toEqual(mockRecipes);
+      expect(result.currentPage).toBe(page);
+      expect(result.totalItems).toBe(mockTotal);
+      expect(result.totalPages).toBe(Math.ceil(mockTotal / limit));
+    });
+
+    it("uses default pagination values if none provided", async () => {
+      const mockRecipes = [{ id: "1" }, { id: "2" }, { id: "3" }];
+      const mockTotal = 3;
+
+      vi.spyOn(RecipeRepo, "getAll").mockResolvedValue(mockRecipes);
+      vi.spyOn(RecipeRepo, "getCount").mockResolvedValue(mockTotal);
 
       const result = await RecipeService.getAllRecipesService();
 
-      expect(result).toEqual(recipes);
+      expect(result.data).toEqual(mockRecipes);
+      expect(result.currentPage).toBe(1);
+      expect(result.totalItems).toBe(mockTotal);
+      expect(result.totalPages).toBe(Math.ceil(mockTotal / 10)); // default limit = 10
     });
   });
 
