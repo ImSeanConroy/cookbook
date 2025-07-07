@@ -1,3 +1,4 @@
+import { getRandomImageUrl } from "@/lib/images";
 import { Link } from "react-router-dom";
 
 interface RecipeCardProps {
@@ -13,9 +14,10 @@ const RecipeCard = ({ id, title, imageUrl, difficulty, cuisine, time }: RecipeCa
   <div className=" bg-zinc-100 rounded-2xl">
     <Link to={`/recipe/${id}`} className="flex flex-col">
       <img
-        src={imageUrl}
+        // src={imageUrl}
+        src={getRandomImageUrl()}
         alt={title}
-        className="rounded-t-2xl bg-zinc-200 w-full h-[300px] md:h-[350px] lg:h-[300px] object-cover"
+        className="rounded-t-2xl bg-zinc-200 w-full h-[200px] md:h-[250px] lg:h-[250px] object-cover"
       />
       <div className="p-4 px-5">
         <h2 className="text-xl font-semibold truncate">{title}</h2>

@@ -9,6 +9,7 @@ import RecipeCard from "@/components/ui/recipe-card";
 
 import type { Recipe, RecipeSummary } from "@/types/recipe";
 import { config } from "@/config";
+import { getRandomImageUrl } from "@/lib/images";
 
 const RecipePage = () => {
   const { id } = useParams<{ id: string }>();
@@ -40,7 +41,6 @@ const RecipePage = () => {
     fetchRecipe();
   }, [id]);
 
-  // Fetch related recipes, excluding the current recipe by ID
   useEffect(() => {
     if (!id) return;
 
@@ -75,11 +75,25 @@ const RecipePage = () => {
     },
   ];
 
+  const words = data.title.trim().split(" ");
+  const highlightIndex = words.length >= 2 ? words.length - 2 : -1;
+
   return (
     <div className="flex flex-col gap-12">
       {/* Header and Info */}
       <div className="flex flex-col gap-6">
-        <RecipeHeader title={data.title} />
+        <RecipeHeader position="bottom">
+          <h1 className="text-4xl sm:text-5xl font-semibold">
+            {words.map((word, index) => (
+              <span
+                key={index}
+                className={index === highlightIndex ? "text-lime-500" : ""}
+              >
+                {word + " "}
+              </span>
+            ))}
+          </h1>
+        </RecipeHeader>
         <RecipeInfoBar data={data} />
       </div>
 
@@ -94,7 +108,12 @@ const RecipePage = () => {
 
         {/* Right Section */}
         <div className="lg:w-3/10 w-full flex flex-col gap-6">
-          <div className="px-10 py-10 bg-neutral-100 rounded-2xl h-[450px] flex flex-col justify-end" />
+          <div
+            className="px-10 py-10 bg-neutral-100 rounded-2xl h-[350px] flex flex-col justify-end bg-cover bg-center"
+            style={{
+              backgroundImage: `url('${getRandomImageUrl()}')`,
+            }}
+          />
 
           {sidebarSections.map(({ title, items }) => (
             <div
@@ -121,16 +140,24 @@ const RecipePage = () => {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {relatedRecipes.map(
-            ({ id, title, imageUrl, difficulty, cuisine, cookTime, prepTime }) => (
-        <RecipeCard
-          key={id}
-          id={id}
-          title={title}
-          imageUrl={imageUrl}
-          difficulty={difficulty}
-          cuisine={cuisine}
-          time={prepTime + cookTime}
-        />
+            ({
+              id,
+              title,
+              imageUrl,
+              difficulty,
+              cuisine,
+              cookTime,
+              prepTime,
+            }) => (
+              <RecipeCard
+                key={id}
+                id={id}
+                title={title}
+                imageUrl={imageUrl}
+                difficulty={difficulty}
+                cuisine={cuisine}
+                time={prepTime + cookTime}
+              />
             )
           )}
         </div>

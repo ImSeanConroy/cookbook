@@ -1,5 +1,7 @@
+import { IoMoonOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { CiDark } from "react-icons/ci";
+import Searchbar from "../ui/searchbar";
+import Button from "../ui/button";
 
 const Header = () => {
   return (
@@ -8,13 +10,10 @@ const Header = () => {
         Cook<span className="text-lime-500">book</span>
       </Link>
       <div className="flex flex-row gap-4">
-        <input
-          placeholder="Search..."
-          className="bg-zinc-100 rounded-xl w-[450px] text-md px-4 py-3"
-        />
-        <div className="bg-zinc-900 rounded-xl p-3 flex items-center justify-center cursor-pointer">
-          <CiDark className="text-white text-2xl" />
-        </div>
+        <Searchbar />
+        <Button>
+          <IoMoonOutline className="text-white text-2xl pb-0.5 pl-0.5" />
+        </Button>
       </div>
     </div>
   );

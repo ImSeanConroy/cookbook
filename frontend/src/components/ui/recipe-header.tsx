@@ -1,21 +1,26 @@
-const RecipeHeader = ({ title }: { title: string }) => {
-  const words = title.trim().split(" ");
-  const highlightIndex = words.length >= 2 ? words.length - 2 : -1;
+import { cn } from "@/lib/utils";
+import type { ReactNode } from "react";
 
+type Props = {
+  children: ReactNode;
+  position?: "center" | "bottom";
+};
+
+const RecipeHeader = ({ children, position = "center" }: Props) => {
   return (
-    <header className="p-8 md:p-10 bg-zinc-100 rounded-2xl h-[450px] flex flex-col justify-end">
-      <div>
+    <header
+      className={cn(
+        "p-6 bg-zinc-100 rounded-2xl h-[450px] flex flex-col bg-cover bg-center",
+        position === "center" ? "justify-center" : "justify-end"
+      )}
+      style={{
+        backgroundImage:
+          "url('/img/cover.jpg')",
+      }}
+    >
+      <div className="bg-white bg-opacity-90 p-6 rounded-xl w-full lg:w-1/2">
         <p className="text-zinc-500">Let’s Cook</p>
-        <h1 className="text-4xl sm:text-5xl font-semibold">
-          {words.map((word, index) => (
-            <span
-              key={index}
-              className={index === highlightIndex ? "text-lime-500" : ""}
-            >
-              {word + " "}
-            </span>
-          ))}
-        </h1>
+        {children}
       </div>
     </header>
   );
