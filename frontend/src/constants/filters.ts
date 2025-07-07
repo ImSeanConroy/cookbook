@@ -1,4 +1,3 @@
-// constants/filters.ts
 export const recipeFilters = [
   {
     label: "Difficulty",

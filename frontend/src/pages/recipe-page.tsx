@@ -10,6 +10,9 @@ import RecipeCard from "@/components/ui/recipe-card";
 import type { Recipe, RecipeSummary } from "@/types/recipe";
 import { config } from "@/config";
 import { getRandomImageUrl } from "@/lib/images";
+import RecipeImage from "@/components/ui/recipe-image";
+import UtensilsList from "@/components/ui/utentils-list";
+import NutritionalList from "@/components/ui/nutritional-list";
 
 const RecipePage = () => {
   const { id } = useParams<{ id: string }>();
@@ -18,7 +21,6 @@ const RecipePage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch the main recipe data
   useEffect(() => {
     if (!id) return;
 
@@ -30,8 +32,12 @@ const RecipePage = () => {
         const json = await res.json();
         setData(json.recipe);
         setError(null);
-      } catch (err: any) {
-        setError(err.message || "Something went wrong");
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("Something went wrong");
+        }
         setData(null);
       } finally {
         setIsLoading(false);
@@ -64,17 +70,6 @@ const RecipePage = () => {
   if (error) return <p>Error: {error}</p>;
   if (!data) return <p>No recipe found.</p>;
 
-  const sidebarSections = [
-    {
-      title: "Nutritional information",
-      items: ["Test", "Test", "Test", "Test"],
-    },
-    {
-      title: "Utensils",
-      items: ["Test", "Test", "Test", "Test"],
-    },
-  ];
-
   const words = data.title.trim().split(" ");
   const highlightIndex = words.length >= 2 ? words.length - 2 : -1;
 
@@ -101,35 +96,33 @@ const RecipePage = () => {
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Left Section */}
         <div className="lg:w-7/10 w-full flex flex-col gap-10">
-          <p className="text-zinc-500 leading-6.5">{data.description}</p>
+          <p className="text-zinc-500 leading-6.5 pb-12 md:pb-16">{data.description}</p>
           <IngredientsList ingredients={data.ingredients} />
           <InstructionSteps steps={data.steps} />
         </div>
 
         {/* Right Section */}
         <div className="lg:w-3/10 w-full flex flex-col gap-6">
-          <div
-            className="px-10 py-10 bg-neutral-100 rounded-2xl h-[350px] flex flex-col justify-end bg-cover bg-center"
-            style={{
-              backgroundImage: `url('${getRandomImageUrl()}')`,
+          <RecipeImage image={getRandomImageUrl()} />
+          <NutritionalList
+            nutrition={{
+              calories: "320 kcal",
+              protein: "15g",
+              carbs: "45g",
+              sugars: "12g",
+              fiber: "5g",
+              fat: "10g",
+              saturatedFat: "3g",
+              transFat: "0g",
+              cholesterol: "30mg",
+              sodium: "250mg",
+              potassium: "400mg",
+              calcium: "80mg",
+              iron: "2.5mg",
+              vitaminD: "2mcg",
             }}
           />
-
-          {sidebarSections.map(({ title, items }) => (
-            <div
-              key={title}
-              className="gap-6 items-center bg-neutral-100 p-6 md:p-8 rounded-2xl"
-            >
-              <h2 className="text-2xl mb-3 font-semibold">{title}</h2>
-              <ul className="columns-1 md:columns-2 gap-4">
-                {items.map((item, idx) => (
-                  <li key={idx} className="py-1 text-zinc-500">
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          <UtensilsList utensils={["Spatula", "Whisk", "Bowl", "Knife"]} />
         </div>
       </div>
 
