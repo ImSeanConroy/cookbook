@@ -78,7 +78,7 @@ const RecipePage = () => {
       {/* Header and Info */}
       <div className="flex flex-col gap-6">
         <RecipeHeader position="bottom">
-          <h1 className="text-4xl sm:text-5xl font-semibold">
+          <h1 className="text-4xl sm:text-5xl font-semibold dark:text-white">
             {words.map((word, index) => (
               <span
                 key={index}
@@ -128,7 +128,7 @@ const RecipePage = () => {
 
       {/* Related Recipes */}
       <div>
-        <h2 className="text-4xl mb-5 font-semibold">
+        <h2 className="text-4xl mb-5 font-semibold dark:text-white">
           Related <span className="text-lime-500">Recipes</span>
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

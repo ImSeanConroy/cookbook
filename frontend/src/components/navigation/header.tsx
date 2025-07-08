@@ -1,19 +1,17 @@
-import { IoMoonOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import Searchbar from "../ui/searchbar";
-import Button from "../ui/button";
+
+import ThemeToggle from "../ui/theme-toggle";
 
 const Header = () => {
   return (
     <div className="flex flex-row gap-10 justify-between items-center">
-      <Link to="/" className="font-semibold text-3xl">
+      <Link to="/" className="font-semibold text-3xl dark:text-white">
         Cook<span className="text-lime-500">book</span>
       </Link>
       <div className="flex flex-row gap-4">
         <Searchbar />
-        <Button>
-          <IoMoonOutline className="text-white text-2xl pb-0.5 pl-0.5" />
-        </Button>
+        <ThemeToggle />
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ const Button: React.FC<ButtonProps> = ({ children, className, ...props }) => {
   return (
     <button
       className={cn(
-        "px-4 py-3 rounded-xl cursor-pointer text-white text-sm disabled:opacity-50 bg-zinc-800 hover:bg-zinc-600",
+        "px-4 py-3 rounded-xl cursor-pointer text-sm disabled:opacity-50 bg-zinc-800 hover:bg-zinc-600 dark:bg-zinc-800 text-white",
         className
       )}
       {...props}

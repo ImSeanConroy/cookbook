@@ -11,15 +11,15 @@ interface RecipeCardProps {
 }
 
 const RecipeCard = ({ id, title, imageUrl, difficulty, cuisine, time }: RecipeCardProps) => (
-<div className="group bg-zinc-100 hover:bg-zinc-200 transition-colors duration-100 rounded-2xl">
+<div className="group bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-900 dark:hover:bg-zinc-700 transition-colors duration-100 rounded-2xl">
   <Link to={`/recipe/${id}`} className="flex flex-col">
     <img
       // src={imageUrl}
       src={getRandomImageUrl()}
       alt={title}
-      className="rounded-t-2xl bg-zinc-200 w-full h-[200px] md:h-[250px] lg:h-[250px] object-cover"
+      className="rounded-t-2xl w-full h-[200px] md:h-[250px] lg:h-[250px] object-cover"
     />
-    <div className="p-4 px-5">
+    <div className="p-4 px-5 dark:text-white">
       <h2 className="text-xl font-semibold truncate">{title}</h2>
       <p className="truncate">Roasted Cauliflower and Zesty Jasmine Rice</p>
       <div className="pt-4 flex flex-row divide-x divide-gray-400 text-gray-500">

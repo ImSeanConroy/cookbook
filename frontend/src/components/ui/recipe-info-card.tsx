@@ -7,8 +7,8 @@ interface InfoCardProps {
 }
 
 const RecipeInfoCard = ({ icon, label, value }: InfoCardProps) => (
-  <div className="flex flex-row gap-3 items-center bg-white rounded-xl p-4">
-    <div className="rounded-full bg-lime-100 text-lime-600 p-3 text-2xl">
+  <div className="flex flex-row gap-3 items-center bg-white dark:bg-zinc-800 rounded-xl p-4">
+    <div className="rounded-full bg-lime-100 dark:bg-lime-200 text-lime-600 dark:text-lime-900 p-3 text-2xl">
       {icon}
     </div>
     <div>
