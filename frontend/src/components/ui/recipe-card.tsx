@@ -4,24 +4,25 @@ import { Link } from "react-router-dom";
 interface RecipeCardProps {
   id: string;
   title: string;
+  subtitle: string;
   imageUrl: string;
   difficulty: string;
   cuisine: string;
   time: number;
 }
 
-const RecipeCard = ({ id, title, imageUrl, difficulty, cuisine, time }: RecipeCardProps) => (
+const RecipeCard = ({ id, title, subtitle, imageUrl, difficulty, cuisine, time }: RecipeCardProps) => (
 <div className="group bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-900 dark:hover:bg-zinc-700 transition-colors duration-100 rounded-2xl">
   <Link to={`/recipe/${id}`} className="flex flex-col">
     <img
       // src={imageUrl}
-      src={getRandomImageUrl()}
+      src={imageUrl != "" ? imageUrl : getRandomImageUrl()}
       alt={title}
       className="rounded-t-2xl w-full h-[200px] md:h-[250px] lg:h-[250px] object-cover"
     />
     <div className="p-4 px-5 dark:text-white">
       <h2 className="text-xl font-semibold truncate">{title}</h2>
-      <p className="truncate">Roasted Cauliflower and Zesty Jasmine Rice</p>
+      <p className="truncate">{subtitle}</p>
       <div className="pt-4 flex flex-row divide-x divide-gray-400 text-gray-500">
         <p className="pr-3 truncate">{time} mins</p>
         <p className="px-3 truncate">{cuisine}</p>

@@ -22,6 +22,7 @@ describe("Recipe Repository", () => {
       const mockRow = {
         id: "1",
         title: "Pasta",
+        subtitle: "Pasta",
         description: "Yummy",
         prep_time: 10,
         cook_time: 15,
@@ -29,11 +30,13 @@ describe("Recipe Repository", () => {
         difficulty: "beginner",
         cuisine: "Italian",
         image_url: "http://image.com",
+        card_image_url: "http://image.com",
       };
       mockedQuery.mockResolvedValue({ rows: [mockRow] });
 
       const result = await RecipeRepo.create({
         title: "Pasta",
+        subtitle: "Pasta",
         description: "Yummy",
         prep_time: 10,
         cook_time: 15,
@@ -41,6 +44,7 @@ describe("Recipe Repository", () => {
         difficulty: "beginner",
         cuisine: "Italian",
         image_url: "http://image.com",
+        card_image_url: "http://image.com",
       });
 
       expect(mockedQuery).toHaveBeenCalledOnce();
@@ -53,6 +57,7 @@ describe("Recipe Repository", () => {
       await expect(
         RecipeRepo.create({
           title: "Pasta",
+        subtitle: "Pasta",
           description: "Yummy",
           prep_time: 10,
           cook_time: 15,
@@ -60,6 +65,7 @@ describe("Recipe Repository", () => {
           difficulty: "beginner",
           cuisine: "Italian",
           image_url: "http://image.com",
+        card_image_url: "http://image.com",
         })
       ).rejects.toThrow("DB failure");
     });

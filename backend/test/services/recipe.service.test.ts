@@ -19,6 +19,7 @@ describe("Recipe Service", () => {
     it("creates recipe with ingredients and steps", async () => {
       const recipeInput = {
         title: "Test Recipe",
+        subtitle: "Test Recipe",
         description: "Test Desc",
         prep_time: 10,
         cook_time: 20,
@@ -26,6 +27,7 @@ describe("Recipe Service", () => {
         difficulty: "beginner" as const,
         cuisine: "Italian",
         image_url: "image-url",
+        card_image_url: "http://image.com",
         ingredients: [{ name: "salt", quantity: "1 tsp" }],
         steps: ["Step 1", "Step 2"],
       };
@@ -60,6 +62,7 @@ describe("Recipe Service", () => {
       await expect(
         RecipeService.createRecipeService({
           title: "fail",
+          subtitle: "fail",
           description: "",
           prep_time: 0,
           cook_time: 0,
@@ -67,6 +70,7 @@ describe("Recipe Service", () => {
           difficulty: "beginner",
           cuisine: "",
           image_url: "",
+          card_image_url: "",
           ingredients: [],
           steps: [],
         })
@@ -79,6 +83,7 @@ describe("Recipe Service", () => {
       const recipe = {
         id: recipeId,
         title: "title",
+        subtitle: "subtitle",
         description: "desc",
         prep_time: 1,
         cook_time: 2,
@@ -86,6 +91,7 @@ describe("Recipe Service", () => {
         difficulty: "beginner" as const,
         cuisine: "",
         image_url: "",
+        card_image_url: "",
         created_at: "date",
         updated_at: "date",
       };
@@ -156,6 +162,7 @@ describe("Recipe Service", () => {
       const existingRecipe = {
         id: recipeId,
         title: "Old title",
+        subtitle: "Old subtitle",
         description: "Old description",
         prep_time: 10,
         cook_time: 15,
@@ -163,12 +170,14 @@ describe("Recipe Service", () => {
         difficulty: "beginner" as const,
         cuisine: "Italian",
         image_url: "old-url",
+        card_image_url: "old-url",
         created_at: "2021-01-01",
         updated_at: "2021-01-01",
       };
 
       const updateBody = {
         title: "New title",
+        subtitle: "New subtitle",
         ingredients: [{ name: "pepper", quantity: "2 tsp" }],
         steps: ["Step 1", "Step 2"],
       };
@@ -227,6 +236,7 @@ describe("Recipe Service", () => {
       vi.spyOn(RecipeRepo, "findById").mockResolvedValue({
         id: recipeId,
         title: "title",
+        subtitle: "subtitle",
         description: "desc",
         prep_time: 1,
         cook_time: 2,
@@ -234,6 +244,7 @@ describe("Recipe Service", () => {
         difficulty: "beginner" as const,
         cuisine: "",
         image_url: "",
+        card_image_url: "",
         created_at: "date",
         updated_at: "date",
       });

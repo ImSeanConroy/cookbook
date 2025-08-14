@@ -109,6 +109,7 @@ export const updateRecipeService = async (
   const mergedRecipe = {
     id: recipeId,
     title: body.title || safeExistingRecipe.title,
+    subtitle: body.subtitle || safeExistingRecipe.subtitle,
     description: body.description || safeExistingRecipe.description,
     prep_time: body.prep_time || safeExistingRecipe.prep_time,
     cook_time: body.cook_time || safeExistingRecipe.cook_time,
@@ -116,6 +117,7 @@ export const updateRecipeService = async (
     difficulty: body.difficulty || safeExistingRecipe.difficulty,
     cuisine: body.cuisine || safeExistingRecipe.cuisine,
     image_url: body.image_url || safeExistingRecipe.image_url,
+    card_image_url: body.card_image_url || safeExistingRecipe.card_image_url,
   };
 
   const updatedRecipe = await RecipeRepo.update(mergedRecipe);

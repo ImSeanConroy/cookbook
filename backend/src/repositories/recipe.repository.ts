@@ -10,12 +10,13 @@ export const create = async (
 ): Promise<Recipe> => {
   const res = await query(
     `INSERT INTO recipes (
-      title, description, prep_time, cook_time, servings, difficulty,
-      cuisine, image_url
-    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+      title, subtitle, description, prep_time, cook_time, servings, difficulty,
+      cuisine, image_url, card_image_url
+    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
     RETURNING *`,
     [
       data.title,
+      data.subtitle,
       data.description,
       data.prep_time,
       data.cook_time,
@@ -23,6 +24,7 @@ export const create = async (
       data.difficulty,
       data.cuisine,
       data.image_url,
+      data.card_image_url,
     ]
   );
   return toCamelCase(res.rows)[0];

@@ -78,7 +78,7 @@ const RecipePage = () => {
       {/* Header and Info */}
       <div className="flex flex-col gap-6">
         <RecipeHeader position="bottom">
-          <h1 className="text-4xl sm:text-5xl font-semibold dark:text-white">
+          <h1 className="text-4xl sm:text-5xl font-semibold dark:text-white pb-2">
             {words.map((word, index) => (
               <span
                 key={index}
@@ -88,6 +88,7 @@ const RecipePage = () => {
               </span>
             ))}
           </h1>
+          <p className="text-2xl font-normal text-zinc-800 dark:text-white">{data.subtitle}</p>
         </RecipeHeader>
         <RecipeInfoBar data={data} />
       </div>
@@ -103,7 +104,7 @@ const RecipePage = () => {
 
         {/* Right Section */}
         <div className="lg:w-3/10 w-full flex flex-col gap-6">
-          <RecipeImage image={getRandomImageUrl()} />
+          <RecipeImage image={data.cardImageUrl != "" ? data.cardImageUrl : getRandomImageUrl()} />
           <NutritionalList
             nutrition={{
               calories: "320 kcal",
@@ -136,7 +137,8 @@ const RecipePage = () => {
             ({
               id,
               title,
-              imageUrl,
+              subtitle,
+              cardImageUrl,
               difficulty,
               cuisine,
               cookTime,
@@ -146,7 +148,8 @@ const RecipePage = () => {
                 key={id}
                 id={id}
                 title={title}
-                imageUrl={imageUrl}
+                subtitle={subtitle}
+                imageUrl={cardImageUrl}
                 difficulty={difficulty}
                 cuisine={cuisine}
                 time={prepTime + cookTime}

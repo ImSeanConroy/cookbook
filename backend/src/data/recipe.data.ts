@@ -3,6 +3,7 @@ import { RecipeInput } from "../common/interface/recipe.interface";
 export const recipes: RecipeInput[] = [
   {
     title: "Classic Spaghetti Bolognese",
+    subtitle: "lorem ipsum nova isto tavoiem presto legiuno",
     description:
       "Traditional Italian pasta with a savory, slow-simmered meat and tomato sauce.",
     prep_time: 15,
@@ -10,7 +11,8 @@ export const recipes: RecipeInput[] = [
     servings: 4,
     difficulty: "intermediate",
     cuisine: "Italian",
-    image_url: "https://example.com/spaghetti.jpg",
+    image_url: "",
+    card_image_url: "",
     ingredients: [
       { name: "Spaghetti", quantity: "200g" },
       { name: "Ground Beef", quantity: "300g" },
@@ -28,6 +30,7 @@ export const recipes: RecipeInput[] = [
   },
   {
     title: "Fluffy Buttermilk Pancakes",
+    subtitle: "lorem ipsum nova isto tavoiem presto legiuno",
     description:
       "Light, airy pancakes that are perfect for a comforting breakfast or brunch.",
     prep_time: 10,
@@ -35,7 +38,8 @@ export const recipes: RecipeInput[] = [
     servings: 2,
     difficulty: "beginner",
     cuisine: "American",
-    image_url: "https://example.com/pancakes.jpg",
+    image_url: "",
+    card_image_url: "",
     ingredients: [
       { name: "Flour", quantity: "1 cup" },
       { name: "Milk", quantity: "1 cup" },
@@ -53,6 +57,7 @@ export const recipes: RecipeInput[] = [
   },
   {
     title: "Authentic Indian Chicken Curry",
+    subtitle: "lorem ipsum nova isto tavoiem presto legiuno",
     description:
       "Tender chicken simmered in a richly spiced onion and tomato curry base.",
     prep_time: 20,
@@ -60,7 +65,8 @@ export const recipes: RecipeInput[] = [
     servings: 4,
     difficulty: "advanced",
     cuisine: "Indian",
-    image_url: "https://example.com/chickencurry.jpg",
+    image_url: "",
+    card_image_url: "",
     ingredients: [
       { name: "Chicken", quantity: "500g, cut into pieces" },
       { name: "Onion", quantity: "2, thinly sliced" },
@@ -78,6 +84,7 @@ export const recipes: RecipeInput[] = [
   },
   {
     title: "Vegetarian Maki Sushi Rolls",
+    subtitle: "lorem ipsum nova isto tavoiem presto legiuno",
     description:
       "Simple and fresh sushi rolls filled with seasoned rice, avocado, and cucumber.",
     prep_time: 25,
@@ -85,7 +92,8 @@ export const recipes: RecipeInput[] = [
     servings: 2,
     difficulty: "advanced",
     cuisine: "Japanese",
-    image_url: "https://example.com/sushi.jpg",
+    image_url: "",
+    card_image_url: "",
     ingredients: [
       { name: "Sushi Rice", quantity: "1 cup" },
       { name: "Nori Sheets", quantity: "2" },
@@ -103,6 +111,7 @@ export const recipes: RecipeInput[] = [
   },
   {
     title: "Seasoned Beef Tacos",
+    subtitle: "lorem ipsum nova isto tavoiem presto legiuno",
     description:
       "Crispy taco shells filled with spiced ground beef, lettuce, and shredded cheese.",
     prep_time: 10,
@@ -110,7 +119,8 @@ export const recipes: RecipeInput[] = [
     servings: 4,
     difficulty: "beginner",
     cuisine: "Mexican",
-    image_url: "https://example.com/tacos.jpg",
+    image_url: "",
+    card_image_url: "",
     ingredients: [
       { name: "Taco Shells", quantity: "8" },
       { name: "Ground Beef", quantity: "300g" },
@@ -128,6 +138,7 @@ export const recipes: RecipeInput[] = [
   },
   {
     title: "Crisp Caesar Salad",
+    subtitle: "lorem ipsum nova isto tavoiem presto legiuno",
     description:
       "Classic Caesar salad with crunchy croutons and creamy dressing.",
     prep_time: 15,
@@ -135,7 +146,8 @@ export const recipes: RecipeInput[] = [
     servings: 2,
     difficulty: "beginner",
     cuisine: "American",
-    image_url: "https://example.com/caesar.jpg",
+    image_url: "",
+    card_image_url: "",
     ingredients: [
       { name: "Romaine Lettuce", quantity: "1 head, chopped" },
       { name: "Croutons", quantity: "1 cup" },
@@ -150,13 +162,15 @@ export const recipes: RecipeInput[] = [
   },
   {
     title: "Crispy Grilled Cheese Sandwich",
+    subtitle: "lorem ipsum nova isto tavoiem presto legiuno",
     description: "Buttery, golden sandwich filled with melted cheddar cheese.",
     prep_time: 5,
     cook_time: 10,
     servings: 1,
     difficulty: "beginner",
     cuisine: "American",
-    image_url: "https://example.com/grilledcheese.jpg",
+    image_url: "",
+    card_image_url: "",
     ingredients: [
       { name: "Bread Slices", quantity: "2" },
       { name: "Cheddar Cheese", quantity: "2 slices" },
@@ -170,6 +184,7 @@ export const recipes: RecipeInput[] = [
   },
   {
     title: "Thai Shrimp Pad Thai",
+    subtitle: "lorem ipsum nova isto tavoiem presto legiuno",
     description:
       "A vibrant stir-fried noodle dish with shrimp, egg, and bean sprouts in a tangy sauce.",
     prep_time: 20,
@@ -177,7 +192,8 @@ export const recipes: RecipeInput[] = [
     servings: 3,
     difficulty: "intermediate",
     cuisine: "Thai",
-    image_url: "https://example.com/padthai.jpg",
+    image_url: "",
+    card_image_url: "",
     ingredients: [
       { name: "Rice Noodles", quantity: "200g" },
       { name: "Shrimp", quantity: "150g, peeled and deveined" },
@@ -195,6 +211,7 @@ export const recipes: RecipeInput[] = [
   },
   {
     title: "Spiced Shakshuka",
+    subtitle: "lorem ipsum nova isto tavoiem presto legiuno",
     description:
       "Poached eggs in a rich tomato, pepper, and onion sauce seasoned with cumin.",
     prep_time: 10,
@@ -202,7 +219,8 @@ export const recipes: RecipeInput[] = [
     servings: 2,
     difficulty: "intermediate",
     cuisine: "Middle Eastern",
-    image_url: "https://example.com/shakshuka.jpg",
+    image_url: "",
+    card_image_url: "",
     ingredients: [
       { name: "Eggs", quantity: "4" },
       { name: "Tomatoes", quantity: "3, chopped" },
@@ -220,6 +238,7 @@ export const recipes: RecipeInput[] = [
   },
   {
     title: "Quick Vegetable Stir-Fry",
+    subtitle: "lorem ipsum nova isto tavoiem presto legiuno",
     description:
       "A fast, flavorful mix of stir-fried vegetables with garlic and soy sauce.",
     prep_time: 10,
@@ -227,7 +246,8 @@ export const recipes: RecipeInput[] = [
     servings: 2,
     difficulty: "beginner",
     cuisine: "Chinese",
-    image_url: "https://example.com/stirfry.jpg",
+    image_url: "",
+    card_image_url: "",
     ingredients: [
       { name: "Broccoli", quantity: "1 cup, chopped" },
       { name: "Carrot", quantity: "1, sliced" },
@@ -243,6 +263,7 @@ export const recipes: RecipeInput[] = [
   },
   {
     title: "Fresh Greek Salad",
+    subtitle: "lorem ipsum nova isto tavoiem presto legiuno",
     description:
       "A refreshing salad of crisp vegetables, briny olives, and creamy feta.",
     prep_time: 10,
@@ -250,7 +271,8 @@ export const recipes: RecipeInput[] = [
     servings: 2,
     difficulty: "beginner",
     cuisine: "Greek",
-    image_url: "https://example.com/greeksalad.jpg",
+    image_url: "",
+    card_image_url: "",
     ingredients: [
       { name: "Cucumber", quantity: "1, sliced" },
       { name: "Tomatoes", quantity: "2, chopped" },
@@ -266,6 +288,7 @@ export const recipes: RecipeInput[] = [
   },
   {
     title: "Creamy Indian Butter Chicken",
+    subtitle: "lorem ipsum nova isto tavoiem presto legiuno",
     description:
       "Marinated chicken cooked in a rich tomato-based sauce with butter and cream.",
     prep_time: 20,
@@ -273,7 +296,8 @@ export const recipes: RecipeInput[] = [
     servings: 4,
     difficulty: "advanced",
     cuisine: "Indian",
-    image_url: "https://example.com/butterchicken.jpg",
+    image_url: "",
+    card_image_url: "",
     ingredients: [
       { name: "Chicken", quantity: "500g, boneless" },
       { name: "Tomato Puree", quantity: "1 cup" },
@@ -290,6 +314,7 @@ export const recipes: RecipeInput[] = [
   },
   {
     title: "Lemon Herb Grilled Chicken",
+    subtitle: "lorem ipsum nova isto tavoiem presto legiuno",
     description:
       "Juicy chicken breasts marinated in a zesty lemon herb blend, then grilled to perfection.",
     prep_time: 20,
@@ -297,7 +322,8 @@ export const recipes: RecipeInput[] = [
     servings: 4,
     difficulty: "intermediate",
     cuisine: "American",
-    image_url: "https://example.com/lemonchicken.jpg",
+    image_url: "",
+    card_image_url: "",
     ingredients: [
       { name: "Chicken Breast", quantity: "4" },
       { name: "Lemon Juice", quantity: "1/4 cup" },
@@ -314,6 +340,7 @@ export const recipes: RecipeInput[] = [
   },
   {
     title: "Mushroom Risotto",
+    subtitle: "lorem ipsum nova isto tavoiem presto legiuno",
     description:
       "Creamy arborio rice slowly cooked with broth and loaded with savory mushrooms.",
     prep_time: 10,
@@ -321,7 +348,8 @@ export const recipes: RecipeInput[] = [
     servings: 3,
     difficulty: "advanced",
     cuisine: "Italian",
-    image_url: "https://example.com/risotto.jpg",
+    image_url: "",
+    card_image_url: "",
     ingredients: [
       { name: "Arborio Rice", quantity: "1 cup" },
       { name: "Mushrooms", quantity: "200g, sliced" },
@@ -338,6 +366,7 @@ export const recipes: RecipeInput[] = [
   },
   {
     title: "Avocado Toast with Poached Egg",
+    subtitle: "lorem ipsum nova isto tavoiem presto legiuno",
     description:
       "Crunchy toast topped with creamy avocado and a perfectly poached egg.",
     prep_time: 10,
@@ -345,7 +374,8 @@ export const recipes: RecipeInput[] = [
     servings: 1,
     difficulty: "beginner",
     cuisine: "American",
-    image_url: "https://example.com/avocadotoast.jpg",
+    image_url: "",
+    card_image_url: "",
     ingredients: [
       { name: "Bread Slice", quantity: "1" },
       { name: "Avocado", quantity: "1/2, mashed" },
@@ -362,13 +392,15 @@ export const recipes: RecipeInput[] = [
   },
   {
     title: "Sweet Potato Fries",
+    subtitle: "lorem ipsum nova isto tavoiem presto legiuno",
     description: "Crispy baked sweet potato fries with a hint of spice.",
     prep_time: 10,
     cook_time: 25,
     servings: 2,
     difficulty: "beginner",
     cuisine: "American",
-    image_url: "https://example.com/sweetpotatofries.jpg",
+    image_url: "",
+    card_image_url: "",
     ingredients: [
       { name: "Sweet Potato", quantity: "2, cut into fries" },
       { name: "Olive Oil", quantity: "1 tbsp" },
@@ -383,6 +415,7 @@ export const recipes: RecipeInput[] = [
   },
   {
     title: "Egg Fried Rice",
+    subtitle: "lorem ipsum nova isto tavoiem presto legiuno",
     description:
       "Quick and tasty stir-fried rice with scrambled egg and vegetables.",
     prep_time: 10,
@@ -390,7 +423,8 @@ export const recipes: RecipeInput[] = [
     servings: 2,
     difficulty: "beginner",
     cuisine: "Chinese",
-    image_url: "https://example.com/eggfriedrice.jpg",
+    image_url: "",
+    card_image_url: "",
     ingredients: [
       { name: "Cooked Rice", quantity: "2 cups" },
       { name: "Eggs", quantity: "2" },
@@ -407,6 +441,7 @@ export const recipes: RecipeInput[] = [
   },
   {
     title: "French Onion Soup",
+    subtitle: "lorem ipsum nova isto tavoiem presto legiuno",
     description:
       "Rich beef broth with caramelized onions topped with melted cheese and bread.",
     prep_time: 15,
@@ -414,7 +449,8 @@ export const recipes: RecipeInput[] = [
     servings: 4,
     difficulty: "advanced",
     cuisine: "French",
-    image_url: "https://example.com/onionsoup.jpg",
+    image_url: "",
+    card_image_url: "",
     ingredients: [
       { name: "Onions", quantity: "4, sliced" },
       { name: "Beef Broth", quantity: "4 cups" },
@@ -431,6 +467,7 @@ export const recipes: RecipeInput[] = [
   },
   {
     title: "Beef Stroganoff",
+    subtitle: "lorem ipsum nova isto tavoiem presto legiuno",
     description:
       "Tender beef strips in a creamy mushroom sauce served over noodles.",
     prep_time: 20,
@@ -438,7 +475,8 @@ export const recipes: RecipeInput[] = [
     servings: 4,
     difficulty: "intermediate",
     cuisine: "Russian",
-    image_url: "https://example.com/stroganoff.jpg",
+    image_url: "",
+    card_image_url: "",
     ingredients: [
       { name: "Beef Sirloin", quantity: "400g, sliced" },
       { name: "Mushrooms", quantity: "1 cup, sliced" },
@@ -455,6 +493,7 @@ export const recipes: RecipeInput[] = [
   },
   {
     title: "Caprese Salad",
+    subtitle: "lorem ipsum nova isto tavoiem presto legiuno",
     description:
       "Fresh tomatoes, mozzarella, and basil with a drizzle of balsamic glaze.",
     prep_time: 10,
@@ -462,7 +501,8 @@ export const recipes: RecipeInput[] = [
     servings: 2,
     difficulty: "beginner",
     cuisine: "Italian",
-    image_url: "https://example.com/caprese.jpg",
+    image_url: "",
+    card_image_url: "",
     ingredients: [
       { name: "Tomatoes", quantity: "2, sliced" },
       { name: "Mozzarella", quantity: "200g, sliced" },
@@ -478,6 +518,7 @@ export const recipes: RecipeInput[] = [
   },
   {
     title: "Creamy Spinach Artichoke Dip",
+    subtitle: "lorem ipsum nova isto tavoiem presto legiuno",
     description:
       "Warm, cheesy dip packed with spinach and artichokes, perfect for sharing.",
     prep_time: 10,
@@ -485,7 +526,8 @@ export const recipes: RecipeInput[] = [
     servings: 6,
     difficulty: "beginner",
     cuisine: "American",
-    image_url: "https://example.com/spinachdip.jpg",
+    image_url: "",
+    card_image_url: "",
     ingredients: [
       { name: "Cream Cheese", quantity: "1 cup" },
       { name: "Spinach", quantity: "1 cup, cooked and chopped" },
@@ -501,6 +543,7 @@ export const recipes: RecipeInput[] = [
   },
   {
     title: "Banana Oatmeal Cookies",
+    subtitle: "lorem ipsum nova isto tavoiem presto legiuno",
     description:
       "Soft, chewy cookies made with ripe bananas and oats—naturally sweet and healthy.",
     prep_time: 10,
@@ -508,7 +551,8 @@ export const recipes: RecipeInput[] = [
     servings: 12,
     difficulty: "beginner",
     cuisine: "American",
-    image_url: "https://example.com/bananacookies.jpg",
+    image_url: "",
+    card_image_url: "",
     ingredients: [
       { name: "Ripe Bananas", quantity: "2, mashed" },
       { name: "Rolled Oats", quantity: "1.5 cups" },
@@ -525,6 +569,7 @@ export const recipes: RecipeInput[] = [
   },
   {
     title: "Tuna Salad Sandwich",
+    subtitle: "lorem ipsum nova isto tavoiem presto legiuno",
     description:
       "Quick sandwich with a creamy tuna filling, perfect for lunch.",
     prep_time: 10,
@@ -532,7 +577,8 @@ export const recipes: RecipeInput[] = [
     servings: 2,
     difficulty: "beginner",
     cuisine: "American",
-    image_url: "https://example.com/tunasalad.jpg",
+    image_url: "",
+    card_image_url: "",
     ingredients: [
       { name: "Canned Tuna", quantity: "1 can" },
       { name: "Mayonnaise", quantity: "2 tbsp" },
@@ -548,6 +594,7 @@ export const recipes: RecipeInput[] = [
   },
   {
     title: "Chocolate Mug Cake",
+    subtitle: "lorem ipsum nova isto tavoiem presto legiuno",
     description:
       "Single-serve chocolate cake made in the microwave in just minutes.",
     prep_time: 5,
@@ -555,7 +602,8 @@ export const recipes: RecipeInput[] = [
     servings: 1,
     difficulty: "beginner",
     cuisine: "American",
-    image_url: "https://example.com/mugcake.jpg",
+    image_url: "",
+    card_image_url: "",
     ingredients: [
       { name: "Flour", quantity: "1/4 cup" },
       { name: "Sugar", quantity: "2 tbsp" },

@@ -2,6 +2,7 @@ import { z } from "zod";
 
 export const recipeIdSchema = z.string().trim().min(1);
 export const titleSchema = z.string().trim().min(1).max(100);
+export const subtitleSchema = z.string().trim().min(1).max(150);
 export const descriptionSchema = z.string().trim().min(1);
 export const prepTimeSchema = z.number().int().nonnegative();
 export const cookTimeSchema = z.number().int().nonnegative();
@@ -25,6 +26,7 @@ export const stepsSchema = z.array(z.string().trim().min(1));
 
 export const createRecipeSchema = z.object({
   title: titleSchema,
+  subtitle: subtitleSchema,
   description: descriptionSchema,
   prep_time: prepTimeSchema,
   cook_time: cookTimeSchema,
@@ -32,6 +34,7 @@ export const createRecipeSchema = z.object({
   difficulty: difficultySchema,
   cuisine: cuisineSchema,
   image_url: imageUrlSchema,
+  card_image_url: imageUrlSchema,
   ingredients: ingredientsSchema,
   steps: stepsSchema,
 });
