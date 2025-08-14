@@ -60,8 +60,8 @@ export const getAll = async ({
   limit?: number;
 }): Promise<Recipe[]> => {
   const res = await query(
-    `SELECT id, title, subtitle, prep_time, cook_time, servings, difficulty, cuisine, card_image_url, created_at, updated_at 
-    FROM recipes ORDER BY created_at DESC LIMIT $1 OFFSET $2`,
+    `SELECT id, title, subtitle, prep_time, cook_time, servings, difficulty, cuisine, card_image_url, created_at, updated_at
+      FROM recipes ORDER BY created_at DESC LIMIT $1 OFFSET $2`,
     [limit, offset]
   );
   return toCamelCase(res.rows);
