@@ -12,6 +12,14 @@ export interface Recipe {
   cuisine: string;
   image_url: string;
   card_image_url: string;
+  calories: number | null;
+  protein: number | null;
+  carbs: number | null;
+  fat: number | null;
+  sugars: number | null;
+  fiber: number | null;
+  saturated_fat: number | null;
+  sodium: number | null;
   created_at: string;
   updated_at: string;
   ingredients: Ingredient[];

@@ -11,8 +11,12 @@ export const create = async (
   const res = await query(
     `INSERT INTO recipes (
       title, subtitle, description, prep_time, cook_time, servings, difficulty,
-      cuisine, image_url, card_image_url
-    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+      cuisine, image_url, card_image_url,
+      calories, protein, carbs, fat, sugars, fiber, saturated_fat, sodium
+    ) VALUES (
+      $1, $2, $3, $4, $5, $6, $7, $8, $9, $10,
+      $11, $12, $13, $14, $15, $16, $17, $18
+    )
     RETURNING *`,
     [
       data.title,
@@ -25,6 +29,14 @@ export const create = async (
       data.cuisine,
       data.image_url,
       data.card_image_url,
+      data.calories,
+      data.protein,
+      data.carbs,
+      data.fat,
+      data.sugars,
+      data.fiber,
+      data.saturated_fat,
+      data.sodium,
     ]
   );
   return toCamelCase(res.rows)[0];
@@ -48,7 +60,8 @@ export const getAll = async ({
   limit?: number;
 }): Promise<Recipe[]> => {
   const res = await query(
-    "SELECT * FROM recipes ORDER BY created_at DESC LIMIT $1 OFFSET $2",
+    `SELECT id, title, subtitle, prep_time, cook_time, servings, difficulty, cuisine, card_image_url, created_at, updated_at 
+    FROM recipes ORDER BY created_at DESC LIMIT $1 OFFSET $2`,
     [limit, offset]
   );
   return toCamelCase(res.rows);

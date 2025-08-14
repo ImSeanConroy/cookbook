@@ -107,20 +107,14 @@ const RecipePage = () => {
           <RecipeImage image={data.cardImageUrl != "" ? data.cardImageUrl : getRandomImageUrl()} />
           <NutritionalList
             nutrition={{
-              calories: "320 kcal",
-              protein: "15g",
-              carbs: "45g",
-              sugars: "12g",
-              fiber: "5g",
-              fat: "10g",
-              saturatedFat: "3g",
-              transFat: "0g",
-              cholesterol: "30mg",
-              sodium: "250mg",
-              potassium: "400mg",
-              calcium: "80mg",
-              iron: "2.5mg",
-              vitaminD: "2mcg",
+              calories: data.calories,
+              protein: data.protein,
+              carbs: data.carbs,
+              sugars: data.sugars,
+              fiber: data.fiber,
+              fat: data.fat,
+              saturatedFat: data.saturatedFat,
+              sodium: data.sodium,
             }}
           />
           <UtensilsList utensils={["Spatula", "Whisk", "Bowl", "Knife"]} />
