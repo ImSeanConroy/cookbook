@@ -45,8 +45,9 @@ export const getAllRecipesController = asyncHandler(
   async (req: Request, res: Response) => {
     const page = parseInt(req.query.page as string, 10) || 1;
     const limit = parseInt(req.query.limit as string, 10) || 12;
+    const query = req.query.query as string | undefined;
 
-    const result = await getAllRecipesService(page, limit);
+    const result = await getAllRecipesService(page, limit, query);
 
     return res.status(HTTPSTATUS.OK).json({
       message: "All recipes fetched successfully",

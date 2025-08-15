@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import Searchbar from "../ui/searchbar";
-
 import ThemeToggle from "../ui/theme-toggle";
 
 const Header = () => {
@@ -10,7 +9,7 @@ const Header = () => {
         Cook<span className="text-lime-500">book</span>
       </Link>
       <div className="flex flex-row gap-4">
-        <Searchbar />
+        <Searchbar redirect="/" />
         <ThemeToggle />
       </div>
     </div>

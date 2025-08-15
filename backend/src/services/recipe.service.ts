@@ -79,12 +79,12 @@ export const getRecipeByIdService = async (
   };
 };
 
-export const getAllRecipesService = async (page = 1, limit = 12) => {
+export const getAllRecipesService = async (page = 1, limit = 12, query?: string) => {
   const offset = (page - 1) * limit;
 
   const [recipes, totalItems] = await Promise.all([
-    RecipeRepo.getAll({ offset, limit }),
-    RecipeRepo.getCount(),
+    RecipeRepo.getAll({ offset, limit, queryText: query }),
+    RecipeRepo.getCount(query),
   ]);
 
   return {

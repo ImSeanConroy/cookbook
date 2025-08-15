@@ -219,6 +219,34 @@ describe("Recipe Service", () => {
       expect(result.totalItems).toBe(0);
       expect(result.totalPages).toBe(0);
     });
+
+    describe("getAllRecipesService with query", () => {
+  it("returns filtered recipes when query is provided", async () => {
+    const query = "pasta";
+    const mockRecipes = [{ id: "10", title: "Pasta Carbonara" }];
+    const mockTotal = 1;
+
+    const getAllSpy = vi
+      .spyOn(RecipeRepo, "getAll")
+      .mockResolvedValue(mockRecipes);
+    const getCountSpy = vi
+      .spyOn(RecipeRepo, "getCount")
+      .mockResolvedValue(mockTotal);
+
+    const result = await RecipeService.getAllRecipesService(1, 10, query);
+
+    expect(getAllSpy).toHaveBeenCalledWith({
+      offset: 0,
+      limit: 10,
+      queryText: query,
+    });
+    expect(getCountSpy).toHaveBeenCalledWith(query);
+    expect(result.data).toEqual(mockRecipes);
+    expect(result.totalItems).toBe(mockTotal);
+    expect(result.totalPages).toBe(1);
+    expect(result.currentPage).toBe(1);
+  });
+});
   });
 
   describe("updateRecipeService", () => {

@@ -48,23 +48,43 @@ export const findById = async (id: string): Promise<Recipe | null> => {
   return toCamelCase(res.rows)[0] || null;
 };
 
-export const getCount = async (): Promise<number> => {
-  const res = await query("SELECT COUNT(*) FROM recipes");
+export const getCount = async (queryText?: string): Promise<number> => {
+  let baseQuery = "SELECT COUNT(*) FROM recipes";
+  const values: any[] = [];
+
+  if (queryText) {
+    baseQuery += " WHERE title ILIKE $1";
+    values.push(`%${queryText}%`);
+  }
+
+  const res = await query(baseQuery, values);
   return parseInt(res.rows[0].count, 10);
 };
 
 export const getAll = async ({
   offset = 0,
   limit = 10,
+  queryText,
 }: {
   offset?: number;
   limit?: number;
+  queryText?: string;
 }): Promise<Recipe[]> => {
-  const res = await query(
-    `SELECT id, title, subtitle, prep_time, cook_time, servings, difficulty, cuisine, card_image_url, created_at, updated_at
-      FROM recipes ORDER BY created_at DESC LIMIT $1 OFFSET $2`,
-    [limit, offset]
-  );
+  const values: any[] = [];
+  let baseQuery = "SELECT id, title, subtitle, prep_time, cook_time, servings, difficulty, cuisine, card_image_url, created_at, updated_at FROM recipes";
+  
+  if (queryText) {
+    baseQuery += " WHERE title ILIKE $1";
+    values.push(`%${queryText}%`);
+  }
+
+  baseQuery += queryText
+    ? " ORDER BY created_at DESC LIMIT $2 OFFSET $3"
+    : " ORDER BY created_at DESC LIMIT $1 OFFSET $2";
+
+  values.push(limit, offset);
+
+  const res = await query(baseQuery, values);
   return toCamelCase(res.rows);
 };
 

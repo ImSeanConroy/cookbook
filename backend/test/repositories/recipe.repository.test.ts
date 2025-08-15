@@ -140,6 +140,23 @@ describe("Recipe Repository", () => {
       expect(result).toEqual(mockRows);
     });
 
+    it("filters by queryText", async () => {
+      const mockRows = [{ title: "Veggie" }];
+      mockedQuery.mockResolvedValue({ rows: mockRows });
+
+      const result = await RecipeRepo.getAll({
+        queryText: "Veggie",
+        offset: 0,
+        limit: 5,
+      });
+
+      expect(mockedQuery).toHaveBeenCalledWith(
+        "SELECT id, title, subtitle, prep_time, cook_time, servings, difficulty, cuisine, card_image_url, created_at, updated_at FROM recipes WHERE title ILIKE $1 ORDER BY created_at DESC LIMIT $2 OFFSET $3",
+        ["%Veggie%", 5, 0]
+      );
+      expect(result).toEqual(mockRows);
+    });
+
     it("throws if DB query fails", async () => {
       mockedQuery.mockRejectedValue(new Error("DB failure"));
 
@@ -155,7 +172,7 @@ describe("Recipe Repository", () => {
 
       const result = await RecipeRepo.getCount();
 
-      expect(mockedQuery).toHaveBeenCalledWith("SELECT COUNT(*) FROM recipes");
+      expect(mockedQuery).toHaveBeenCalledWith("SELECT COUNT(*) FROM recipes", []);
       expect(result).toBe(42);
     });
 
@@ -163,6 +180,18 @@ describe("Recipe Repository", () => {
       mockedQuery.mockRejectedValue(new Error("DB failure"));
 
       await expect(RecipeRepo.getCount()).rejects.toThrow("DB failure");
+    });
+
+    it("filters count by queryText", async () => {
+      mockedQuery.mockResolvedValue({ rows: [{ count: "5" }] });
+
+      const result = await RecipeRepo.getCount("Soup");
+
+      expect(mockedQuery).toHaveBeenCalledWith(
+        "SELECT COUNT(*) FROM recipes WHERE title ILIKE $1",
+        ["%Soup%"]
+      );
+      expect(result).toBe(5);
     });
   });
 

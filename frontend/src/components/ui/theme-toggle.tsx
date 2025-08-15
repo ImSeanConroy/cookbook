@@ -12,7 +12,7 @@ const ThemeToggle: React.FC = () => {
   return (
     <button
       onClick={handleToggler}
-      className="px-4 py-3 rounded-xl cursor-pointer text-sm disabled:opacity-50 bg-zinc-800 hover:bg-zinc-700 dark:bg-zinc-900 text-white"
+      className="px-3 py-3 rounded-xl cursor-pointer text-sm disabled:opacity-50 bg-zinc-800 hover:bg-zinc-700 dark:bg-zinc-900 text-white"
     >
       {theme == "light" ? (
         <IoMoonOutline className="text-white text-2xl pb-0.5 pl-0.5" />

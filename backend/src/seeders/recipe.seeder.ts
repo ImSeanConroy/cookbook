@@ -14,9 +14,11 @@ async function seedRecipes() {
       console.log(`✅ Seeded recipe: ${result.title}`);
     }
 
-    console.log("🎉 12 recipes seeded successfully.");
+    console.log(`🎉 ${recipes.length} recipes seeded successfully.`);
+    process.exit(0);
   } catch (error) {
     console.error("❌ Error seeding recipes:", error);
+    process.exit(1);
   }
 }
 

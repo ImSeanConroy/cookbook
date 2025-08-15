@@ -97,7 +97,7 @@ const RecipePage = () => {
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Left Section */}
         <div className="lg:w-7/10 w-full flex flex-col gap-10">
-          <p className="text-zinc-500 leading-6.5 pb-12 md:pb-16">{data.description}</p>
+          <p className="text-zinc-500 leading-6.5 pb-10 md:pb-12">{data.description}</p>
           <IngredientsList ingredients={data.ingredients} />
           <InstructionSteps steps={data.steps} />
         </div>
