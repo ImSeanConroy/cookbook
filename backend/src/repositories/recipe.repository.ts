@@ -11,11 +11,11 @@ export const create = async (
   const res = await query(
     `INSERT INTO recipes (
       title, subtitle, description, prep_time, cook_time, servings, difficulty,
-      cuisine, image_url, card_image_url,
+      cuisine, image_url, card_image_url, utensils,
       calories, protein, carbs, fat, sugars, fiber, saturated_fat, sodium
     ) VALUES (
       $1, $2, $3, $4, $5, $6, $7, $8, $9, $10,
-      $11, $12, $13, $14, $15, $16, $17, $18
+      $11, $12, $13, $14, $15, $16, $17, $18, $19
     )
     RETURNING *`,
     [
@@ -29,6 +29,7 @@ export const create = async (
       data.cuisine,
       data.image_url,
       data.card_image_url,
+      data.utensils,
       data.calories,
       data.protein,
       data.carbs,

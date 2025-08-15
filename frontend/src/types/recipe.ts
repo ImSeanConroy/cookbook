@@ -29,6 +29,7 @@ export interface Recipe {
   updatedAt: string;
   ingredients: Ingredient[];
   steps: string[];
+  utensils: string[];
 }
 
 export interface RecipeSummary {

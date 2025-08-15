@@ -117,7 +117,7 @@ const RecipePage = () => {
               sodium: data.sodium,
             }}
           />
-          <UtensilsList utensils={["Spatula", "Whisk", "Bowl", "Knife"]} />
+          <UtensilsList utensils={data.utensils} />
         </div>
       </div>
 

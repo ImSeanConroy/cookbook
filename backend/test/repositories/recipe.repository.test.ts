@@ -31,6 +31,15 @@ describe("Recipe Repository", () => {
         cuisine: "Italian",
         image_url: "http://image.com",
         card_image_url: "http://image.com",
+        calories: 450,
+        protein: 20.5,
+        carbs: 55.0,
+        fat: 15.0,
+        sugars: 8.0,
+        fiber: 4.0,
+        saturated_fat: 5.0,
+        sodium: 600,
+        utensils: ["example-1", "example-2"],
       };
       mockedQuery.mockResolvedValue({ rows: [mockRow] });
 
@@ -53,6 +62,7 @@ describe("Recipe Repository", () => {
         fiber: 4.0,
         saturated_fat: 5.0,
         sodium: 600,
+        utensils: ["example-1", "example-2"],
       });
 
       expect(mockedQuery).toHaveBeenCalledOnce();
@@ -82,6 +92,7 @@ describe("Recipe Repository", () => {
           fiber: 4.0,
           saturated_fat: 5.0,
           sodium: 600,
+          utensils: ["example-1", "example-2"],
         })
       ).rejects.toThrow("DB failure");
     });

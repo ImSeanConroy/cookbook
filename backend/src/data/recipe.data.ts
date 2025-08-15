@@ -35,6 +35,7 @@ export const recipes: RecipeInput[] = [
       "Pour in the tomato sauce, stir well, and simmer for 15 minutes.",
       "Serve the sauce over the cooked spaghetti.",
     ],
+    utensils: ["Spatula", "Whisk", "Bowl", "Knife"],
   },
   {
     title: "Fluffy Buttermilk Pancakes",
@@ -70,6 +71,7 @@ export const recipes: RecipeInput[] = [
       "Pour in batter; flip when bubbles form on the surface.",
       "Cook until golden brown. Serve warm with syrup or fruit.",
     ],
+    utensils: ["Spatula", "Whisk", "Bowl", "Knife"],
   },
   {
     title: "Authentic Indian Chicken Curry",
@@ -105,6 +107,7 @@ export const recipes: RecipeInput[] = [
       "Add water, cover, and simmer for 25–30 minutes or until fully cooked.",
       "Serve hot with rice or naan bread.",
     ],
+    utensils: ["Spatula", "Whisk", "Bowl", "Knife"],
   },
   {
     title: "Vegetarian Maki Sushi Rolls",
@@ -140,6 +143,7 @@ export const recipes: RecipeInput[] = [
       "Roll tightly using the mat and slice into bite-sized pieces.",
       "Serve with soy sauce, wasabi, and pickled ginger.",
     ],
+    utensils: ["Spatula", "Whisk", "Bowl", "Knife"],
   },
   {
     title: "Seasoned Beef Tacos",
@@ -175,6 +179,7 @@ export const recipes: RecipeInput[] = [
       "Fill each shell with beef, lettuce, and cheese.",
       "Serve with salsa, sour cream, or guacamole.",
     ],
+    utensils: ["Spatula", "Whisk", "Bowl", "Knife"],
   },
   {
     title: "Crisp Caesar Salad",
@@ -207,6 +212,7 @@ export const recipes: RecipeInput[] = [
       "Toss with Caesar dressing and croutons.",
       "Top with freshly grated Parmesan and serve chilled.",
     ],
+    utensils: ["Spatula", "Whisk", "Bowl", "Knife"],
   },
   {
     title: "Crispy Grilled Cheese Sandwich",
@@ -237,6 +243,7 @@ export const recipes: RecipeInput[] = [
       "Place cheese between the unbuttered sides of the bread.",
       "Cook in a skillet over medium heat until both sides are golden and cheese is melted.",
     ],
+    utensils: ["Spatula", "Whisk", "Bowl", "Knife"],
   },
   {
     title: "Thai Shrimp Pad Thai",
@@ -272,6 +279,7 @@ export const recipes: RecipeInput[] = [
       "Toss in bean sprouts and cook for 1–2 more minutes.",
       "Serve hot with lime wedges and peanuts if desired.",
     ],
+    utensils: ["Spatula", "Whisk", "Bowl", "Knife"],
   },
   {
     title: "Spiced Shakshuka",
@@ -307,6 +315,7 @@ export const recipes: RecipeInput[] = [
       "Cover and cook until egg whites are just set.",
       "Serve with crusty bread.",
     ],
+    utensils: ["Spatula", "Whisk", "Bowl", "Knife"],
   },
   {
     title: "Quick Vegetable Stir-Fry",
@@ -340,6 +349,7 @@ export const recipes: RecipeInput[] = [
       "Add broccoli, carrots, and bell pepper; stir-fry for 5–7 minutes.",
       "Drizzle in soy sauce and cook until vegetables are crisp-tender.",
     ],
+    utensils: ["Spatula", "Whisk", "Bowl", "Knife"],
   },
   {
     title: "Fresh Greek Salad",
@@ -373,6 +383,7 @@ export const recipes: RecipeInput[] = [
       "Add olives and crumbled feta on top.",
       "Drizzle with olive oil and red wine vinegar before serving.",
     ],
+    utensils: ["Spatula", "Whisk", "Bowl", "Knife"],
   },
   {
     title: "Creamy Indian Butter Chicken",
@@ -407,6 +418,7 @@ export const recipes: RecipeInput[] = [
       "Stir in cream and continue cooking until the sauce thickens.",
       "Serve with basmati rice or naan.",
     ],
+    utensils: ["Spatula", "Whisk", "Bowl", "Knife"],
   },
   {
     title: "Lemon Herb Grilled Chicken",
@@ -441,6 +453,7 @@ export const recipes: RecipeInput[] = [
       "Preheat grill and cook chicken 6–7 minutes per side until done.",
       "Rest briefly before serving.",
     ],
+    utensils: ["Spatula", "Whisk", "Bowl", "Knife"],
   },
   {
     title: "Mushroom Risotto",
@@ -475,6 +488,7 @@ export const recipes: RecipeInput[] = [
       "Gradually add warm broth, stirring frequently.",
       "Once creamy and rice is tender, stir in Parmesan.",
     ],
+    utensils: ["Spatula", "Whisk", "Bowl", "Knife"],
   },
   {
     title: "Avocado Toast with Poached Egg",
@@ -509,6 +523,7 @@ export const recipes: RecipeInput[] = [
       "Poach the egg in simmering water for 3 minutes.",
       "Place egg on top and season with salt and pepper.",
     ],
+    utensils: ["Spatula", "Whisk", "Bowl", "Knife"],
   },
   {
     title: "Sweet Potato Fries",
@@ -540,6 +555,7 @@ export const recipes: RecipeInput[] = [
       "Toss fries with oil, paprika, and salt.",
       "Spread on a baking sheet and bake for 20–25 minutes, flipping halfway.",
     ],
+    utensils: ["Spatula", "Whisk", "Bowl", "Knife"],
   },
   {
     title: "Egg Fried Rice",
@@ -574,6 +590,7 @@ export const recipes: RecipeInput[] = [
       "Add rice, soy sauce, and eggs back in; stir well.",
       "Garnish with green onions.",
     ],
+    utensils: ["Spatula", "Whisk", "Bowl", "Knife"],
   },
   {
     title: "French Onion Soup",
@@ -608,6 +625,7 @@ export const recipes: RecipeInput[] = [
       "Ladle soup into bowls, top with baguette and cheese.",
       "Broil until cheese is melted and bubbly.",
     ],
+    utensils: ["Spatula", "Whisk", "Bowl", "Knife"],
   },
   {
     title: "Beef Stroganoff",
@@ -642,6 +660,7 @@ export const recipes: RecipeInput[] = [
       "Return beef and stir in sour cream; simmer briefly.",
       "Serve over egg noodles.",
     ],
+    utensils: ["Spatula", "Whisk", "Bowl", "Knife"],
   },
   {
     title: "Caprese Salad",
@@ -675,6 +694,7 @@ export const recipes: RecipeInput[] = [
       "Top with fresh basil leaves.",
       "Drizzle with olive oil and balsamic glaze before serving.",
     ],
+    utensils: ["Spatula", "Whisk", "Bowl", "Knife"],
   },
   {
     title: "Creamy Spinach Artichoke Dip",
@@ -708,6 +728,7 @@ export const recipes: RecipeInput[] = [
       "Transfer to a baking dish and bake at 375°F (190°C) for 20 minutes.",
       "Serve warm with chips or bread.",
     ],
+    utensils: ["Spatula", "Whisk", "Bowl", "Knife"],
   },
   {
     title: "Banana Oatmeal Cookies",
@@ -742,6 +763,7 @@ export const recipes: RecipeInput[] = [
       "Scoop onto a baking sheet and flatten slightly.",
       "Bake for 12–15 minutes until set.",
     ],
+    utensils: ["Spatula", "Whisk", "Bowl", "Knife"],
   },
   {
     title: "Tuna Salad Sandwich",
@@ -775,6 +797,7 @@ export const recipes: RecipeInput[] = [
       "Spread mixture onto two slices of bread.",
       "Top with lettuce and second slice of bread.",
     ],
+    utensils: ["Spatula", "Whisk", "Bowl", "Knife"],
   },
   {
     title: "Chocolate Mug Cake",
@@ -808,5 +831,6 @@ export const recipes: RecipeInput[] = [
       "Microwave for 1.5 to 2 minutes.",
       "Let cool slightly before eating.",
     ],
+    utensils: ["Spatula", "Whisk", "Bowl", "Knife"],
   },
 ];

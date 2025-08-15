@@ -45,6 +45,7 @@ export const createRecipeSchema = z.object({
   sodium: z.number().int().nonnegative().nullable(),
   ingredients: ingredientsSchema,
   steps: stepsSchema,
+  utensils: stepsSchema,
 });
 
 export const updateRecipeSchema = createRecipeSchema.partial();
