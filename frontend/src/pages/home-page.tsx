@@ -6,6 +6,9 @@ import { recipeFilters, sortOptions } from "@/constants/filters";
 import FilterGroup from "@/components/ui/filter-group";
 import PageNumbers from "@/components/ui/page-number";
 import { useRecipesContext } from "@/components/recipe-context";
+import FilterResetButton from "@/components/ui/filter-reset-button";
+
+import { IoChevronBackOutline, IoChevronForwardOutline } from "react-icons/io5";
 
 const HomePage = () => {
   const {
@@ -30,9 +33,11 @@ const HomePage = () => {
         <Searchbar />
       </RecipeHeader>
 
-      <div className="p-5 bg-zinc-100 dark:bg-zinc-900 rounded-2xl grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 gap-5">
+      <div className="p-5 bg-zinc-100 dark:bg-zinc-900 rounded-2xl grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 gap-4">
         <FilterGroup filters={recipeFilters} />
-        <div className="hidden xl:block" />
+        <div className="hidden xl:flex flex-row justify-end">
+          <FilterResetButton />
+        </div>
         <FilterGroup filters={sortOptions} />
       </div>
 
@@ -51,11 +56,12 @@ const HomePage = () => {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-row items-center gap-3">
           <Button
             onClick={() => setCurrentPage(currentPage - 1)}
             disabled={currentPage === 1}
           >
+            <IoChevronBackOutline />
             Previous
           </Button>
           <PageNumbers
@@ -68,6 +74,7 @@ const HomePage = () => {
             disabled={currentPage === totalPages}
           >
             Next
+            <IoChevronForwardOutline />
           </Button>
         </div>
       </div>

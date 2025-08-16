@@ -1,4 +1,5 @@
-import CustomDropdown from "@/components/ui/dropdown";
+import CustomDropdown, { type DropdownOption } from "@/components/ui/dropdown";
+import { useRecipesContext } from "../recipe-context";
 
 interface FilterProps {
   label: string;
@@ -8,6 +9,13 @@ interface FilterProps {
 }
 
 const FilterGroup = ({ filters }: { filters: FilterProps[] }) => {
+  const { setLimit, setCurrentPage } = useRecipesContext();
+
+  const handleSelect = (name: string, option: DropdownOption) => {
+    if (name === "perPage") setLimit(Number(option.value));
+    setCurrentPage(1)
+  };
+
   return filters.map(({ label, name, options, defaultValue }) => {
     const dropdownOptions = options.map((opt) => ({
       label: opt,
@@ -21,7 +29,7 @@ const FilterGroup = ({ filters }: { filters: FilterProps[] }) => {
         </label>
         <CustomDropdown
           options={dropdownOptions}
-          onSelect={() => console.log("")}
+          onSelect={(option) => handleSelect(name, option)}
           defaultValue={defaultValue}
         />
       </div>

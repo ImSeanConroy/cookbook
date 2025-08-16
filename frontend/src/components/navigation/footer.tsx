@@ -9,8 +9,33 @@ const Footer = () => {
           <Link to="/" className="font-semibold text-3xl text-white">
             Cook<span className="text-lime-500">book</span>
           </Link>
-          <div className="flex flex-row gap-4 text-white">
-            <a href="https://www.github.com/imseanconroy/cookbook"><FaGithub className="text-3xl" /></a>
+
+          <div className="flex flex-col gap-2 lg:gap-0 lg:flex-row lg:divide-x lg:divide-white">
+            <p className="md:px-3 text-md text-white">Sean Conroy © 2025</p>
+            <a
+              href="/privacy"
+              className="lg:px-3 text-md text-white hover:underline"
+            >
+              Privacy & Legal
+            </a>
+            <a
+              href="/terms"
+              className="lg:px-3 text-md text-white hover:underline"
+            >
+              Terms of Use
+            </a>
+            <a
+              href="/cookies"
+              className="lg:px-3 text-md text-white hover:underline"
+            >
+              Cookies
+            </a>
+            <a
+              href="/contact"
+              className="lg:px-3 text-md text-white hover:underline"
+            >
+              Contact
+            </a>
           </div>
         </div>
       </div>

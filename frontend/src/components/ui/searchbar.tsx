@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoIosSearch } from "react-icons/io";
 import { useRecipesContext } from "../recipe-context";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +19,10 @@ const Searchbar = ({ redirect }: { redirect?: string }) => {
       setInputValue("")
     }
   };
+
+  useEffect(() => {
+    setInputValue(query)
+  }, [query])
 
   return (
     <div className="flex flex-row focus-within:ring-2 focus-within:ring-zinc-800 dark:focus-within:ring-zinc-700 rounded-xl">

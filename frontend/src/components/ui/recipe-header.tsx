@@ -13,10 +13,7 @@ const RecipeHeader = ({ children, position = "center" }: Props) => {
         "p-6 rounded-2xl h-[450px] flex flex-col bg-cover bg-center",
         position === "center" ? "justify-center" : "justify-end"
       )}
-      style={{
-        backgroundImage:
-          "url('/img/cover.jpg')",
-      }}
+      style={{ backgroundImage: "url('/img/cover.jpg')" }}
     >
       <div className="bg-white dark:bg-zinc-800 bg-opacity-90 p-6 rounded-xl w-full lg:w-1/2">
         <p className="text-zinc-500 dark:text-white">Let’s Cook</p>
