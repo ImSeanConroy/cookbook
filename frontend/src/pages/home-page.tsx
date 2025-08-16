@@ -9,16 +9,11 @@ import { useRecipesContext } from "@/components/recipe-context";
 import FilterResetButton from "@/components/ui/filter-reset-button";
 
 import { IoChevronBackOutline, IoChevronForwardOutline } from "react-icons/io5";
+import { InfoMessage } from "@/components/ui/info-message";
 
 const HomePage = () => {
-  const {
-    recipes,
-    isLoading,
-    error,
-    currentPage,
-    totalPages,
-    setCurrentPage,
-  } = useRecipesContext();
+  const { recipes, isLoading, error, currentPage, totalPages, setCurrentPage } =
+    useRecipesContext();
 
   const handlePageClick = (page: number) => {
     if (page !== currentPage) setCurrentPage(page);
@@ -41,9 +36,27 @@ const HomePage = () => {
         <FilterGroup filters={sortOptions} />
       </div>
 
-      {isLoading && <p>Loading...</p>}
-      {error && <p>Error: {error}</p>}
-      {!isLoading && !error && recipes.length === 0 && <p>No recipes found.</p>}
+      {isLoading && (
+        <InfoMessage
+          title="Loading Recipes, Please Wait..."
+          message="Fetching the latest recipes for you."
+        />
+      )}
+
+      {error && (
+        <InfoMessage
+          title="Oops! Something went wrong while fetching recipes."
+          message={error || "Please try again later."}
+        />
+      )}
+
+      {!isLoading && !error && recipes.length === 0 && (
+        <InfoMessage
+          title="No recipes found."
+          message="Try adjusting your search or filters to discover new recipes."
+        />
+      )}
+
       {!isLoading && !error && recipes.length > 0 && (
         <RecipeGrid recipes={recipes} />
       )}

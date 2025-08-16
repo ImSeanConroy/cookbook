@@ -59,7 +59,7 @@ export const RecipesProvider = ({ children }: { children: ReactNode }) => {
         setError(null);
       })
       .catch((err) => {
-        setError(err.message || "Unknown error");
+        setError(err.message || "Something went wrong. Please try again.");
         setRecipes([]);
       })
       .finally(() => setIsLoading(false));

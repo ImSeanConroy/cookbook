@@ -13,6 +13,7 @@ import { getRandomImageUrl } from "@/lib/images";
 import RecipeImage from "@/components/ui/recipe-image";
 import UtensilsList from "@/components/ui/utentils-list";
 import NutritionalList from "@/components/ui/nutritional-list";
+import { InfoMessage } from "@/components/ui/info-message";
 
 const RecipePage = () => {
   const { id } = useParams<{ id: string }>();
@@ -26,22 +27,20 @@ const RecipePage = () => {
 
     const fetchRecipe = async () => {
       setIsLoading(true);
-      try {
-        const res = await fetch(`${config.BASE_URL}/api/recipe/${id}`);
-        if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
-        const json = await res.json();
-        setData(json.recipe);
-        setError(null);
-      } catch (err) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError("Something went wrong");
-        }
-        setData(null);
-      } finally {
-        setIsLoading(false);
-      }
+      fetch(`${config.BASE_URL}/api/recipe/${id}`)
+        .then((res) => {
+          if (!res.ok) throw new Error(`Failed to fetch recipe`);
+          return res.json();
+        })
+        .then((json) => {
+          setData(json.recipe);
+          setError(null);
+        })
+        .catch((err) => {
+          setError(err.message || "Something went wrong. Please try again.");
+          setData(null);
+        })
+        .finally(() => setIsLoading(false));
     };
 
     fetchRecipe();
@@ -51,24 +50,39 @@ const RecipePage = () => {
     if (!id) return;
 
     const fetchRelated = async () => {
-      try {
-        const res = await fetch(
-          `${config.BASE_URL}/api/recipe?limit=4&exclude=${id}`
-        );
-        if (!res.ok) throw new Error("Failed to fetch related recipes");
-        const json = await res.json();
-        setRelatedRecipes(json.recipes || []);
-      } catch (err) {
-        console.error("Related recipes error:", err);
-      }
+      fetch(`${config.BASE_URL}/api/recipe?limit=4&exclude=${id}`)
+        .then((res) => {
+          if (!res.ok) throw new Error("Failed to fetch related recipes");
+          return res.json();
+        })
+        .then((json) => {
+          setRelatedRecipes(json.recipes || []);
+        })
+        .catch((err) => {
+          console.error("Related recipes error:", err);
+        });
     };
 
     fetchRelated();
   }, [id]);
 
-  if (isLoading) return <p>Loading recipe...</p>;
-  if (error) return <p>Error: {error}</p>;
-  if (!data) return <p>No recipe found.</p>;
+  if (isLoading) {
+    return (
+      <InfoMessage
+        title="Loading Recipes, Please Wait..."
+        message="Fetching the latest recipes for you."
+      />
+    );
+  }
+
+  if (error || !data) {
+    return (
+      <InfoMessage
+        title="Oops! Something went wrong while fetching recipes."
+        message={error || "Please try again later."}
+      />
+    );
+  }
 
   const words = data.title.trim().split(" ");
   const highlightIndex = words.length >= 2 ? words.length - 2 : -1;
@@ -88,7 +102,9 @@ const RecipePage = () => {
               </span>
             ))}
           </h1>
-          <p className="text-2xl font-normal text-zinc-800 dark:text-white">{data.subtitle}</p>
+          <p className="text-2xl font-normal text-zinc-800 dark:text-white">
+            {data.subtitle}
+          </p>
         </RecipeHeader>
         <RecipeInfoBar data={data} />
       </div>
@@ -97,14 +113,20 @@ const RecipePage = () => {
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Left Section */}
         <div className="lg:w-7/10 w-full flex flex-col gap-10">
-          <p className="text-zinc-500 leading-6.5 pb-10 md:pb-12">{data.description}</p>
+          <p className="text-zinc-500 leading-6.5 pb-10 md:pb-12">
+            {data.description}
+          </p>
           <IngredientsList ingredients={data.ingredients} />
           <InstructionSteps steps={data.steps} />
         </div>
 
         {/* Right Section */}
         <div className="lg:w-3/10 w-full flex flex-col gap-6">
-          <RecipeImage image={data.cardImageUrl != "" ? data.cardImageUrl : getRandomImageUrl()} />
+          <RecipeImage
+            image={
+              data.cardImageUrl != "" ? data.cardImageUrl : getRandomImageUrl()
+            }
+          />
           <NutritionalList
             nutrition={{
               calories: data.calories,
