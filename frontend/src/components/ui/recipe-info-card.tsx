@@ -12,7 +12,7 @@ const RecipeInfoCard = ({ icon, label, value }: InfoCardProps) => (
       {icon}
     </div>
     <div>
-      <p className="text-zinc-500 text-sm">{label}</p>
+      <p className="text-zinc-500 dark:text-zinc-400 text-sm">{label}</p>
       <p className="font-semibold text-lg">{value}</p>
     </div>
   </div>

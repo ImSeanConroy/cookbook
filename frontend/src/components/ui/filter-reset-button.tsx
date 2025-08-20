@@ -12,12 +12,12 @@ const FilterResetButton = () => {
   if (query == "" && limit == 12) return;
 
   return (
-<div className="flex flex-col justify-end gap-1 dark:text-zinc-500">
+<div className="flex flex-col justify-end gap-1 text-white dark:text-zinc-500">
   <button
     onClick={handleReset}
-    className="inline-flex items-center justify-center w-fit rounded-lg cursor-pointer disabled:opacity-50 bg-zinc-800 hover:bg-zinc-600 dark:bg-zinc-800 text-white p-1.5"
+    className="inline-flex items-center justify-center w-fit rounded-lg cursor-pointer disabled:opacity-50 bg-zinc-800 hover:bg-zinc-600 dark:bg-zinc-800 p-1.5"
   >
-    <IoCloseCircleOutline className="text-white text-2xl m-1" />
+    <IoCloseCircleOutline className="text-2xl m-1" />
   </button>
 </div>
 

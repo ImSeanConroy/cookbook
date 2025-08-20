@@ -102,7 +102,7 @@ const RecipePage = () => {
               </span>
             ))}
           </h1>
-          <p className="text-2xl font-normal text-zinc-800 dark:text-white">
+          <p className="text-2xl font-normal text-zinc-700 dark:text-white">
             {data.subtitle}
           </p>
         </RecipeHeader>
@@ -113,7 +113,7 @@ const RecipePage = () => {
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Left Section */}
         <div className="lg:w-7/10 w-full flex flex-col gap-10">
-          <p className="text-zinc-500 leading-6.5 pb-10 md:pb-12">
+          <p className="text-zinc-700 dark:text-zinc-400 leading-6.5 pb-10 md:pb-12">
             {data.description}
           </p>
           <IngredientsList ingredients={data.ingredients} />

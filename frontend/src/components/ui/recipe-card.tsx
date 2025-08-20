@@ -22,8 +22,8 @@ const RecipeCard = ({ id, title, subtitle, imageUrl, difficulty, cuisine, time }
     />
     <div className="p-4 px-5 dark:text-white">
       <h2 className="text-xl font-semibold truncate">{title}</h2>
-      <p className="truncate">{subtitle}</p>
-      <div className="pt-3 text-sm flex flex-row divide-x divide-gray-500 text-gray-500">
+      <p className="truncate dark:text-zinc-400">{subtitle}</p>
+      <div className="pt-3 text-sm flex flex-row divide-x divide-zinc-500 text-zinc-500">
         <p className="pr-3 truncate">{time} mins</p>
         <p className="px-3 truncate">{cuisine}</p>
         <p className="pl-3 truncate">
