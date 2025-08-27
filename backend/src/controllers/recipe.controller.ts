@@ -4,6 +4,7 @@ import {
   createRecipeSchema,
   recipeIdSchema,
   updateRecipeSchema,
+  getAllRecipesQuerySchema,
 } from "../common/schema/recipe.schema";
 import {
   createRecipeService,
@@ -14,6 +15,9 @@ import {
 } from "../services/recipe.service";
 import { HTTPSTATUS } from "../common/config/http.config";
 
+/**
+ * Controller to create a new recipe.
+ */
 export const createRecipeController = asyncHandler(
   async (req: Request, res: Response) => {
     const body = createRecipeSchema.parse(req.body);
@@ -27,10 +31,13 @@ export const createRecipeController = asyncHandler(
   }
 );
 
+/**
+ * Controller to update an existing recipe by ID.
+ */
 export const updateRecipeController = asyncHandler(
   async (req: Request, res: Response) => {
-    const body = updateRecipeSchema.parse(req.body);
     const recipeId = recipeIdSchema.parse(req.params.id);
+    const body = updateRecipeSchema.parse(req.body);
 
     const updatedRecipe = await updateRecipeService(recipeId, body);
 
@@ -41,24 +48,30 @@ export const updateRecipeController = asyncHandler(
   }
 );
 
+/**
+ * Controller to fetch all recipes with optional filters, pagination, and sorting.
+ */
 export const getAllRecipesController = asyncHandler(
   async (req: Request, res: Response) => {
-    const page = parseInt(req.query.page as string, 10) || 1;
-    const limit = parseInt(req.query.limit as string, 10) || 12;
-    const query = req.query.query as string | undefined;
+    const { page, limit, query, difficulty, cuisine, cookTime, sortBy } =
+      getAllRecipesQuerySchema.parse(req.query);
+    const filters = { difficulty, cuisine, cookTime, sortBy };
 
-    const result = await getAllRecipesService(page, limit, query);
+    const result = await getAllRecipesService(page, limit, query, filters);
 
     return res.status(HTTPSTATUS.OK).json({
       message: "All recipes fetched successfully",
       recipes: result.data,
       recipeCount: result.totalItems,
       currentPage: result.currentPage,
-      totalPages: result.totalPages
+      totalPages: result.totalPages,
     });
   }
 );
 
+/**
+ * Controller to fetch a single recipe by ID.
+ */
 export const getRecipeByIdController = asyncHandler(
   async (req: Request, res: Response) => {
     const recipeId = recipeIdSchema.parse(req.params.id);
@@ -72,6 +85,9 @@ export const getRecipeByIdController = asyncHandler(
   }
 );
 
+/**
+ * Controller to delete a recipe by ID.
+ */
 export const deleteRecipeController = asyncHandler(
   async (req: Request, res: Response) => {
     const recipeId = recipeIdSchema.parse(req.params.id);

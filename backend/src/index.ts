@@ -15,9 +15,15 @@ import recipeRoutes from "./routes/recipe.route";
 const app = express();
 const BASE_PATH = config.BASE_PATH;
 
+// ---------------------------
+// Middleware
+// ---------------------------
+
+// Parse JSON and URL-encoded bodies
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Session configuration
 app.use(
   session({
     name: "session",
@@ -29,6 +35,7 @@ app.use(
   })
 );
 
+// Enable CORS
 app.use(
   cors({
     origin: config.FRONTEND_ORIGIN,
@@ -36,20 +43,31 @@ app.use(
   })
 );
 
+// ---------------------------
+// Routes
+// ---------------------------
+
+// Health check endpoint
 app.get(
   `${BASE_PATH}/status`,
-  asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    return res.status(HTTPSTATUS.OK).json({
-      status: "ok",
-    });
+  asyncHandler(async (_req: Request, res: Response, _next: NextFunction) => {
+    return res.status(HTTPSTATUS.OK).json({ status: "ok" });
   })
 );
 
+// Recipe routes
 app.use(`${BASE_PATH}/recipe`, recipeRoutes);
 
+// ---------------------------
+// Error handler
+// ---------------------------
 app.use(errorHandler);
 
+// ---------------------------
+// Server startup
+// ---------------------------
+
 app.listen(config.PORT, async () => {
-  console.log(`Server listening on port ${config.PORT} in ${config.NODE_ENV}`);
+  console.log(`Server listening on port ${config.PORT} in ${config.NODE_ENV} mode`);
   await connectDatabase();
 });

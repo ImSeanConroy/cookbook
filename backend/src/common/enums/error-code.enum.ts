@@ -1,3 +1,6 @@
+// --------------------
+// Application Error Codes
+// --------------------
 export const ErrorCodeEnum = {
   // Access Control Errors
   ACCESS_UNAUTHORIZED: "ACCESS_UNAUTHORIZED",
@@ -10,4 +13,5 @@ export const ErrorCodeEnum = {
   INTERNAL_SERVER_ERROR: "INTERNAL_SERVER_ERROR",
 } as const;
 
+// Type representing any valid error code key
 export type ErrorCodeEnumType = keyof typeof ErrorCodeEnum;

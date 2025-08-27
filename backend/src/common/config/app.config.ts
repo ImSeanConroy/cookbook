@@ -1,6 +1,30 @@
-import { getEnv } from "../../utils/get-env"
+import { getEnv } from "../../utils/get-env";
 
-const appConfig = () => ({
+/**
+ * Interface describing the shape of the application configuration object.
+ */
+interface AppConfig {
+  NODE_ENV: string;
+  PORT: string;
+  READ_ONLY: string;
+  BASE_PATH: string;
+
+  SESSION_SECRET: string;
+
+  POSTGRES_USER: string;
+  POSTGRES_HOST: string;
+  POSTGRES_DB: string;
+  POSTGRES_PASSWORD: string;
+  POSTGRES_PORT: string;
+
+  FRONTEND_ORIGIN: string;
+}
+
+/**
+ * Reads environment variables and returns a typed configuration object.
+ * Uses defaults for optional values if not specified.
+ */
+const appConfig = (): AppConfig => ({
   NODE_ENV: getEnv("NODE_ENV", "development"),
   PORT: getEnv("PORT", "5000"),
   READ_ONLY: getEnv("READ_ONLY", "false"),

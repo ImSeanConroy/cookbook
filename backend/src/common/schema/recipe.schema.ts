@@ -1,5 +1,16 @@
 import { z } from "zod";
 
+// --------------------
+// Enums / constants
+// --------------------
+export const difficulties = ["beginner", "intermediate", "advanced"] as const;
+export const cuisines = ["italian", "indian", "mexican", "japanese"] as const;
+export const cookTimes = ["under15", "15to30", "30to60", "over60"] as const;
+export const sortOptions = ["newest", "oldest", "az", "za"] as const;
+
+// --------------------
+// Field Schemas
+// --------------------
 export const recipeIdSchema = z.string().trim().min(1);
 export const titleSchema = z.string().trim().min(1).max(100);
 export const subtitleSchema = z.string().trim().min(1).max(150);
@@ -7,12 +18,8 @@ export const descriptionSchema = z.string().trim().min(1);
 export const prepTimeSchema = z.number().int().nonnegative();
 export const cookTimeSchema = z.number().int().nonnegative();
 export const servingsSchema = z.number().int().positive();
-export const difficultySchema = z.enum([
-  "beginner",
-  "intermediate",
-  "advanced",
-]);
-export const cuisineSchema = z.string().trim().min(1);
+export const difficultySchema = z.enum(difficulties);
+export const cuisineSchema = z.enum(cuisines);
 export const imageUrlSchema = z.string().url();
 
 export const ingredientsSchema = z.array(
@@ -24,6 +31,9 @@ export const ingredientsSchema = z.array(
 
 export const stepsSchema = z.array(z.string().trim().min(1));
 
+// --------------------
+// Create / Update Recipe Schemas
+// --------------------
 export const createRecipeSchema = z.object({
   title: titleSchema,
   subtitle: subtitleSchema,
@@ -49,3 +59,16 @@ export const createRecipeSchema = z.object({
 });
 
 export const updateRecipeSchema = createRecipeSchema.partial();
+
+// --------------------
+// Query / Filter Schema for getAllRecipes
+// --------------------
+export const getAllRecipesQuerySchema = z.object({
+  page: z.string().regex(/^\d+$/).transform(Number).default("1"),
+  limit: z.string().regex(/^\d+$/).transform(Number).default("12"),
+  query: z.string().optional(),
+  difficulty: z.enum([...difficulties, "any"]).optional().default("any"),
+  cuisine: z.enum([...cuisines, "any"]).optional().default("any"),
+  cookTime: z.enum([...cookTimes, "any"]).optional().default("any"),
+  sortBy: z.enum(sortOptions).optional().default("newest"),
+});

@@ -1,9 +1,16 @@
-import { ErrorRequestHandler, Response } from "express";
+import { ErrorRequestHandler, Response, Request, NextFunction } from "express";
 import { HTTPSTATUS } from "../common/config/http.config";
 import { AppError } from "../utils/app-error";
 import { ZodError } from "zod";
 import { ErrorCodeEnum } from "../common/enums/error-code.enum";
 
+/**
+ * Formats Zod validation errors into a consistent API response.
+ *
+ * @param res - Express Response object
+ * @param error - ZodError instance
+ * @returns Express JSON response with validation errors
+ */
 const formatZodError = (res: Response, error: ZodError) => {
   const errors = error.issues.map((issue) => ({
     field: issue.path.join("."),
@@ -17,11 +24,26 @@ const formatZodError = (res: Response, error: ZodError) => {
   });
 };
 
+/**
+ * Global Express error-handling middleware.
+ *
+ * Catches:
+ * - SyntaxError (malformed JSON)
+ * - Zod validation errors
+ * - Known application errors (AppError)
+ * - Unhandled errors
+ *
+ * @param error - The thrown error
+ * @param req - Express Request object
+ * @param res - Express Response object
+ * @param next - Express NextFunction
+ * @returns Express JSON response with error details
+ */
 export const errorHandler: ErrorRequestHandler = (
   error,
-  req,
-  res,
-  next
+  req: Request,
+  res: Response,
+  next: NextFunction
 ): any => {
   console.error(`Error on ${req.method} ${req.path}`, error);
 

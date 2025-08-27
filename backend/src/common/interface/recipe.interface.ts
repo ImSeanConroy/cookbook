@@ -1,5 +1,24 @@
-type DifficultyLevel = 'beginner' | 'intermediate' | 'advanced';
+// --------------------
+// Difficulty Enum
+// --------------------
+export type DifficultyLevel = 'beginner' | 'intermediate' | 'advanced';
 
+// --------------------
+// Ingredient / Step Interfaces
+// --------------------
+export interface Ingredient {
+  name: string;
+  quantity: string;
+}
+
+export interface Step {
+  step_number: number;
+  instruction: string;
+}
+
+// --------------------
+// Recipe Interface
+// --------------------
 export interface Recipe {
   id: string;
   title: string;
@@ -20,21 +39,15 @@ export interface Recipe {
   fiber: number | null;
   saturated_fat: number | null;
   sodium: number | null;
-  created_at: string;
-  updated_at: string;
   utensils: string[];
   ingredients: Ingredient[];
   steps: string[];
+  created_at: string;
+  updated_at: string;
 }
 
-export interface Ingredient {
-  name: string;
-  quantity: string;
-}
-
-export interface Step {
-  step_number: number;
-  instruction: string;
-}
-
+// --------------------
+// Recipe Input Type
+// --------------------
+// This is the shape expected when creating or updating a recipe.
 export type RecipeInput = Omit<Recipe, 'id' | 'created_at' | 'updated_at'>;

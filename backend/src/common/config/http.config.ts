@@ -1,10 +1,13 @@
+// --------------------
+// HTTP Status Codes
+// --------------------
 const httpConfig = () => ({
   // Success responses
   OK: 200,
   CREATED: 201,
   ACCEPTED: 202,
   NO_CONTENT: 204,
-  
+
   // Client error responses
   BAD_REQUEST: 400,
   UNAUTHORIZED: 401,
@@ -25,4 +28,5 @@ const httpConfig = () => ({
 
 export const HTTPSTATUS = httpConfig();
 
+// Type representing any valid HTTP status code value
 export type HttpStatusCodeType = (typeof HTTPSTATUS)[keyof typeof HTTPSTATUS];
