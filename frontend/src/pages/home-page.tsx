@@ -12,8 +12,15 @@ import { IoChevronBackOutline, IoChevronForwardOutline } from "react-icons/io5";
 import { InfoMessage } from "@/components/ui/info-message";
 
 const HomePage = () => {
-  const { recipes, isLoading, error, currentPage, totalPages, setCurrentPage } =
-    useRecipesContext();
+  const {
+    recipes,
+    isLoading,
+    error,
+    currentPage,
+    totalPages,
+    setCurrentPage,
+    totalResults,
+  } = useRecipesContext();
 
   const handlePageClick = (page: number) => {
     if (page !== currentPage) setCurrentPage(page);
@@ -65,7 +72,8 @@ const HomePage = () => {
         <div className="bg-zinc-900 dark:bg-zinc-800 rounded-xl hidden md:block">
           <p className="text-white text-sm p-3 px-5">
             Page <span className="font-semibold">{currentPage}</span> of{" "}
-            <span className="font-semibold">{totalPages}</span>
+            <span className="font-semibold">{totalPages}</span> 
+            <span className="font-semibold pl-8">{totalResults}</span> Results
           </p>
         </div>
 

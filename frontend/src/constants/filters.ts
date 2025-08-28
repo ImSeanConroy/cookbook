@@ -1,44 +1,64 @@
-export const recipeFilters = [
+import type { FilterProps } from "@/types/filter";
+
+export const recipeFilters: FilterProps[] = [
   {
     label: "Difficulty",
     name: "difficulty",
     defaultValue: "All Levels",
-    options: ["All Levels", "Beginner", "Intermediate", "Advanced"],
+    options: [
+      { label: "All Levels", value: "any" },
+      { label: "Beginner", value: "beginner" },
+      { label: "Intermediate", value: "intermediate" },
+      { label: "Advanced", value: "advanced" },
+    ],
   },
   {
     label: "Cuisine",
     name: "cuisine",
     defaultValue: "All Cuisines",
-    options: ["All Cuisines", "Italian", "Indian", "Mexican", "Japanese"],
+    options: [
+      { label: "All Cuisines", value: "any" },
+      { label: "Italian", value: "italian" },
+      { label: "Indian", value: "indian" },
+      { label: "Mexican", value: "mexican" },
+      { label: "Japanese", value: "japanese" },
+    ],
   },
   {
     label: "Cook Time",
-    name: "time",
+    name: "cookTime",
     defaultValue: "Any",
     options: [
-      "Any",
-      "Under 15 minutes",
-      "15–30 minutes",
-      "30–60 minutes",
-      "Over 60 minutes",
+      { label: "Any", value: "any" },
+      { label: "Under 15 minutes", value: "under15" },
+      { label: "15–30 minutes", value: "15to30" },
+      { label: "30–60 minutes", value: "30to60" },
+      { label: "Over 60 minutes", value: "over60" },
     ],
   },
 ];
 
-export const sortOptions = [
+export const sortOptions: FilterProps[] = [
   {
     label: "Sort By",
     name: "sortBy",
     defaultValue: "Newest",
-    options: ["Newest",
-    "Oldest",
-    "Alphabetical (A–Z)",
-    "Alphabetical (Z–A)",],
+    options: [
+      { label: "Newest", value: "newest" },
+      { label: "Oldest", value: "oldest" },
+      { label: "Alphabetical (A–Z)", value: "az" },
+      { label: "Alphabetical (Z–A)", value: "za" },
+    ],
   },
   {
     label: "Results Per Page",
-    name: "perPage",
+    name: "limit",
     defaultValue: "12",
-    options: ["8", "12", "24", "48"],
+    options: [
+      { label: "8", value: "8" },
+      { label: "12", value: "12" },
+      { label: "24", value: "24" },
+      { label: "48", value: "48" },
+    ],
   },
-];
+] as const;

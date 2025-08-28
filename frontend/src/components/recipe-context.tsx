@@ -1,24 +1,28 @@
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-} from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
 import { config } from "@/config";
 import type { RecipeSummary } from "@/types/recipe";
+
+type FiltersType = {
+  difficulty: string;
+  cuisine: string;
+  cookTime: string;
+  sortBy: string;
+  limit: number;
+};
 
 type RecipesContextType = {
   recipes: RecipeSummary[];
   isLoading: boolean;
   error: string | null;
   currentPage: number;
-  totalPages: number;
   setCurrentPage: (page: number) => void;
+  totalPages: number;
+  totalResults: number;
   query: string;
   setQuery: (query: string) => void;
-  limit: number;
-  setLimit: (limit: number) => void;
+  filters: FiltersType;
+  setFilters: (filters: Partial<FiltersType>) => void;
 };
 
 const RecipesContext = createContext<RecipesContextType | undefined>(undefined);
@@ -26,11 +30,23 @@ const RecipesContext = createContext<RecipesContextType | undefined>(undefined);
 export const RecipesProvider = ({ children }: { children: ReactNode }) => {
   const [recipes, setRecipes] = useState<RecipeSummary[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalResults, setTotalResults] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [query, setQuery] = useState("");
-  const [limit, setLimit] = useState(12);
+  const [filters, setFiltersState] = useState<FiltersType>({
+    difficulty: "any",
+    cuisine: "any",
+    cookTime: "any",
+    sortBy: "newest",
+    limit: 12,
+  });
+
+  const setFilters = (partial: Partial<FiltersType>) => {
+    setFiltersState((prev) => ({ ...prev, ...partial }));
+    setCurrentPage(1);
+  };
 
   useEffect(() => {
     setCurrentPage(1);
@@ -41,7 +57,11 @@ export const RecipesProvider = ({ children }: { children: ReactNode }) => {
 
     const searchParams = new URLSearchParams({
       page: currentPage.toString(),
-      limit: limit.toString(),
+      limit: filters.limit.toString(),
+      difficulty: filters.difficulty,
+      cuisine: filters.cuisine,
+      cookTime: filters.cookTime,
+      sortBy: filters.sortBy,
     });
 
     if (query.trim()) {
@@ -56,6 +76,7 @@ export const RecipesProvider = ({ children }: { children: ReactNode }) => {
       .then((json) => {
         setRecipes(json.recipes);
         setTotalPages(json.totalPages || 1);
+        setTotalResults(json.recipeCount || 1);
         setError(null);
       })
       .catch((err) => {
@@ -63,7 +84,7 @@ export const RecipesProvider = ({ children }: { children: ReactNode }) => {
         setRecipes([]);
       })
       .finally(() => setIsLoading(false));
-  }, [currentPage, limit, query]);
+  }, [currentPage, query, filters]);
 
   return (
     <RecipesContext.Provider
@@ -73,11 +94,12 @@ export const RecipesProvider = ({ children }: { children: ReactNode }) => {
         error,
         currentPage,
         totalPages,
+        totalResults,
         setCurrentPage,
         query,
         setQuery,
-        limit,
-        setLimit,
+        filters,
+        setFilters,
       }}
     >
       {children}
