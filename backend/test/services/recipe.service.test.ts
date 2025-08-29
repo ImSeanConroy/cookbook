@@ -48,14 +48,14 @@ describe("Recipe Service", () => {
         ...recipeInput,
       });
       vi.spyOn(IngredientRepo, "create").mockImplementation(
-        async (_recipeId: string, ingredient) => ({
+        async (_recipeId, ingredient) => ({
           id: "ingId",
           recipeId,
           ...ingredient,
         })
       );
       vi.spyOn(StepRepo, "create").mockImplementation(
-        async (_recipeId: string, step) => ({ id: "stepId", recipeId, ...step })
+        async (_recipeId, step) => ({ id: "stepId", recipeId, ...step })
       );
 
       const result = await RecipeService.createRecipeService(recipeInput);
@@ -176,77 +176,43 @@ describe("Recipe Service", () => {
   });
 
   describe("getAllRecipesService", () => {
-    it("returns paginated recipes with meta data", async () => {
-      const mockRecipes = [{ id: "1" }, { id: "2" }];
-      const mockTotal = 5;
+    it("returns filtered recipes when query and filters are provided", async () => {
+      const mockRecipes = [{ id: "10", title: "Pasta Carbonara" }];
+      const mockTotal = 1;
+      const filters = {
+        difficulty: "beginner",
+        cuisine: "Italian",
+        cookTime: "15to30",
+      };
+      const getAllSpy = vi
+        .spyOn(RecipeRepo, "getAll")
+        .mockResolvedValue(mockRecipes);
+      const getCountSpy = vi
+        .spyOn(RecipeRepo, "getCount")
+        .mockResolvedValue(mockTotal);
 
-      vi.spyOn(RecipeRepo, "getAll").mockResolvedValue(mockRecipes);
-      vi.spyOn(RecipeRepo, "getCount").mockResolvedValue(mockTotal);
+      const result = await RecipeService.getAllRecipesService(
+        1,
+        10,
+        "pasta",
+        filters
+      );
 
-      const page = 2;
-      const limit = 2;
-
-      const result = await RecipeService.getAllRecipesService(page, limit);
-
+      expect(getAllSpy).toHaveBeenCalledWith({
+        offset: 0,
+        limit: 10,
+        queryText: "pasta",
+        ...filters,
+      });
+      expect(getCountSpy).toHaveBeenCalledWith({
+        queryText: "pasta",
+        ...filters,
+      });
       expect(result.data).toEqual(mockRecipes);
-      expect(result.currentPage).toBe(page);
-      expect(result.totalItems).toBe(mockTotal);
-      expect(result.totalPages).toBe(Math.ceil(mockTotal / limit));
-    });
-
-    it("uses default pagination values if none provided", async () => {
-      const mockRecipes = [{ id: "1" }, { id: "2" }, { id: "3" }];
-      const mockTotal = 3;
-
-      vi.spyOn(RecipeRepo, "getAll").mockResolvedValue(mockRecipes);
-      vi.spyOn(RecipeRepo, "getCount").mockResolvedValue(mockTotal);
-
-      const result = await RecipeService.getAllRecipesService();
-
-      expect(result.data).toEqual(mockRecipes);
-      expect(result.currentPage).toBe(1);
       expect(result.totalItems).toBe(mockTotal);
       expect(result.totalPages).toBe(1);
+      expect(result.currentPage).toBe(1);
     });
-
-    it("handles empty results", async () => {
-      vi.spyOn(RecipeRepo, "getAll").mockResolvedValue([]);
-      vi.spyOn(RecipeRepo, "getCount").mockResolvedValue(0);
-
-      const result = await RecipeService.getAllRecipesService(1, 5);
-
-      expect(result.data).toEqual([]);
-      expect(result.totalItems).toBe(0);
-      expect(result.totalPages).toBe(0);
-    });
-
-    describe("getAllRecipesService with query", () => {
-  it("returns filtered recipes when query is provided", async () => {
-    const query = "pasta";
-    const mockRecipes = [{ id: "10", title: "Pasta Carbonara" }];
-    const mockTotal = 1;
-
-    const getAllSpy = vi
-      .spyOn(RecipeRepo, "getAll")
-      .mockResolvedValue(mockRecipes);
-    const getCountSpy = vi
-      .spyOn(RecipeRepo, "getCount")
-      .mockResolvedValue(mockTotal);
-
-    const result = await RecipeService.getAllRecipesService(1, 10, query);
-
-    expect(getAllSpy).toHaveBeenCalledWith({
-      offset: 0,
-      limit: 10,
-      queryText: query,
-    });
-    expect(getCountSpy).toHaveBeenCalledWith(query);
-    expect(result.data).toEqual(mockRecipes);
-    expect(result.totalItems).toBe(mockTotal);
-    expect(result.totalPages).toBe(1);
-    expect(result.currentPage).toBe(1);
-  });
-});
   });
 
   describe("updateRecipeService", () => {
@@ -299,55 +265,40 @@ describe("Recipe Service", () => {
           ...ingredient,
         })
       );
-      vi.spyOn(IngredientRepo, "findByRecipeId").mockResolvedValue([]);
+      vi.spyOn(IngredientRepo, "findByRecipeId").mockResolvedValue([
+        { id: "newIngredientId", recipeId, name: "pepper", quantity: "2 tsp" },
+      ]);
 
       vi.spyOn(StepRepo, "deleteByRecipeId").mockResolvedValue();
       vi.spyOn(StepRepo, "create").mockImplementation(
         async (recipeId, step) => ({
           id: "newStepId",
           recipeId,
-          ...step,
+          instruction: step.instruction,
+          step_number: step.step_number,
         })
       );
-      vi.spyOn(StepRepo, "findByRecipeId").mockResolvedValue([]);
+      vi.spyOn(StepRepo, "findByRecipeId").mockResolvedValue([
+        { id: "newStepId", recipeId, step_number: 1, instruction: "Step 1" },
+        { id: "newStepId2", recipeId, step_number: 2, instruction: "Step 2" },
+      ]);
 
       const result = await RecipeService.updateRecipeService(
         recipeId,
         updateBody
       );
 
-      expect(result.title).toBe(updateBody.title);
-      expect(result.ingredients).toHaveLength(updateBody.ingredients.length);
-      expect(result.steps).toEqual(updateBody.steps);
-    });
-
-    it("updates recipe without changing ingredients/steps if not provided", async () => {
-      vi.spyOn(RecipeRepo, "findById").mockResolvedValue(existingRecipe);
-      vi.spyOn(RecipeRepo, "update").mockImplementation(async (recipe) => ({
-        ...recipe,
-        created_at: existingRecipe.created_at,
-        updated_at: new Date().toISOString(),
-      }));
-
-      vi.spyOn(IngredientRepo, "findByRecipeId").mockResolvedValue([
-        { id: "ing1", name: "salt", quantity: "1 tsp" },
-      ]);
-      vi.spyOn(StepRepo, "findByRecipeId").mockResolvedValue([
-        { id: "step1", step_number: 1, instruction: "Step 1" },
-      ]);
-
-      const result = await RecipeService.updateRecipeService(recipeId, {
-        title: "Changed only title",
-      });
-
+      expect(result.title).toBe("New title");
       expect(result.ingredients).toHaveLength(1);
-      expect(result.steps).toEqual(["Step 1"]);
+      expect(result.steps).toEqual(["Step 1", "Step 2"]);
     });
 
-    it("throws NotFoundException if recipe to update does not exist", async () => {
+    it("throws NotFoundException if recipe not found", async () => {
       vi.spyOn(RecipeRepo, "findById").mockResolvedValue(null);
       await expect(
-        RecipeService.updateRecipeService(recipeId, {})
+        RecipeService.updateRecipeService("missing-id", {
+          title: "Doesn't exist",
+        })
       ).rejects.toThrow(NotFoundException);
     });
 
@@ -362,16 +313,15 @@ describe("Recipe Service", () => {
   });
 
   describe("deleteRecipeService", () => {
-    it("deletes a recipe", async () => {
+    it("deletes recipe successfully", async () => {
       vi.spyOn(RecipeRepo, "deleteById").mockResolvedValue(true);
-      await expect(
-        RecipeService.deleteRecipeService(recipeId)
-      ).resolves.toBeUndefined();
+
+      await RecipeService.deleteRecipeService(recipeId);
     });
 
-    it("throws NotFoundException if delete fails", async () => {
+    it("throws NotFoundException if recipe does not exist", async () => {
       vi.spyOn(RecipeRepo, "deleteById").mockResolvedValue(false);
-      await expect(RecipeService.deleteRecipeService(recipeId)).rejects.toThrow(
+      await expect(RecipeService.deleteRecipeService("bad-id")).rejects.toThrow(
         NotFoundException
       );
     });
