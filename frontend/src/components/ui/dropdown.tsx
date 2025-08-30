@@ -10,12 +10,14 @@ interface CustomDropdownProps {
   options: DropdownOption[];
   onSelect: (option: DropdownOption) => void;
   defaultValue?: string;
+  value?: string | number;
 }
 
 const CustomDropdown: React.FC<CustomDropdownProps> = ({
   options,
   onSelect,
   defaultValue,
+  value,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selected, setSelected] = useState<DropdownOption | null>(null);
@@ -27,7 +29,18 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
     setIsOpen(false);
   };
 
-  // Close dropdown if clicked outside
+  useEffect(() => {
+    if (value) {
+      const found = options.find((opt) => opt.value === value);
+      setSelected(found || null);
+    } else if (defaultValue) {
+      const found = options.find((opt) => opt.value === defaultValue);
+      setSelected(found || null);
+    } else {
+      setSelected(null);
+    }
+  }, [value, defaultValue, options]);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -48,7 +61,8 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
         onClick={() => setIsOpen((prev) => !prev)}
         className="w-full bg-zinc-800 hover:bg-zinc-600 dark:hover:bg-zinc-700 text-white rounded-lg px-4 py-3 text-left text-sm cursor-pointer focus:outline-none flex flex-row justify-between items-center"
       >
-        <p>{selected ? selected.label : defaultValue}</p> <IoChevronDown />
+        <p>{selected ? selected.label : "Select..."}</p>
+        <IoChevronDown />
       </button>
 
       {isOpen && (

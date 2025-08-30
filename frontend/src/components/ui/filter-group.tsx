@@ -20,6 +20,7 @@ const FilterGroup = ({ filters }: { filters: FilterProps[] }) => {
         options={options}
         onSelect={(option) => handleSelect(name, option)}
         defaultValue={defaultValue}
+        value={currentFilters[name]}
       />
     </div>
   ));

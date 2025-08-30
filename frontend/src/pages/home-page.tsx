@@ -2,14 +2,12 @@ import Button from "@/components/ui/button";
 import RecipeGrid from "@/components/ui/recipe-grid";
 import RecipeHeader from "@/components/ui/recipe-header";
 import Searchbar from "@/components/ui/searchbar";
-import { recipeFilters, sortOptions } from "@/constants/filters";
-import FilterGroup from "@/components/ui/filter-group";
 import PageNumbers from "@/components/ui/page-number";
 import { useRecipesContext } from "@/components/recipe-context";
-import FilterResetButton from "@/components/ui/filter-reset-button";
 
 import { IoChevronBackOutline, IoChevronForwardOutline } from "react-icons/io5";
 import { InfoMessage } from "@/components/ui/info-message";
+import FilterSection from "@/components/ui/filter-section";
 
 const HomePage = () => {
   const {
@@ -35,13 +33,7 @@ const HomePage = () => {
         <Searchbar />
       </RecipeHeader>
 
-      <div className="p-5 bg-zinc-100 dark:bg-zinc-900 rounded-2xl grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-        <FilterGroup filters={recipeFilters} />
-        <div className="hidden xl:flex flex-row justify-end">
-          <FilterResetButton />
-        </div>
-        <FilterGroup filters={sortOptions} />
-      </div>
+      <FilterSection />
 
       {isLoading && (
         <InfoMessage
@@ -72,7 +64,7 @@ const HomePage = () => {
         <div className="bg-zinc-900 dark:bg-zinc-800 rounded-xl hidden md:block">
           <p className="text-white text-sm p-3 px-5">
             Page <span className="font-semibold">{currentPage}</span> of{" "}
-            <span className="font-semibold">{totalPages}</span> 
+            <span className="font-semibold">{totalPages}</span>
             <span className="font-semibold pl-8">{totalResults}</span> Results
           </p>
         </div>
