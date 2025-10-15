@@ -1,5 +1,6 @@
-import { getRandomImageUrl } from "@/lib/images";
 import { Link } from "react-router-dom";
+
+import { getRandomImageUrl } from "@/lib/images";
 
 interface RecipeCardProps {
   id: string;

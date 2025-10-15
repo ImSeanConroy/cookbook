@@ -1,6 +1,7 @@
-import React from "react";
 import { IoSunnyOutline, IoMoonOutline } from "react-icons/io5";
-import { useTheme } from "../theme-provider";
+import React from "react";
+
+import { useTheme } from "@/components/theme-provider";
 
 const ThemeToggle: React.FC = () => {
   const { theme, setTheme } = useTheme();

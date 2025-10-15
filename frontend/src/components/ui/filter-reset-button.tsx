@@ -1,5 +1,6 @@
-import { useRecipesContext } from "../recipe-context";
 import { IoCloseCircleOutline } from "react-icons/io5";
+
+import { useRecipesContext } from "@/components/recipe-context";
 
 const FilterResetButton = () => {
   const { query, filters, setFilters, setQuery, setCurrentPage } = useRecipesContext();

@@ -1,4 +1,4 @@
-import RecipeCard from "./recipe-card";
+import RecipeCard from "@/components/ui/recipe-card";
 
 interface RecipeGridProps {
   id: string;

@@ -1,7 +1,7 @@
 
-import { recipeFilters, sortOptions } from "@/constants/filters";
 import FilterGroup from "@/components/ui/filter-group";
 import FilterResetButton from "@/components/ui/filter-reset-button";
+import { recipeFilters, sortOptions } from "@/constants/filters";
 
 import { useState } from "react";
 

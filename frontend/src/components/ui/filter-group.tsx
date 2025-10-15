@@ -1,5 +1,5 @@
 import CustomDropdown, { type DropdownOption } from "@/components/ui/dropdown";
-import { useRecipesContext } from "../recipe-context";
+import { useRecipesContext } from "@/components/recipe-context";
 import type { FilterProps } from "@/types/filter";
 
 const FilterGroup = ({ filters }: { filters: FilterProps[] }) => {

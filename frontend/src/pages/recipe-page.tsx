@@ -1,19 +1,19 @@
+import { Navigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 
-import RecipeHeader from "@/components/ui/recipe-header";
-import RecipeInfoBar from "@/components/ui/recipe-info-bar";
+import CallToAction from "@/components/navigation/call-to-action";
 import IngredientsList from "@/components/ui/Ingredients-list";
+import InfoMessage from "@/components/ui/info-message";
 import InstructionSteps from "@/components/ui/instruction-steps";
+import NutritionalList from "@/components/ui/nutritional-list";
 import RecipeCard from "@/components/ui/recipe-card";
-
+import RecipeHeader from "@/components/ui/recipe-header";
+import RecipeImage from "@/components/ui/recipe-image";
+import RecipeInfoBar from "@/components/ui/recipe-info-bar";
+import UtensilsList from "@/components/ui/utentils-list";
 import type { Recipe, RecipeSummary } from "@/types/recipe";
 import { config } from "@/config";
 import { getRandomImageUrl } from "@/lib/images";
-import RecipeImage from "@/components/ui/recipe-image";
-import UtensilsList from "@/components/ui/utentils-list";
-import NutritionalList from "@/components/ui/nutritional-list";
-import { InfoMessage } from "@/components/ui/info-message";
 
 const RecipePage = () => {
   const { id } = useParams<{ id: string }>();
@@ -21,6 +21,10 @@ const RecipePage = () => {
   const [relatedRecipes, setRelatedRecipes] = useState<RecipeSummary[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [id]);
 
   useEffect(() => {
     if (!id) return;
@@ -69,7 +73,8 @@ const RecipePage = () => {
   if (isLoading) {
     return (
       <InfoMessage
-        title="Loading Recipes, Please Wait..."
+        hightedTitle="Loading"
+        title="Recipes, Please Wait..."
         message="Fetching the latest recipes for you."
       />
     );
@@ -78,11 +83,15 @@ const RecipePage = () => {
   if (error || !data) {
     return (
       <InfoMessage
-        title="Oops! Something went wrong while fetching recipes."
-        message={error || "Please try again later."}
+        hightedTitle="Oops!"
+        title="Something went wrong while fetching recipes."
+        message="Please try again later."
+        buttonVisible={true}
       />
     );
   }
+
+  if (error || !data) return <Navigate to="/404" replace />;
 
   const words = data.title.trim().split(" ");
   const highlightIndex = words.length >= 2 ? words.length - 2 : -1;
@@ -174,6 +183,9 @@ const RecipePage = () => {
           )}
         </div>
       </div>
+
+      {/* Call to Action */}
+      <CallToAction />
     </div>
   );
 };

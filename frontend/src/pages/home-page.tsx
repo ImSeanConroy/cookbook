@@ -1,13 +1,16 @@
+import { IoChevronBackOutline, IoChevronForwardOutline } from "react-icons/io5";
+import { useRef, useEffect } from "react";
+
 import Button from "@/components/ui/button";
+import CallToAction from "@/components/navigation/call-to-action";
+import FilterSection from "@/components/ui/filter-section";
+import InfoMessage from "@/components/ui/info-message";
+import PageNumbers from "@/components/ui/page-number";
+import Searchbar from "@/components/ui/searchbar";
 import RecipeGrid from "@/components/ui/recipe-grid";
 import RecipeHeader from "@/components/ui/recipe-header";
-import Searchbar from "@/components/ui/searchbar";
-import PageNumbers from "@/components/ui/page-number";
 import { useRecipesContext } from "@/components/recipe-context";
 
-import { IoChevronBackOutline, IoChevronForwardOutline } from "react-icons/io5";
-import { InfoMessage } from "@/components/ui/info-message";
-import FilterSection from "@/components/ui/filter-section";
 
 const HomePage = () => {
   const {
@@ -19,6 +22,14 @@ const HomePage = () => {
     setCurrentPage,
     totalResults,
   } = useRecipesContext();
+
+  const recipesRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (recipesRef.current) {
+      window.scrollTo({ top: 525, behavior: "instant" });
+    }
+  }, [currentPage]);
 
   const handlePageClick = (page: number) => {
     if (page !== currentPage) setCurrentPage(page);
@@ -37,27 +48,32 @@ const HomePage = () => {
 
       {isLoading && (
         <InfoMessage
-          title="Loading Recipes, Please Wait..."
+          hightedTitle="Loading"
+          title="Recipes, Please Wait..."
           message="Fetching the latest recipes for you."
         />
       )}
 
       {error && (
         <InfoMessage
-          title="Oops! Something went wrong while fetching recipes."
-          message={error || "Please try again later."}
+          hightedTitle="Oops!"
+          title="Something went wrong while fetching recipes."
+          message="Please try again later."
         />
       )}
 
       {!isLoading && !error && recipes.length === 0 && (
         <InfoMessage
-          title="No recipes found."
+          hightedTitle="No"
+          title="recipes found."
           message="Try adjusting your search or filters to discover new recipes."
         />
       )}
 
       {!isLoading && !error && recipes.length > 0 && (
-        <RecipeGrid recipes={recipes} />
+        <div ref={recipesRef}>
+          <RecipeGrid recipes={recipes} />
+        </div>
       )}
 
       <div className="p-5 bg-zinc-100 dark:bg-zinc-900 rounded-2xl flex flex-col md:flex-row gap-5 items-center md:justify-between">
@@ -91,6 +107,9 @@ const HomePage = () => {
           </Button>
         </div>
       </div>
+
+      {/* Call to Action */}
+      <CallToAction />
     </div>
   );
 };

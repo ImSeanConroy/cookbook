@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
 import { IoIosSearch } from "react-icons/io";
-import { useRecipesContext } from "../recipe-context";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { useRecipesContext } from "@/components/recipe-context";
 
 const Searchbar = ({ redirect }: { redirect?: string }) => {
   const { query, setQuery } = useRecipesContext();

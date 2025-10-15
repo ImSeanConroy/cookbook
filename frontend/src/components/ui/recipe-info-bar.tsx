@@ -1,5 +1,5 @@
+import RecipeInfoCard from "@/components/ui/recipe-info-card";
 import type { Recipe } from "@/types/recipe";
-import RecipeInfoCard from "./recipe-info-card";
 
 import {
   IoEarthOutline,

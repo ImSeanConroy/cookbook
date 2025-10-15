@@ -5,7 +5,10 @@ const Footer = () => {
     <div className="flex flex-col gap-10 pb-20">
       <div className="px-8 py-4 bg-zinc-900 rounded-2xl flex flex-col justify-center">
         <div className="flex flex-col sm:flex-row justify-between sm:items-center">
-          <Link to="/" className="font-semibold text-3xl py-3 sm:py-5 text-white">
+          <Link
+            to="/"
+            className="font-semibold text-3xl py-3 sm:py-5 text-white"
+          >
             Cook<span className="text-lime-500">book</span>
           </Link>
 
@@ -30,7 +33,7 @@ const Footer = () => {
               Cookies
             </a> */}
             <a
-              href="/contact"
+              href="mailto:cookbook@imseanconroy.co.uk?subject=Cookbook%20-%20Support%20Request"
               className="lg:px-3 text-md text-white hover:underline"
             >
               Contact
