@@ -59,7 +59,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className="w-full bg-zinc-800 hover:bg-zinc-600 dark:hover:bg-zinc-700 text-white rounded-lg px-4 py-3 text-left text-sm cursor-pointer focus:outline-none flex flex-row justify-between items-center"
+        className="w-full bg-zinc-800 hover:bg-zinc-600 dark:hover:bg-zinc-700 text-white rounded-lg px-3.5 py-2.5 text-left text-sm cursor-pointer focus:outline-none flex flex-row justify-between items-center"
       >
         <p>{selected ? selected.label : "Select..."}</p>
         <IoChevronDown />

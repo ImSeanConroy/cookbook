@@ -14,8 +14,9 @@ const FilterSection = () => {
 
   return (
     <>
-      <div className="p-5 bg-zinc-100 dark:bg-zinc-900 rounded-2xl hidden md:grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+      <div className="p-4 bg-zinc-100 dark:bg-zinc-900 rounded-2xl hidden md:grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-7 gap-4">
         <FilterGroup filters={recipeFilters} />
+        <div className="hidden xl:flex"></div>
         <div className="hidden xl:flex flex-row justify-end">
           <FilterResetButton />
         </div>
@@ -25,7 +26,7 @@ const FilterSection = () => {
         </div>
       </div>
 
-      <div className="md:hidden p-5 bg-zinc-100 dark:bg-zinc-900 rounded-2xl">
+      <div className="md:hidden p-4 bg-zinc-100 dark:bg-zinc-900 rounded-2xl">
         <div className="flex flex-row gap-2">
           <button
             onClick={toggleFilters}

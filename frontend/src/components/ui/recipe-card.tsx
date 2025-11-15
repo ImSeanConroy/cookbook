@@ -19,9 +19,9 @@ const RecipeCard = ({ id, title, subtitle, imageUrl, difficulty, cuisine, time }
       // src={imageUrl}
       src={imageUrl != "" ? imageUrl : getRandomImageUrl()}
       alt={title}
-      className="rounded-t-2xl w-full h-[200px] md:h-[250px] lg:h-[250px] object-cover"
+      className="rounded-t-2xl w-full h-[200px] md:h-[250px] lg:h-[220px] object-cover"
     />
-    <div className="p-4 px-5 dark:text-white">
+    <div className="p-4 pt-3 dark:text-white">
       <h2 className="text-xl font-semibold truncate">{title}</h2>
       <p className="truncate dark:text-zinc-400">{subtitle}</p>
       <div className="pt-3 text-sm flex flex-row divide-x divide-zinc-500 text-zinc-500">

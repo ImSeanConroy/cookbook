@@ -15,8 +15,8 @@ const RecipeHeader = ({ children, position = "center" }: Props) => {
       )}
       style={{ backgroundImage: "url('/img/cover.jpg')" }}
     >
-      <div className="bg-white dark:bg-zinc-800 bg-opacity-90 p-6 rounded-xl w-full lg:w-1/2">
-        <p className="text-zinc-500 dark:text-zinc-400">Let’s Cook</p>
+      <div className="bg-white dark:bg-zinc-800 bg-opacity-90 px-5 py-5 rounded-xl w-full lg:w-2/5">
+        <p className="text-zinc-500 dark:text-zinc-400 text-sm">Let’s Cook</p>
         {children}
       </div>
     </header>

@@ -97,11 +97,11 @@ const RecipePage = () => {
   const highlightIndex = words.length >= 2 ? words.length - 2 : -1;
 
   return (
-    <div className="flex flex-col gap-12">
+    <div className="mx-auto flex flex-col gap-7">
       {/* Header and Info */}
       <div className="flex flex-col gap-6">
         <RecipeHeader position="bottom">
-          <h1 className="text-4xl sm:text-5xl font-semibold dark:text-white pb-2">
+          <h1 className="text-4xl sm:text-4xl font-semibold dark:text-white pb-2">
             {words.map((word, index) => (
               <span
                 key={index}
@@ -111,17 +111,17 @@ const RecipePage = () => {
               </span>
             ))}
           </h1>
-          <p className="text-2xl font-normal text-zinc-700 dark:text-white">
+          <p className="text-xl font-normal text-zinc-700 dark:text-white">
             {data.subtitle}
           </p>
         </RecipeHeader>
-        <RecipeInfoBar data={data} />
       </div>
 
       {/* Main Content */}
-      <div className="flex flex-col lg:flex-row gap-8">
+      <div className="flex flex-col lg:flex-row gap-7">
         {/* Left Section */}
         <div className="lg:w-7/10 w-full flex flex-col gap-10">
+        <RecipeInfoBar data={data} />
           <p className="text-zinc-700 dark:text-zinc-400 leading-6.5 pb-10 md:pb-12">
             {data.description}
           </p>
@@ -154,7 +154,7 @@ const RecipePage = () => {
 
       {/* Related Recipes */}
       <div>
-        <h2 className="text-4xl mb-5 font-semibold dark:text-white">
+        <h2 className="text-2xl mb-5 font-semibold dark:text-white">
           Related <span className="text-lime-500">Recipes</span>
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

@@ -13,7 +13,7 @@ const FilterGroup = ({ filters }: { filters: FilterProps[] }) => {
 
   return filters.map(({ label, name, options, defaultValue }) => (
     <div key={name} className="flex flex-col gap-1 dark:text-zinc-500">
-      <label htmlFor={name} className="text-sm font-medium">
+      <label htmlFor={name} className="text-xs font-medium">
         {label}:
       </label>
       <CustomDropdown

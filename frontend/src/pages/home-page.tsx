@@ -38,7 +38,7 @@ const HomePage = () => {
   return (
     <div className="flex flex-col gap-6">
       <RecipeHeader>
-        <h1 className="text-4xl sm:text-5xl font-semibold pb-5 dark:text-white">
+        <h1 className="text-3xl sm:text-4xl font-semibold pb-3 dark:text-white">
           All your <span className="text-lime-500">recipes</span> in one place
         </h1>
         <Searchbar />
@@ -76,16 +76,16 @@ const HomePage = () => {
         </div>
       )}
 
-      <div className="p-5 bg-zinc-100 dark:bg-zinc-900 rounded-2xl flex flex-col md:flex-row gap-5 items-center md:justify-between">
-        <div className="bg-zinc-900 dark:bg-zinc-800 rounded-xl hidden md:block">
-          <p className="text-white text-sm p-3 px-5">
+      <div className="p-4 bg-zinc-100 dark:bg-zinc-900 rounded-2xl flex flex-col md:flex-row gap-5 items-center md:justify-between">
+        <div className="bg-zinc-900 dark:bg-zinc-800 rounded-lg hidden md:block">
+          <p className="text-white text-sm py-3 px-4">
             Page <span className="font-semibold">{currentPage}</span> of{" "}
             <span className="font-semibold">{totalPages}</span>
             <span className="font-semibold pl-8">{totalResults}</span> Results
           </p>
         </div>
 
-        <div className="flex flex-row items-center gap-3">
+        <div className="flex flex-row items-center text-sm gap-3">
           <Button
             onClick={() => setCurrentPage(currentPage - 1)}
             disabled={currentPage === 1}

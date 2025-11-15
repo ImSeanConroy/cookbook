@@ -2,7 +2,6 @@ import RecipeInfoCard from "@/components/ui/recipe-info-card";
 import type { Recipe } from "@/types/recipe";
 
 import {
-  IoEarthOutline,
   IoPersonOutline,
   IoTimeOutline,
   IoFastFoodOutline,
@@ -10,12 +9,7 @@ import {
 } from "react-icons/io5";
 
 const RecipeInfoBar = ({ data }: { data: Recipe }) => (
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-6 bg-zinc-100 dark:bg-zinc-900 dark:text-white p-6 rounded-2xl">
-    <RecipeInfoCard
-      icon={<IoEarthOutline />}
-      label="Cuisine"
-      value={data.cuisine}
-    />
+  <div className="grid grid-cols-2 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 bg-zinc-100 dark:bg-zinc-900 dark:text-white p-4 rounded-2xl">
     <RecipeInfoCard
       icon={<IoPersonOutline />}
       label="Servings"
