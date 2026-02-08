@@ -1,27 +1,39 @@
-import { IoSunnyOutline, IoMoonOutline } from "react-icons/io5";
-import React from "react";
+import { Moon, Sun } from "lucide-react"
 
-import { useTheme } from "@/components/theme-provider";
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { useTheme } from "@/components/theme-provider"
 
-const ThemeToggle: React.FC = () => {
-  const { theme, setTheme } = useTheme();
-
-  const handleToggler = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
-  };
+const ThemeToggle = () => {
+  const { setTheme } = useTheme()
 
   return (
-    <button
-      onClick={handleToggler}
-      className="px-2.5 py-2 rounded-lg cursor-pointer text-sm disabled:opacity-50 bg-zinc-800 hover:bg-zinc-700 dark:bg-zinc-900 text-white"
-    >
-      {theme == "light" ? (
-        <IoMoonOutline className="text-white text-xl" />
-      ) : (
-        <IoSunnyOutline className="text-white text-xl" />
-      )}
-    </button>
-  );
-};
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="icon">
+          <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+          <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+          <span className="sr-only">Toggle theme</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={() => setTheme("light")}>
+          Light
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("dark")}>
+          Dark
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("system")}>
+          System
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
 
-export default ThemeToggle;
+export default ThemeToggle
