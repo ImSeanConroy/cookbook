@@ -75,19 +75,16 @@ export const getRecipeByIdService = async (recipeId: string): Promise<Recipe> =>
 };
 
 /**
- * Retrieves all recipes with optional filters, sorting, and pagination.
+ * Retrieves all recipes with pagination.
  *
  * @param page - Page number (default 1)
  * @param limit - Number of results per page (default 12)
- * @param query - Optional search text
- * @param filters - Optional filters: difficulty, cuisine, cookTime, sortBy
+
  * @returns Paginated recipes with metadata
  */
 export const getAllRecipesService = async (
   page = 1,
   limit = 12,
-  query?: string,
-  filters?: { difficulty?: string; cuisine?: string; cookTime?: string; sortBy?: string }
 ) => {
   const offset = (page - 1) * limit;
 
@@ -95,18 +92,8 @@ export const getAllRecipesService = async (
     RecipeRepo.getAll({
       offset,
       limit,
-      queryText: query,
-      difficulty: filters?.difficulty,
-      cuisine: filters?.cuisine,
-      cookTime: filters?.cookTime,
-      sortBy: filters?.sortBy,
     }),
-    RecipeRepo.getCount({
-      queryText: query,
-      difficulty: filters?.difficulty,
-      cuisine: filters?.cuisine,
-      cookTime: filters?.cookTime,
-    }),
+    RecipeRepo.getCount(),
   ]);
 
   return {

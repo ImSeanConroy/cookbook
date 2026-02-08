@@ -49,15 +49,12 @@ export const updateRecipeController = asyncHandler(
 );
 
 /**
- * Controller to fetch all recipes with optional filters, pagination, and sorting.
+ * Controller to fetch all recipes with pagination.
  */
 export const getAllRecipesController = asyncHandler(
   async (req: Request, res: Response) => {
-    const { page, limit, query, difficulty, cuisine, cookTime, sortBy } =
-      getAllRecipesQuerySchema.parse(req.query);
-    const filters = { difficulty, cuisine, cookTime, sortBy };
-
-    const result = await getAllRecipesService(page, limit, query, filters);
+    const { page, limit } = getAllRecipesQuerySchema.parse(req.query);
+    const result = await getAllRecipesService(page, limit);
 
     return res.status(HTTPSTATUS.OK).json({
       message: "All recipes fetched successfully",

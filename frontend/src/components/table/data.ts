@@ -3,51 +3,52 @@ import {
   Clock,
   ChefHat,
   Leaf,
-  Utensils,
-  Timer,
+  Wheat,
+  Candy,
+  Sandwich,
+  Pizza,
+  Croissant,
+  Apple,
+  Zap,
+  Fish,
 } from "lucide-react"
 
-
 export const cuisines = [
-  { value: "italian", label: "Italian", icon: Utensils },
-  { value: "mexican", label: "Mexican", icon: Utensils },
-  { value: "indian", label: "Indian", icon: Utensils },
-  { value: "chinese", label: "Chinese", icon: Utensils },
-  { value: "american", label: "American", icon: Utensils },
-  { value: "mediterranean", label: "Mediterranean", icon: Utensils },
-  { value: "japanese", label: "Japanese", icon: Utensils },
-  { value: "thai", label: "Thai", icon: Utensils },
-  { value: "greek", label: "Greek", icon: Utensils },
-  { value: "french", label: "French", icon: Utensils },
+  { value: "Italian", label: "Italian" },
+  { value: "Mexican", label: "Mexican" },
+  { value: "Indian", label: "Indian" },
+  { value: "Chinese", label: "Chinese" },
+  { value: "American", label: "American" },
+  { value: "Mediterranean", label: "Mediterranean" },
+  { value: "Japanese", label: "Japanese" },
+  { value: "Thai", label: "Thai" },
+  { value: "Greek", label: "Greek" },
+  { value: "French", label: "French" },
 ]
 
-// ⏱️ Cook Time
-export const cookTimes = [
-  { value: "quick", label: "Under 15 min", icon: Timer },
-  { value: "medium", label: "15–30 min", icon: Clock },
-  { value: "long", label: "30+ min", icon: Clock },
-]
+export const totalTime = [
+  { value: "UNDER_15", label: "Under 15 min", icon: Clock },
+  { value: "BETWEEN_15_AND_30", label: "15–30 min", icon: Clock },
+  { value: "OVER_30", label: "30+ min", icon: Clock },
+];
 
-// 🔥 Difficulty
 export const difficulties = [
-  { value: "easy", label: "Easy", icon: Leaf },
-  { value: "medium", label: "Medium", icon: ChefHat },
-  { value: "hard", label: "Hard", icon: Flame },
+  { value: "beginner", label: "Beginner", icon: Leaf },
+  { value: "intermediate", label: "Intermedate", icon: ChefHat },
+  { value: "advanced", label: "Advanced", icon: Flame },
 ]
 
-// 🍽️ Meal Type
 export const mealTypes = [
-  { value: "breakfast", label: "Breakfast", icon: Utensils },
-  { value: "lunch", label: "Lunch", icon: Utensils },
-  { value: "dinner", label: "Dinner", icon: Utensils },
-  { value: "snack", label: "Snack", icon: Utensils },
-  { value: "dessert", label: "Dessert", icon: Utensils },
+  { value: "breakfast", label: "Breakfast", icon: Croissant },
+  { value: "lunch", label: "Lunch", icon: Sandwich },
+  { value: "dinner", label: "Dinner", icon: Pizza },
+  { value: "snack", label: "Snack", icon: Apple },
+  { value: "dessert", label: "Dessert", icon: Candy },
 ]
 
-// 🌱 Dietary Preferences
 export const dietaryPreferences = [
-  { value: "vegetarian", label: "Vegetarian", icon: Leaf },
+  { value: "vegetarian", label: "Vegetarian", icon: Fish },
   { value: "vegan", label: "Vegan", icon: Leaf },
-  { value: "gluten-free", label: "Gluten Free", icon: Leaf },
-  { value: "keto", label: "Keto", icon: Leaf },
+  { value: "gluten-free", label: "Gluten Free", icon: Wheat },
+  { value: "keto", label: "Keto", icon: Zap },
 ]

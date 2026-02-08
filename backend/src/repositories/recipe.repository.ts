@@ -44,7 +44,7 @@ export const create = async (
       data.fiber,
       data.saturated_fat,
       data.sodium,
-    ]
+    ],
   );
   return toCamelCase(res.rows)[0];
 };
@@ -63,148 +63,30 @@ export const findById = async (id: string): Promise<Recipe | null> => {
 /**
  * Returns the count of recipes, optionally filtered.
  *
- * @param filters - Optional filters: queryText, difficulty, cuisine, cookTime
  * @returns The total number of matching recipes
  */
-export const getCount = async ({
-  queryText,
-  difficulty,
-  cuisine,
-  cookTime,
-}: {
-  queryText?: string;
-  difficulty?: string;
-  cuisine?: string;
-  cookTime?: string;
-}): Promise<number> => {
-  let baseQuery = "SELECT COUNT(*) FROM recipes";
-  const values: any[] = [];
-  const whereClauses: string[] = [];
-
-  if (queryText) {
-    values.push(`%${queryText}%`);
-    whereClauses.push(`title ILIKE $${values.length}`);
-  }
-
-  if (difficulty && difficulty !== "any") {
-    values.push(difficulty);
-    whereClauses.push(`difficulty = $${values.length}`);
-  }
-
-  if (cuisine && cuisine !== "any") {
-    values.push(cuisine);
-    whereClauses.push(`cuisine = $${values.length}`);
-  }
-
-  if (cookTime && cookTime !== "any") {
-    switch (cookTime) {
-      case "under15":
-        whereClauses.push(`cook_time < 15`);
-        break;
-      case "15to30":
-        whereClauses.push(`cook_time BETWEEN 15 AND 30`);
-        break;
-      case "30to60":
-        whereClauses.push(`cook_time BETWEEN 30 AND 60`);
-        break;
-      case "over60":
-        whereClauses.push(`cook_time > 60`);
-        break;
-    }
-  }
-
-  if (whereClauses.length > 0) {
-    baseQuery += " WHERE " + whereClauses.join(" AND ");
-  }
-
-  const res = await query(baseQuery, values);
+export const getCount = async (): Promise<number> => {
+  const res = await query("SELECT COUNT(*) FROM recipes");
   return parseInt(res.rows[0].count, 10);
 };
 
 /**
- * Retrieves all recipes with optional filters, sorting, and pagination.
+ * Retrieves all recipes with pagination.
  *
- * @param params - Filters, sort option, limit, and offset
+ * @param params - limit, and offset
  * @returns Array of recipe objects
  */
 export const getAll = async ({
   offset = 0,
   limit = 10,
-  queryText,
-  difficulty,
-  cuisine,
-  cookTime,
-  sortBy = "newest",
 }: {
   offset?: number;
   limit?: number;
-  queryText?: string;
-  difficulty?: string;
-  cuisine?: string;
-  cookTime?: string;
-  sortBy?: string;
 }): Promise<Recipe[]> => {
-  const values: any[] = [];
-  let baseQuery = `
-    SELECT id, title, subtitle, prep_time, cook_time, servings, difficulty, cuisine, card_image_url, created_at, updated_at 
-    FROM recipes
-  `;
-
-  const whereClauses: string[] = [];
-
-  if (queryText) {
-    values.push(`%${queryText}%`);
-    whereClauses.push(`title ILIKE $${values.length}`);
-  }
-
-  if (difficulty && difficulty !== "any") {
-    values.push(difficulty);
-    whereClauses.push(`difficulty = $${values.length}`);
-  }
-
-  if (cuisine && cuisine !== "any") {
-    values.push(cuisine);
-    whereClauses.push(`cuisine = $${values.length}`);
-  }
-
-  if (cookTime && cookTime !== "any") {
-    switch (cookTime) {
-      case "under15":
-        whereClauses.push(`cook_time < 15`);
-        break;
-      case "15to30":
-        whereClauses.push(`cook_time BETWEEN 15 AND 30`);
-        break;
-      case "30to60":
-        whereClauses.push(`cook_time BETWEEN 30 AND 60`);
-        break;
-      case "over60":
-        whereClauses.push(`cook_time > 60`);
-        break;
-    }
-  }
-
-  if (whereClauses.length > 0) {
-    baseQuery += " WHERE " + whereClauses.join(" AND ");
-  }
-
-  let orderClause = "ORDER BY created_at DESC";
-  switch (sortBy) {
-    case "oldest":
-      orderClause = "ORDER BY created_at ASC";
-      break;
-    case "az":
-      orderClause = "ORDER BY title ASC";
-      break;
-    case "za":
-      orderClause = "ORDER BY title DESC";
-      break;
-  }
-
-  values.push(limit, offset);
-  baseQuery += ` ${orderClause} LIMIT $${values.length - 1} OFFSET $${values.length}`;
-
-  const res = await query(baseQuery, values);
+  const res = await query(
+    "SELECT id, title, subtitle, prep_time, cook_time, servings, difficulty, cuisine, card_image_url, created_at, updated_at FROM recipes LIMIT $1 OFFSET $2;",
+    [limit, offset],
+  );
   return toCamelCase(res.rows);
 };
 
@@ -215,7 +97,7 @@ export const getAll = async ({
  * @returns The updated recipe object or null if not found
  */
 export const update = async (
-  data: Partial<Omit<Recipe, "created_at" | "updated_at">>
+  data: Partial<Omit<Recipe, "created_at" | "updated_at">>,
 ): Promise<Recipe | null> => {
   const fields = [];
   const values = [];
@@ -231,7 +113,7 @@ export const update = async (
   values.push(data.id);
   const res = await query(
     `UPDATE recipes SET ${fields.join(", ")} WHERE id = $${i} RETURNING *;`,
-    values
+    values,
   );
 
   return toCamelCase(res.rows)[0] || null;

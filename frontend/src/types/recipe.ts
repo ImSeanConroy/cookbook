@@ -39,8 +39,10 @@ export interface RecipeSummary {
   prepTime: number;
   cookTime: number;
   servings: number;
-  difficulty: string;
   cuisine: string;
+  difficulty: "beginner" | "intermedate" | "advanced";
+  mealType: "breakfast" | "lunch" | "dinner" | "snack" | "dessert";
+  dietaryPreference: "vegetarian" | "vegan" | "gluten-free" | "keto";
   cardImageUrl: string;
   createdAt: string;
   updatedAt: string;

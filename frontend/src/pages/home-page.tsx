@@ -1,11 +1,12 @@
-
 import { DataTable } from "@/components/table/data-table";
 import { columns } from "@/components/table/columns";
-import { tasks } from "@/components/table/tasks";
+import { useRecipesContext } from "@/components/recipe-context";
 
 const HomePage = () => {
+  const { recipes } = useRecipesContext()
+
   return (
-    <DataTable data={tasks} columns={columns} />
+    <DataTable data={recipes} columns={columns} />
   );
 };
 

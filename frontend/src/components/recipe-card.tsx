@@ -1,16 +1,14 @@
+import { LucideActivity, LucideClock, LucideFlame } from "lucide-react";
+
 import {
   Card,
-  CardAction,
-  CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { getRandomImageUrl } from "@/lib/images";
 import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
-import { LucideClock, LucideFlame } from "lucide-react";
+
+import { getRandomImageUrl } from "@/lib/images";
 
 interface RecipeCardProps {
   id: string;
@@ -31,34 +29,37 @@ const RecipeCard = ({
   difficulty,
   cuisine,
   cookTime,
+  prepTime,
 }: RecipeCardProps) => {
   return (
-    <Card className="relative mx-auto w-full max-w-sm pt-0 shadow-xs" key={id}>
-      <div className="absolute z-50 w-100 p-2">
-        <Badge variant="secondary">{cuisine}</Badge>
-        <Badge variant="secondary" className="ml-auto">
-          {difficulty}
+    <Card className="rounded-lg relative mx-auto w-full max-w-sm pt-0 shadow-xs pb-5 gap-5" key={id}>
+      <div className="absolute z-50 w-100 px-3 py-2">
+        <Badge variant="secondary" className="ml-auto rounded-sm">
+          {cuisine}
         </Badge>
       </div>
-
       <img
         src={imageUrl != "" ? imageUrl : getRandomImageUrl()}
         alt="Event cover"
-        className="relative z-20 aspect-video w-full object-cover rounded-t-xl"
+        className="relative z-20 aspect-video w-full object-cover rounded-t-lg"
       />
-      <CardHeader>
+      <CardHeader className="px-4">
         <CardTitle>{title}</CardTitle>
-        <CardDescription>
+        <CardDescription className="truncate">
           {subtitle}
         </CardDescription>
-        <div className="mt-1 flex items-center gap-3 text-xs text-muted-foreground">
+        <div className="mt-1 flex items-center gap-4 text-xs text-muted-foreground">
           <div className="flex items-center gap-1">
             <LucideClock className="h-3 w-3" />
-            <span>{cookTime} - 20 mins</span>
+            <span>{cookTime} minutes</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <LucideActivity className="h-3 w-3" />
+            <span>500 cals</span>
           </div>
           <div className="flex items-center gap-1">
             <LucideFlame className="h-3 w-3" />
-            <span>500 cal</span>
+            <span>{difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}</span>
           </div>
         </div>
       </CardHeader>

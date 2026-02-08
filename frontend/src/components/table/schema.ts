@@ -1,13 +1,19 @@
-import { z } from "zod"
+import { z } from "zod";
 
-// We're keeping a simple non-relational schema here.
-// IRL, you will have a schema for your data models.
-export const taskSchema = z.object({
+export const recipeSchema = z.object({
   id: z.string(),
   title: z.string(),
-  status: z.string(),
-  label: z.string(),
-  priority: z.string(),
-})
+  subtitle: z.string(),
+  cuisine: z.string(),
+  prepTime: z.number().int().min(0),
+  cookTime: z.number().int().min(0),
+  difficulty: z.enum(["beginner", "intermedate", "advanced"]),
+  mealType: z.enum(["breakfast", "lunch", "dinner", "snack", "dessert"]),
+  dietaryPreference: z
+    .enum(["vegetarian", "vegan", "gluten-free", "keto"])
+    .nullable()
+    .optional(),
+  imageUrl: z.string().optional(),
+});
 
-export type Task = z.infer<typeof taskSchema>
+export type Recipe = z.infer<typeof recipeSchema>;
