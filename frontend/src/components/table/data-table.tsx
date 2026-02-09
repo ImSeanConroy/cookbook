@@ -97,7 +97,7 @@ export function DataTable<TData, TValue>({
               difficulty={row.getValue("difficulty") || "intermediate"}
               cuisine={row.getValue("cuisine") || "Unknown"}
               cookTime={row.getValue("cookTime") || 0}
-              prepTime={row.getValue("prepTIme") || 0}
+              prepTime={row.getValue("prepTime") || 0}
               selected={row.getIsSelected()}
             />
           ))}

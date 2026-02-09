@@ -7,6 +7,8 @@ import { config } from "@/config";
 import type { RecipeSummary } from "@/types/recipe";
 
 type RecipesContextType = {
+  recipe: string | null;
+  setCurrentRecipe: (recipeId: string | null) => void;
   recipes: RecipeSummary[];
   isLoading: boolean;
   error: string | null;
@@ -15,6 +17,7 @@ type RecipesContextType = {
 const RecipesContext = createContext<RecipesContextType | undefined>(undefined);
 
 export const RecipesProvider = ({ children }: { children: ReactNode }) => {
+  const [recipe, setRecipe] = useState<string | null>(null);
   const [recipes, setRecipes] = useState<RecipeSummary[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -62,9 +65,15 @@ export const RecipesProvider = ({ children }: { children: ReactNode }) => {
     };
   }, []);
 
+  const setCurrentRecipe = (recipeId: string | null) => {
+    setRecipe(recipeId);
+  };
+
   return (
     <RecipesContext.Provider
       value={{
+        recipe,
+        setCurrentRecipe,
         recipes,
         isLoading,
         error,

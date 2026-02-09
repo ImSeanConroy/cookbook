@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "../ui/badge";
 
-import { getRandomImageUrl } from "@/lib/images";
+import { useRecipes } from "@/context/recipe-context";
 
 interface RecipeCardProps {
   id: string;
@@ -32,23 +32,28 @@ const RecipeCard = ({
   cookTime,
   prepTime,
 }: RecipeCardProps) => {
+  const { setCurrentRecipe } = useRecipes();
+
+  console.log(title, id);
+
   return (
-    <Card className="rounded-lg relative mx-auto w-full max-w-sm pt-0 shadow-xs pb-5 gap-5 cursor-pointer" key={id}>
+    <Card
+      className="rounded-lg relative mx-auto w-full max-w-sm pt-0 shadow-xs pb-5 gap-5 cursor-pointer"
+      onClick={() => setCurrentRecipe(id)}
+    >
       <div className="absolute z-50 w-100 px-3 py-2">
         <Badge variant="secondary" className="ml-auto rounded-sm">
           {cuisine}
         </Badge>
       </div>
       <img
-        src={imageUrl != "" ? imageUrl : getRandomImageUrl()}
+        src="/example.png"
         alt="Event cover"
-        className="relative z-20 aspect-video w-full object-cover rounded-t-lg"
+        className="relative z-20 aspect-video w-full object-cover rounded-t-lg bg-foreground"
       />
       <CardHeader className="px-4">
         <CardTitle>{title}</CardTitle>
-        <CardDescription className="truncate">
-          {subtitle}
-        </CardDescription>
+        <CardDescription className="truncate">{subtitle}</CardDescription>
         <div className="mt-1 flex items-center gap-4 text-xs text-muted-foreground">
           <div className="flex items-center gap-1">
             <LucideClock className="h-3 w-3" />
@@ -60,7 +65,9 @@ const RecipeCard = ({
           </div>
           <div className="flex items-center gap-1">
             <LucideFlame className="h-3 w-3" />
-            <span>{difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}</span>
+            <span>
+              {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
+            </span>
           </div>
         </div>
       </CardHeader>
