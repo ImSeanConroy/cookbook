@@ -7,7 +7,7 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 interface InfoStatePrope {
   title?: string;

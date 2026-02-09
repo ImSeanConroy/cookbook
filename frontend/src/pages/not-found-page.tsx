@@ -2,7 +2,7 @@
 import { Home } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import InfoState from "@/components/info-state";
+import InfoState from "@/components/other/info-state";
 
 const NotFoundPage = () => {
   const navigate = useNavigate();

@@ -19,12 +19,12 @@ import type {
   VisibilityState,
 } from "@tanstack/react-table";
 
-import RecipeCard from "@/components/recipe-card";
+import RecipeCard from "@/components/other/recipe-card";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
 import { Loader2, AlertCircle } from "lucide-react";
-import { useRecipesContext } from "../recipe-context";
-import InfoState from "../info-state";
+import { useRecipes } from "../../context/recipe-context";
+import InfoState from "../other/info-state";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -39,7 +39,7 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
-  const { isLoading, error } = useRecipesContext();
+  const { isLoading, error } = useRecipes();
 
   const table = useReactTable({
     data,
@@ -97,6 +97,7 @@ export function DataTable<TData, TValue>({
               difficulty={row.getValue("difficulty") || "intermediate"}
               cuisine={row.getValue("cuisine") || "Unknown"}
               cookTime={row.getValue("cookTime") || 0}
+              prepTime={row.getValue("prepTIme") || 0}
               selected={row.getIsSelected()}
             />
           ))}

@@ -1,9 +1,9 @@
 import { DataTable } from "@/components/table/data-table";
 import { columns } from "@/components/table/columns";
-import { useRecipesContext } from "@/components/recipe-context";
+import { useRecipes } from "@/context/recipe-context";
 
 const HomePage = () => {
-  const { recipes } = useRecipesContext()
+  const { recipes } = useRecipes();
 
   return (
     <DataTable data={recipes} columns={columns} />

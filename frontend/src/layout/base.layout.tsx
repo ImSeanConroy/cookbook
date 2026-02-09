@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 
 import Header from "@/components/navigation/header";
-import { RecipesProvider } from "@/components/recipe-context";
+import { RecipesProvider } from "@/context/recipe-context";
 
 const BaseLayout = () => {
   return (

@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "./ui/badge";
+import { Badge } from "../ui/badge";
 
 import { getRandomImageUrl } from "@/lib/images";
 
@@ -18,6 +18,7 @@ interface RecipeCardProps {
   difficulty: string;
   cuisine: string;
   cookTime: number;
+  prepTime: number;
   selected?: boolean;
 }
 
@@ -32,7 +33,7 @@ const RecipeCard = ({
   prepTime,
 }: RecipeCardProps) => {
   return (
-    <Card className="rounded-lg relative mx-auto w-full max-w-sm pt-0 shadow-xs pb-5 gap-5" key={id}>
+    <Card className="rounded-lg relative mx-auto w-full max-w-sm pt-0 shadow-xs pb-5 gap-5 cursor-pointer" key={id}>
       <div className="absolute z-50 w-100 px-3 py-2">
         <Badge variant="secondary" className="ml-auto rounded-sm">
           {cuisine}
@@ -51,7 +52,7 @@ const RecipeCard = ({
         <div className="mt-1 flex items-center gap-4 text-xs text-muted-foreground">
           <div className="flex items-center gap-1">
             <LucideClock className="h-3 w-3" />
-            <span>{cookTime} minutes</span>
+            <span>{cookTime + prepTime} minutes</span>
           </div>
           <div className="flex items-center gap-1">
             <LucideActivity className="h-3 w-3" />
