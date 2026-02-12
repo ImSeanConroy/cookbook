@@ -45,16 +45,36 @@ export const updateRecipeController = asyncHandler(
       message: "Recipe updated successfully",
       recipe: updatedRecipe,
     });
-  }
+  },
 );
 
 /**
- * Controller to fetch all recipes with pagination.
+ * Controller to fetch all recipes with optional filters, pagination, and sorting.
  */
 export const getAllRecipesController = asyncHandler(
   async (req: Request, res: Response) => {
-    const { page, limit } = getAllRecipesQuerySchema.parse(req.query);
-    const result = await getAllRecipesService(page, limit);
+    const {
+      page,
+      limit,
+      query,
+      difficulty,
+      cuisine,
+      mealType,
+      dietaryPreference,
+      totalTime,
+      sortBy,
+    } = getAllRecipesQuerySchema.parse(req.query);
+
+    const filters = {
+  difficulty,
+  cuisine,
+  mealType,
+  dietaryPreference,
+  totalTime,
+  sortBy,
+};
+
+    const result = await getAllRecipesService(page, limit, query, filters);
 
     return res.status(HTTPSTATUS.OK).json({
       message: "All recipes fetched successfully",

@@ -1,11 +1,11 @@
-type DifficultyLevel = "easy" | "medium" | "hard" | "intermediate";
+type DifficultyLevelType = "easy" | "medium" | "hard" | "intermediate";
 
-export interface Ingredient {
+export interface IngredientType {
   name: string;
   quantity: string;
 }
 
-export interface Recipe {
+export interface RecipeType {
   id: string;
   title: string;
   subtitle: string;
@@ -13,7 +13,7 @@ export interface Recipe {
   prepTime: number;
   cookTime: number;
   servings: number;
-  difficulty: DifficultyLevel;
+  difficulty: DifficultyLevelType;
   cuisine: string;
   imageUrl: string;
   cardImageUrl: string;
@@ -27,12 +27,12 @@ export interface Recipe {
   sodium: number | null;
   createdAt: string;
   updatedAt: string;
-  ingredients: Ingredient[];
+  ingredients: IngredientType[];
   steps: string[];
   utensils: string[];
 }
 
-export interface RecipeSummary {
+export interface RecipeSummaryType {
   id: string;
   title: string;
   subtitle: string;

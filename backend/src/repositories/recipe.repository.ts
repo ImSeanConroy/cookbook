@@ -17,11 +17,12 @@ export const create = async (
   const res = await query(
     `INSERT INTO recipes (
       title, subtitle, description, prep_time, cook_time, servings, difficulty,
-      cuisine, image_url, card_image_url, utensils,
+      cuisine, image_url, card_image_url, utensils, meal_type, dietary_preference,
       calories, protein, carbs, fat, sugars, fiber, saturated_fat, sodium
     ) VALUES (
       $1, $2, $3, $4, $5, $6, $7, $8, $9, $10,
-      $11, $12, $13, $14, $15, $16, $17, $18, $19
+      $11, $12, $13, $14, $15, $16, $17, $18, $19, 
+      $20, $21
     )
     RETURNING *`,
     [
@@ -36,6 +37,8 @@ export const create = async (
       data.image_url,
       data.card_image_url,
       data.utensils,
+      data.meal_type,
+      data.dietary_preference,
       data.calories,
       data.protein,
       data.carbs,
@@ -63,30 +66,194 @@ export const findById = async (id: string): Promise<Recipe | null> => {
 /**
  * Returns the count of recipes, optionally filtered.
  *
+ * @param filters - Optional filters: queryText, difficulty, cuisine, cookTime
  * @returns The total number of matching recipes
  */
-export const getCount = async (): Promise<number> => {
-  const res = await query("SELECT COUNT(*) FROM recipes");
+export const getCount = async ({
+  queryText,
+  difficulty,
+  cuisine,
+  mealType,
+  dietaryPreference,
+  totalTime,
+}: {
+  queryText?: string;
+  difficulty?: string[];
+  cuisine?: string[];
+  mealType?: string[];
+  dietaryPreference?: string[];
+  totalTime?: string[];
+}): Promise<number> => {
+  let baseQuery = "SELECT COUNT(*) FROM recipes";
+  const values: any[] = [];
+  const whereClauses: string[] = [];
+
+  if (queryText) {
+    values.push(`%${queryText}%`);
+    whereClauses.push(`title ILIKE $${values.length}`);
+  }
+
+  if (difficulty?.length) {
+    values.push(difficulty);
+    whereClauses.push(`difficulty = ANY($${values.length})`);
+  }
+
+  if (cuisine?.length) {
+    values.push(cuisine);
+    whereClauses.push(`cuisine = ANY($${values.length})`);
+  }
+
+  if (mealType?.length) {
+    values.push(mealType);
+    whereClauses.push(`meal_type = ANY($${values.length})`);
+  }
+
+  if (dietaryPreference?.length) {
+    values.push(dietaryPreference);
+    whereClauses.push(`dietary_preference = ANY($${values.length})`);
+  }
+
+  if (totalTime?.length) {
+    const timeConditions: string[] = [];
+
+    totalTime.forEach((time) => {
+      switch (time) {
+        case "UNDER_15":
+          timeConditions.push("cook_time + prep_time < 15");
+          break;
+        case "BETWEEN_15_AND_30":
+          timeConditions.push("cook_time + prep_time BETWEEN 15 AND 30");
+          break;
+        case "OVER_30":
+          timeConditions.push("cook_time + prep_time > 30");
+          break;
+      }
+    });
+
+    if (timeConditions.length) {
+      whereClauses.push(`(${timeConditions.join(" OR ")})`);
+    }
+  }
+
+  if (whereClauses.length) {
+    baseQuery += " WHERE " + whereClauses.join(" AND ");
+  }
+
+  const res = await query(baseQuery, values);
   return parseInt(res.rows[0].count, 10);
 };
 
 /**
- * Retrieves all recipes with pagination.
+ * Retrieves all recipes with optional filters, sorting, and pagination.
  *
- * @param params - limit, and offset
+ * @param params - Filters, sort option, limit, and offset
  * @returns Array of recipe objects
  */
 export const getAll = async ({
   offset = 0,
-  limit = 10,
+  limit = 12,
+  queryText,
+  difficulty,
+  cuisine,
+  mealType,
+  dietaryPreference,
+  totalTime,
+  sortBy = "newest",
 }: {
   offset?: number;
   limit?: number;
+  queryText?: string;
+  difficulty?: string[];
+  cuisine?: string[];
+  mealType?: string[];
+  dietaryPreference?: string[];
+  totalTime?: string[];
+  sortBy?: string;
 }): Promise<Recipe[]> => {
-  const res = await query(
-    "SELECT id, title, subtitle, prep_time, cook_time, servings, difficulty, cuisine, card_image_url, created_at, updated_at FROM recipes LIMIT $1 OFFSET $2;",
-    [limit, offset],
-  );
+  const values: any[] = [];
+  let baseQuery = `
+    SELECT id, title, subtitle, prep_time, cook_time,
+    difficulty, cuisine, meal_type,
+    dietary_preference, card_image_url,
+    created_at
+    FROM recipes
+  `;
+
+  const whereClauses: string[] = [];
+
+  if (queryText) {
+    values.push(`%${queryText}%`);
+    whereClauses.push(`title ILIKE $${values.length}`);
+  }
+
+  if (difficulty?.length) {
+    values.push(difficulty);
+    whereClauses.push(`difficulty = ANY($${values.length})`);
+  }
+
+  if (cuisine?.length) {
+    values.push(cuisine);
+    whereClauses.push(`cuisine = ANY($${values.length})`);
+  }
+
+  if (mealType?.length) {
+    values.push(mealType);
+    whereClauses.push(`meal_type = ANY($${values.length})`);
+  }
+
+  if (dietaryPreference?.length) {
+    values.push(dietaryPreference);
+    whereClauses.push(`dietary_preference = ANY($${values.length})`);
+  }
+
+  if (totalTime?.length) {
+    const timeConditions: string[] = [];
+
+    totalTime.forEach((time) => {
+      switch (time) {
+        case "UNDER_15":
+          timeConditions.push("cook_time + prep_time < 15");
+          break;
+        case "BETWEEN_15_AND_30":
+          timeConditions.push("cook_time + prep_time BETWEEN 15 AND 30");
+          break;
+        case "OVER_30":
+          timeConditions.push("cook_time + prep_time > 30");
+          break;
+      }
+    });
+
+    if (timeConditions.length) {
+      whereClauses.push(`(${timeConditions.join(" OR ")})`);
+    }
+  }
+
+  if (whereClauses.length) {
+    baseQuery += " WHERE " + whereClauses.join(" AND ");
+  }
+
+  // Sorting
+  let orderClause = "ORDER BY created_at DESC";
+
+  switch (sortBy) {
+    case "oldest":
+      orderClause = "ORDER BY created_at ASC";
+      break;
+    case "az":
+      orderClause = "ORDER BY title ASC";
+      break;
+    case "za":
+      orderClause = "ORDER BY title DESC";
+      break;
+  }
+
+  values.push(limit, offset);
+
+  baseQuery += ` ${orderClause}
+    LIMIT $${values.length - 1}
+    OFFSET $${values.length}`;
+
+  const res = await query(baseQuery, values);
   return toCamelCase(res.rows);
 };
 

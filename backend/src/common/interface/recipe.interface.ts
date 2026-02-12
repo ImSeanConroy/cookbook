@@ -28,6 +28,8 @@ export interface Recipe {
   cook_time: number;
   servings: number;
   difficulty: DifficultyLevel;
+  meal_type: string | null;
+  dietary_preference: string | null;
   cuisine: string;
   image_url: string;
   card_image_url: string;

@@ -34,8 +34,6 @@ const RecipeCard = ({
 }: RecipeCardProps) => {
   const { setCurrentRecipe } = useRecipes();
 
-  console.log(title, id);
-
   return (
     <Card
       className="rounded-lg relative mx-auto w-full max-w-sm pt-0 shadow-xs pb-5 gap-5 cursor-pointer"
@@ -47,7 +45,7 @@ const RecipeCard = ({
         </Badge>
       </div>
       <img
-        src="/example.png"
+        src={imageUrl}
         alt="Event cover"
         className="relative z-20 aspect-video w-full object-cover rounded-t-lg bg-foreground"
       />

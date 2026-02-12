@@ -2,68 +2,95 @@
 
 import { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
-
 import { config } from "@/config";
-import type { RecipeSummary } from "@/types/recipe";
+import type { RecipeSummaryType } from "@/types/recipe";
+
+type Filters = {
+  page: number;
+  limit: number;
+  query?: string;
+  cuisine?: string[];
+  difficulty?: string[];
+  mealType?: string[];
+  dietaryPreference?: string[];
+  totalTime?: string[];
+};
 
 type RecipesContextType = {
-  recipe: string | null;
-  setCurrentRecipe: (recipeId: string | null) => void;
-  recipes: RecipeSummary[];
+  recipes: RecipeSummaryType[];
   isLoading: boolean;
   error: string | null;
+  filters: Filters;
+  setFilters: React.Dispatch<React.SetStateAction<Filters>>;
+  totalPages: number;
+  totalCount: number;
+  recipe: string | null;
+  setCurrentRecipe: (recipeId: string | null) => void;
 };
 
 const RecipesContext = createContext<RecipesContextType | undefined>(undefined);
 
 export const RecipesProvider = ({ children }: { children: ReactNode }) => {
-  const [recipe, setRecipe] = useState<string | null>(null);
-  const [recipes, setRecipes] = useState<RecipeSummary[]>([]);
+  const [recipes, setRecipes] = useState<RecipeSummaryType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const [recipe, setRecipe] = useState<string | null>(null);
+
+  const [filters, setFilters] = useState<Filters>({
+    page: 1,
+    limit: 12,
+  });
 
   useEffect(() => {
-    let isCancelled = false;
+    const controller = new AbortController();
 
-    const fetchAllRecipes = async () => {
+    const fetchRecipes = async () => {
       setIsLoading(true);
-      let allRecipes: RecipeSummary[] = [];
-      let currentPage = 1;
-      let totalPages = 1;
 
       try {
-        do {
-          const res = await fetch(
-            `${config.BASE_URL}/api/recipe?page=${currentPage}&limit=12`
-          );
-          if (!res.ok) throw new Error("Failed to fetch recipes");
+        const params = new URLSearchParams();
 
-          const json = await res.json();
-          allRecipes = allRecipes.concat(json.recipes || []);
-          totalPages = json.totalPages || 1;
-          currentPage += 1;
-        } while (currentPage <= totalPages && !isCancelled);
+        Object.entries(filters).forEach(([key, value]) => {
+          if (!value) return;
 
-        if (!isCancelled) {
-          setRecipes(allRecipes);
-          setError(null);
-        }
+          if (Array.isArray(value)) {
+            if (value.length > 0) {
+              params.append(key, value.join(","));
+            }
+          } else {
+            params.append(key, String(value));
+          }
+        });
+
+        const res = await fetch(
+          `${config.BASE_URL}/api/recipe?${params.toString()}`,
+          { signal: controller.signal }
+        );
+
+        if (!res.ok) throw new Error("Failed to fetch recipes");
+
+        const json = await res.json();
+
+        setRecipes(json.recipes || []);
+        setTotalPages(json.totalPages || 1);
+        setTotalCount(json.recipeCount || 0);
+        setError(null);
       } catch (err: any) {
-        if (!isCancelled) {
-          setError(err.message || "Something went wrong. Please try again.");
+        if (err.name !== "AbortError") {
+          setError(err.message || "Something went wrong.");
           setRecipes([]);
         }
       } finally {
-        if (!isCancelled) setIsLoading(false);
+        setIsLoading(false);
       }
     };
 
-    fetchAllRecipes();
+    fetchRecipes();
 
-    return () => {
-      isCancelled = true;
-    };
-  }, []);
+    return () => controller.abort();
+  }, [filters]);
 
   const setCurrentRecipe = (recipeId: string | null) => {
     setRecipe(recipeId);
@@ -71,13 +98,7 @@ export const RecipesProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <RecipesContext.Provider
-      value={{
-        recipe,
-        setCurrentRecipe,
-        recipes,
-        isLoading,
-        error,
-      }}
+      value={{ recipes, isLoading, error, filters, setFilters, totalPages, totalCount, recipe, setCurrentRecipe }}
     >
       {children}
     </RecipesContext.Provider>
@@ -87,9 +108,7 @@ export const RecipesProvider = ({ children }: { children: ReactNode }) => {
 export const useRecipes = () => {
   const context = useContext(RecipesContext);
   if (!context) {
-    throw new Error(
-      "useRecipes must be used inside RecipesProvider"
-    );
+    throw new Error("useRecipes must be used inside RecipesProvider");
   }
   return context;
 };

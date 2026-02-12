@@ -16,7 +16,9 @@ import * as StepRepo from "../repositories/step.repository";
  * @returns The newly created recipe including ingredients and steps
  * @throws BadRequestException if creation fails
  */
-export const createRecipeService = async (body: RecipeInput): Promise<Recipe> => {
+export const createRecipeService = async (
+  body: RecipeInput,
+): Promise<Recipe> => {
   const { ingredients, steps, ...recipeData } = body;
 
   const newRecipe = await RecipeRepo.create(recipeData);
@@ -57,7 +59,9 @@ export const createRecipeService = async (body: RecipeInput): Promise<Recipe> =>
  * @returns The recipe with ingredients and steps
  * @throws NotFoundException if the recipe or related data is not found
  */
-export const getRecipeByIdService = async (recipeId: string): Promise<Recipe> => {
+export const getRecipeByIdService = async (
+  recipeId: string,
+): Promise<Recipe> => {
   const recipe = await RecipeRepo.findById(recipeId);
   if (!recipe) throw new NotFoundException("Recipe not found");
 
@@ -75,16 +79,26 @@ export const getRecipeByIdService = async (recipeId: string): Promise<Recipe> =>
 };
 
 /**
- * Retrieves all recipes with pagination.
+ * Retrieves all recipes with optional filters, sorting, and pagination.
  *
  * @param page - Page number (default 1)
  * @param limit - Number of results per page (default 12)
-
+ * @param query - Optional search text
+ * @param filters - Optional filters: difficulty, cuisine, cookTime, sortBy
  * @returns Paginated recipes with metadata
  */
 export const getAllRecipesService = async (
   page = 1,
   limit = 12,
+  query?: string,
+  filters?: {
+    difficulty?: string[];
+    cuisine?: string[];
+    mealType?: string[];
+    dietaryPreference?: string[];
+    totalTime?: string[];
+    sortBy?: string;
+  },
 ) => {
   const offset = (page - 1) * limit;
 
@@ -92,8 +106,22 @@ export const getAllRecipesService = async (
     RecipeRepo.getAll({
       offset,
       limit,
+      queryText: query,
+      difficulty: filters?.difficulty,
+      cuisine: filters?.cuisine,
+      totalTime: filters?.totalTime,
+      sortBy: filters?.sortBy,
+      mealType: filters?.mealType,
+      dietaryPreference: filters?.dietaryPreference,
     }),
-    RecipeRepo.getCount(),
+    RecipeRepo.getCount({
+      queryText: query,
+      difficulty: filters?.difficulty,
+      cuisine: filters?.cuisine,
+      totalTime: filters?.totalTime,
+      mealType: filters?.mealType,
+      dietaryPreference: filters?.dietaryPreference,
+    }),
   ]);
 
   return {

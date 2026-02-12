@@ -21,6 +21,8 @@ export const recipes: RecipeInput[] = [
     fiber: 4.0,
     saturated_fat: 5.0,
     sodium: 600,
+    meal_type: "lunch",
+    dietary_preference: null,
     ingredients: [
       { name: "Spaghetti", quantity: "200g" },
       { name: "Ground Beef", quantity: "300g" },
@@ -57,6 +59,8 @@ export const recipes: RecipeInput[] = [
     fiber: 4.0,
     saturated_fat: 5.0,
     sodium: 600,
+    meal_type: "breakfast",
+    dietary_preference: null,
     ingredients: [
       { name: "Flour", quantity: "1 cup" },
       { name: "Milk", quantity: "1 cup" },
@@ -93,6 +97,8 @@ export const recipes: RecipeInput[] = [
     fiber: 4.0,
     saturated_fat: 5.0,
     sodium: 600,
+    meal_type: "dinner",
+    dietary_preference: null,
     ingredients: [
       { name: "Chicken", quantity: "500g, cut into pieces" },
       { name: "Onion", quantity: "2, thinly sliced" },
@@ -129,6 +135,8 @@ export const recipes: RecipeInput[] = [
     fiber: 4.0,
     saturated_fat: 5.0,
     sodium: 600,
+    meal_type: "lunch",
+    dietary_preference: "vegetarian",
     ingredients: [
       { name: "Sushi Rice", quantity: "1 cup" },
       { name: "Nori Sheets", quantity: "2" },
@@ -165,6 +173,8 @@ export const recipes: RecipeInput[] = [
     fiber: 4.0,
     saturated_fat: 5.0,
     sodium: 600,
+    meal_type: "dinner",
+    dietary_preference: null,
     ingredients: [
       { name: "Taco Shells", quantity: "8" },
       { name: "Ground Beef", quantity: "300g" },
@@ -201,6 +211,8 @@ export const recipes: RecipeInput[] = [
     fiber: 4.0,
     saturated_fat: 5.0,
     sodium: 600,
+    meal_type: "lunch",
+    dietary_preference: "vegetarian",
     ingredients: [
       { name: "Romaine Lettuce", quantity: "1 head, chopped" },
       { name: "Croutons", quantity: "1 cup" },
@@ -233,6 +245,8 @@ export const recipes: RecipeInput[] = [
     fiber: 4.0,
     saturated_fat: 5.0,
     sodium: 600,
+    meal_type: "lunch",
+    dietary_preference: "vegetarian",
     ingredients: [
       { name: "Bread Slices", quantity: "2" },
       { name: "Cheddar Cheese", quantity: "2 slices" },
@@ -265,6 +279,8 @@ export const recipes: RecipeInput[] = [
     fiber: 4.0,
     saturated_fat: 5.0,
     sodium: 600,
+    meal_type: "dinner",
+    dietary_preference: null,
     ingredients: [
       { name: "Rice Noodles", quantity: "200g" },
       { name: "Shrimp", quantity: "150g, peeled and deveined" },
@@ -301,6 +317,8 @@ export const recipes: RecipeInput[] = [
     fiber: 4.0,
     saturated_fat: 5.0,
     sodium: 600,
+    meal_type: "lunch",
+    dietary_preference: "vegetarian",
     ingredients: [
       { name: "Eggs", quantity: "4" },
       { name: "Tomatoes", quantity: "3, chopped" },
@@ -337,6 +355,8 @@ export const recipes: RecipeInput[] = [
     fiber: 4.0,
     saturated_fat: 5.0,
     sodium: 600,
+    meal_type: "lunch",
+    dietary_preference: "vegetarian",
     ingredients: [
       { name: "Broccoli", quantity: "1 cup, chopped" },
       { name: "Carrot", quantity: "1, sliced" },
@@ -371,6 +391,8 @@ export const recipes: RecipeInput[] = [
     fiber: 4.0,
     saturated_fat: 5.0,
     sodium: 600,
+    meal_type: "lunch",
+    dietary_preference: "vegan",
     ingredients: [
       { name: "Cucumber", quantity: "1, sliced" },
       { name: "Tomatoes", quantity: "2, chopped" },
@@ -405,6 +427,8 @@ export const recipes: RecipeInput[] = [
     fiber: 4.0,
     saturated_fat: 5.0,
     sodium: 600,
+    meal_type: "dinner",
+    dietary_preference: null,
     ingredients: [
       { name: "Chicken", quantity: "500g, boneless" },
       { name: "Tomato Puree", quantity: "1 cup" },
@@ -442,6 +466,8 @@ export const recipes: RecipeInput[] = [
     fiber: 5,
     saturated_fat: 5,
     sodium: 980,
+    meal_type: "dinner",
+    dietary_preference: null,
     ingredients: [
       { name: "Chicken Breast", quantity: "2" },
       { name: "Mayonnaise", quantity: "50g" },
@@ -490,6 +516,8 @@ export const recipes: RecipeInput[] = [
     fiber: 4.0,
     saturated_fat: 5.0,
     sodium: 600,
+    meal_type: "lunch",
+    dietary_preference: "vegan",
     ingredients: [
       { name: "Arborio Rice", quantity: "1 cup" },
       { name: "Mushrooms", quantity: "200g, sliced" },
@@ -529,6 +557,8 @@ export const recipes: RecipeInput[] = [
     fiber: 4.0,
     saturated_fat: 5.0,
     sodium: 600,
+    meal_type: "lunch",
+    dietary_preference: "vegetarian",
     ingredients: [
       { name: "Bread Slice", quantity: "1" },
       { name: "Avocado", quantity: "1/2, mashed" },
@@ -566,6 +596,8 @@ export const recipes: RecipeInput[] = [
     fiber: 4.0,
     saturated_fat: 5.0,
     sodium: 600,
+    meal_type: "dinner",
+    dietary_preference: "vegan",
     ingredients: [
       { name: "Sweet Potato", quantity: "2, cut into fries" },
       { name: "Olive Oil", quantity: "1 tbsp" },
@@ -602,6 +634,8 @@ export const recipes: RecipeInput[] = [
     fiber: 4.0,
     saturated_fat: 5.0,
     sodium: 600,
+    meal_type: "lunch",
+    dietary_preference: "vegetarian",
     ingredients: [
       { name: "Cooked Rice", quantity: "2 cups" },
       { name: "Eggs", quantity: "2" },
@@ -640,6 +674,8 @@ export const recipes: RecipeInput[] = [
     fiber: 4.0,
     saturated_fat: 5.0,
     sodium: 600,
+    meal_type: "lunch",
+    dietary_preference: "vegan",
     ingredients: [
       { name: "Onions", quantity: "4, sliced" },
       { name: "Beef Broth", quantity: "4 cups" },
@@ -678,6 +714,8 @@ export const recipes: RecipeInput[] = [
     fiber: 4.0,
     saturated_fat: 5.0,
     sodium: 600,
+    meal_type: "dinner",
+    dietary_preference: null,
     ingredients: [
       { name: "Beef Sirloin", quantity: "400g, sliced" },
       { name: "Mushrooms", quantity: "1 cup, sliced" },
@@ -715,6 +753,8 @@ export const recipes: RecipeInput[] = [
     fiber: 4.0,
     saturated_fat: 5.0,
     sodium: 600,
+    meal_type: "lunch",
+    dietary_preference: null,
     ingredients: [
       { name: "Tomatoes", quantity: "2, sliced" },
       { name: "Mozzarella", quantity: "200g, sliced" },
@@ -750,6 +790,8 @@ export const recipes: RecipeInput[] = [
     fiber: 4.0,
     saturated_fat: 5.0,
     sodium: 600,
+    meal_type: "snack",
+    dietary_preference: null,
     ingredients: [
       { name: "Cream Cheese", quantity: "1 cup" },
       { name: "Spinach", quantity: "1 cup, cooked and chopped" },
@@ -787,6 +829,8 @@ export const recipes: RecipeInput[] = [
     fiber: 4.0,
     saturated_fat: 5.0,
     sodium: 600,
+    meal_type: "dessert",
+    dietary_preference: null,
     ingredients: [
       { name: "Ripe Bananas", quantity: "2, mashed" },
       { name: "Rolled Oats", quantity: "1.5 cups" },
@@ -824,6 +868,8 @@ export const recipes: RecipeInput[] = [
     fiber: 4.0,
     saturated_fat: 5.0,
     sodium: 600,
+    meal_type: "lunch",
+    dietary_preference: "vegetarian",
     ingredients: [
       { name: "Canned Tuna", quantity: "1 can" },
       { name: "Mayonnaise", quantity: "2 tbsp" },
@@ -860,6 +906,8 @@ export const recipes: RecipeInput[] = [
     fiber: 4.0,
     saturated_fat: 5.0,
     sodium: 600,
+    meal_type: "dessert",
+    dietary_preference: null,
     ingredients: [
       { name: "Flour", quantity: "1/4 cup" },
       { name: "Sugar", quantity: "2 tbsp" },
@@ -894,6 +942,8 @@ export const recipes: RecipeInput[] = [
     fiber: 4.0,
     saturated_fat: 5.0,
     sodium: 600,
+    meal_type: "lunch",
+    dietary_preference: "vegetarian",
     ingredients: [
       { name: "Avocado", quantity: "1, ripe" },
       { name: "Bread", quantity: "2 slices" },
@@ -929,6 +979,8 @@ export const recipes: RecipeInput[] = [
     fiber: 4.0,
     saturated_fat: 5.0,
     sodium: 600,
+    meal_type: "breakfast",
+    dietary_preference: null,
     ingredients: [
       { name: "Greek Yogurt", quantity: "1 cup" },
       { name: "Mixed Berries", quantity: "1/2 cup" },

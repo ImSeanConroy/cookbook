@@ -4,6 +4,8 @@ import { z } from "zod";
 // Enums / constants
 // --------------------
 export const difficulties = ["beginner", "intermediate", "advanced"] as const;
+export const mealTypes = ["breakfast", "lunch", "dinner", "snack", "dessert"] as const;
+export const dietaryPreference = ["vegan", "keto", "gluten free", "vegetarain"] as const;
 
 // --------------------
 // Field Schemas
@@ -15,8 +17,12 @@ export const descriptionSchema = z.string().trim().min(1);
 export const prepTimeSchema = z.number().int().nonnegative();
 export const cookTimeSchema = z.number().int().nonnegative();
 export const servingsSchema = z.number().int().positive();
+
 export const difficultySchema = z.enum(difficulties);
 export const cuisineSchema = z.string().trim().min(1);
+export const mealTypeSchema = z.enum(mealTypes);
+export const dietaryPreferenceSchema = z.enum(dietaryPreference);
+
 export const imageUrlSchema = z.string().url();
 
 export const ingredientsSchema = z.array(
@@ -42,6 +48,9 @@ export const createRecipeSchema = z.object({
   cuisine: cuisineSchema,
   image_url: imageUrlSchema,
   card_image_url: imageUrlSchema,
+  meal_type: mealTypeSchema,
+  dietary_preference: dietaryPreferenceSchema,
+  
   calories: z.number().int().positive().nullable(),
   protein: z.number().nonnegative().nullable(),
   carbs: z.number().nonnegative().nullable(),
@@ -63,4 +72,34 @@ export const updateRecipeSchema = createRecipeSchema.partial();
 export const getAllRecipesQuerySchema = z.object({
   page: z.string().regex(/^\d+$/).transform(Number).default("1"),
   limit: z.string().regex(/^\d+$/).transform(Number).default("12"),
+
+  query: z.string().optional(),
+
+  difficulty: z
+    .string()
+    .optional()
+    .transform((val) => (val ? val.split(",") : undefined)),
+
+  cuisine: z
+    .string()
+    .optional()
+    .transform((val) => (val ? val.split(",") : undefined)),
+
+  mealType: z
+    .string()
+    .optional()
+    .transform((val) => (val ? val.split(",") : undefined)),
+
+  dietaryPreference: z
+    .string()
+    .optional()
+    .transform((val) => (val ? val.split(",") : undefined)),
+
+  totalTime: z
+    .string()
+    .optional()
+    .transform((val) => (val ? val.split(",") : undefined)),
+
+  sortBy: z.string().optional().default("newest"),
 });
+
