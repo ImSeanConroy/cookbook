@@ -37,11 +37,7 @@ interface TableFilterProps {
   }[];
 }
 
-export function TableFilter({
-  title,
-  filterKey,
-  options,
-}: TableFilterProps) {
+export function TableFilter({ title, filterKey, options }: TableFilterProps) {
   const { filters, setFilters } = useRecipes();
 
   const selectedValues = new Set(filters[filterKey] ?? []);
@@ -121,13 +117,14 @@ export function TableFilter({
                       }
                       updateFilter(Array.from(newValues));
                     }}
+                    className="cursor-pointer"
                   >
                     <div
                       className={cn(
                         "flex size-4 items-center justify-center rounded-[4px] border",
                         isSelected
                           ? "bg-primary border-primary text-primary-foreground"
-                          : "border-input [&_svg]:invisible"
+                          : "border-input [&_svg]:invisible",
                       )}
                     >
                       <Check className="text-primary-foreground size-3.5" />
@@ -146,7 +143,7 @@ export function TableFilter({
                 <CommandGroup>
                   <CommandItem
                     onSelect={() => updateFilter([])}
-                    className="justify-center text-center"
+                    className="justify-center text-center cursor-pointer"
                   >
                     Clear filters
                   </CommandItem>

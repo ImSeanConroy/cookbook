@@ -36,7 +36,8 @@ const RecipeModel = () => {
       setError(null);
       fetch(`${config.BASE_URL}/api/recipe/${recipe}`)
         .then((res) => {
-          if (!res.ok) throw new Error(`Failed to fetch recipe`);
+          if (!res.ok)
+            throw new Error("We couldn’t load this recipe. Please try again.");
           return res.json();
         })
         .then((json) => {
@@ -104,11 +105,14 @@ const RecipeModel = () => {
                   </Button>
                   <Button variant="outline">
                     <LucideActivity className="h-5 w-5" />
-                    <span>500 cals</span>
+                    <span>{data.calories} calories</span>
                   </Button>
                   <Button variant="outline">
                     <LucideFlame className="h-5 w-5" />
-                    <span>{data.difficulty.charAt(0).toUpperCase() + data.difficulty.slice(1)}</span>
+                    <span>
+                      {data.difficulty.charAt(0).toUpperCase() +
+                        data.difficulty.slice(1)}
+                    </span>
                   </Button>
                 </div>
               </div>
@@ -145,6 +149,29 @@ const RecipeModel = () => {
                   </ol>
                 </CardContent>
               </Card>
+
+              <div className="mt-1 col-span-2 flex flex-wrap items-center gap-3 text-md text-muted-foreground">
+                {[
+                  { label: "calories", value: data.calories, unit: "" },
+                  { label: "carbs", value: data.carbs, unit: "g" },
+                  { label: "fat", value: data.fat, unit: "g" },
+                  { label: "fiber", value: data.fiber, unit: "g" },
+                  { label: "protein", value: data.protein, unit: "g" },
+                  {
+                    label: "saturated fat",
+                    value: data.saturatedFat,
+                    unit: "g",
+                  },
+                  { label: "sodium", value: data.sodium, unit: "mg" },
+                  { label: "sugar", value: data.sugars, unit: "g" },
+                ].map((nutrient) => (
+                  <Button key={nutrient.label} variant="outline">
+                    <span>
+                      {nutrient.value} {nutrient.unit} {nutrient.label}
+                    </span>
+                  </Button>
+                ))}
+              </div>
             </div>
           </>
         )}

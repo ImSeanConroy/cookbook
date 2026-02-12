@@ -3,7 +3,7 @@ import RecipeModel from "@/components/other/recipe-modal";
 
 const HomePage = () => {
   return (
-    <>
+    < >
       <RecipeModel />
       <Table />
     </>

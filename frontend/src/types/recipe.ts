@@ -1,4 +1,4 @@
-type DifficultyLevelType = "easy" | "medium" | "hard" | "intermediate";
+type DifficultyLevelType = "beginner" | "intermedate" | "advanced";
 
 export interface IngredientType {
   name: string;
@@ -14,6 +14,7 @@ export interface RecipeType {
   cookTime: number;
   servings: number;
   difficulty: DifficultyLevelType;
+  mealType: "breakfast" | "lunch" | "dinner" | "snack" | "dessert";
   cuisine: string;
   imageUrl: string;
   cardImageUrl: string;

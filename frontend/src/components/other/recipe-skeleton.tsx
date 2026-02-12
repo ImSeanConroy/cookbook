@@ -5,13 +5,17 @@ const RecipeSkeleton = () => (
     <Skeleton className="h-[300px] w-full rounded-t-lg" />
 
     <div className="space-y-3 px-4">
-      <Skeleton className="h-8 w-2/3" />
-      <Skeleton className="h-5 w-1/3" />
+      <div className="flex flex-row">
+        <div className="space-y-3">
+          <Skeleton className="h-8 w-2/4" />
+          <Skeleton className="h-5 w-1/3" />
+        </div>
 
-      <div className="flex gap-4 mt-4">
-        {Array.from({ length: 4 }).map((_, i) => (
-          <Skeleton key={i} className="h-10 w-28 rounded-md" />
-        ))}
+        <div className="flex gap-4 mt-4">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <Skeleton key={i} className="h-10 w-28 rounded-md" />
+          ))}
+        </div>
       </div>
 
       <Skeleton className="h-16 w-full mt-4" />

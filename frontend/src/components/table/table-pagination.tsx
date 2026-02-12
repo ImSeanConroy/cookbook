@@ -25,19 +25,11 @@ export function TablePagination() {
   return (
     <div className="flex items-center justify-between px-2">
       <div className="text-muted-foreground flex-1 text-sm">
-        Showing{" "}
-      <span className="font-medium">
-        {(page - 1) * limit + 1}
-      </span>{" "}
-      –{" "}
-      <span className="font-medium">
-        {Math.min(page * limit, totalCount)}
-      </span>{" "}
-      of{" "}
-      <span className="font-medium">
-        {totalCount}
-      </span>{" "}
-      results
+        Showing <span className="font-medium">{(page - 1) * limit + 1}</span> –{" "}
+        <span className="font-medium">
+          {Math.min(page * limit, totalCount)}
+        </span>{" "}
+        of <span className="font-medium">{totalCount}</span> results
       </div>
       <div className="flex items-center space-x-6 lg:space-x-8">
         <div className="flex items-center space-x-2">
@@ -52,12 +44,16 @@ export function TablePagination() {
               }));
             }}
           >
-            <SelectTrigger className="h-8 w-[70px]">
+            <SelectTrigger className="h-8 w-[70px] cursor-pointer">
               <SelectValue />
             </SelectTrigger>
             <SelectContent side="top">
               {[12, 24, 48, 72].map((pageSize) => (
-                <SelectItem key={pageSize} value={String(pageSize)}>
+                <SelectItem
+                  key={pageSize}
+                  className="cursor-pointer"
+                  value={String(pageSize)}
+                >
                   {pageSize}
                 </SelectItem>
               ))}
@@ -71,7 +67,7 @@ export function TablePagination() {
           <Button
             variant="outline"
             size="icon"
-            className="hidden size-8 lg:flex"
+            className="hidden size-8 lg:flex cursor-pointer"
             onClick={() => setFilters((prev) => ({ ...prev, page: 1 }))}
             disabled={page === 1}
           >
@@ -81,7 +77,7 @@ export function TablePagination() {
           <Button
             variant="outline"
             size="icon"
-            className="size-8"
+            className="size-8 cursor-pointer"
             onClick={() =>
               setFilters((prev) => ({
                 ...prev,
@@ -96,7 +92,7 @@ export function TablePagination() {
           <Button
             variant="outline"
             size="icon"
-            className="size-8"
+            className="size-8 cursor-pointer"
             onClick={() =>
               setFilters((prev) => ({
                 ...prev,
@@ -111,7 +107,7 @@ export function TablePagination() {
           <Button
             variant="outline"
             size="icon"
-            className="hidden size-8 lg:flex"
+            className="hidden size-8 lg:flex cursor-pointer"
             onClick={() =>
               setFilters((prev) => ({
                 ...prev,

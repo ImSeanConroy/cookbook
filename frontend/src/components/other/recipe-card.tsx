@@ -20,6 +20,7 @@ interface RecipeCardProps {
   cookTime: number;
   prepTime: number;
   selected?: boolean;
+  calories: string;
 }
 
 const RecipeCard = ({
@@ -31,6 +32,7 @@ const RecipeCard = ({
   cuisine,
   cookTime,
   prepTime,
+  calories,
 }: RecipeCardProps) => {
   const { setCurrentRecipe } = useRecipes();
 
