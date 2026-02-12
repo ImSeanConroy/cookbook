@@ -94,8 +94,8 @@ export const getAllRecipesService = async (
   filters?: {
     difficulty?: string[];
     cuisine?: string[];
-    mealType?: string[];
-    dietaryPreference?: string[];
+    mealTypes?: string[];
+    dietaryPreferences?: string[];
     totalTime?: string[];
     sortBy?: string;
   },
@@ -111,16 +111,16 @@ export const getAllRecipesService = async (
       cuisine: filters?.cuisine,
       totalTime: filters?.totalTime,
       sortBy: filters?.sortBy,
-      mealType: filters?.mealType,
-      dietaryPreference: filters?.dietaryPreference,
+      mealTypes: filters?.mealTypes,
+      dietaryPreferences: filters?.dietaryPreferences,
     }),
     RecipeRepo.getCount({
       queryText: query,
       difficulty: filters?.difficulty,
       cuisine: filters?.cuisine,
       totalTime: filters?.totalTime,
-      mealType: filters?.mealType,
-      dietaryPreference: filters?.dietaryPreference,
+      mealTypes: filters?.mealTypes,
+      dietaryPreferences: filters?.dietaryPreferences,
     }),
   ]);
 
@@ -161,7 +161,6 @@ export const updateRecipeService = async (
     difficulty: body.difficulty || safeExistingRecipe.difficulty,
     cuisine: body.cuisine || safeExistingRecipe.cuisine,
     image_url: body.image_url || safeExistingRecipe.image_url,
-    card_image_url: body.card_image_url || safeExistingRecipe.card_image_url,
   };
 
   const updatedRecipe = await RecipeRepo.update(mergedRecipe);

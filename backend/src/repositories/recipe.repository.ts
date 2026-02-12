@@ -17,12 +17,11 @@ export const create = async (
   const res = await query(
     `INSERT INTO recipes (
       title, subtitle, description, prep_time, cook_time, servings, difficulty,
-      cuisine, image_url, card_image_url, utensils, meal_type, dietary_preference,
+      cuisine, image_url, utensils, meal_types, dietary_preferences,
       calories, protein, carbs, fat, sugars, fiber, saturated_fat, sodium
     ) VALUES (
       $1, $2, $3, $4, $5, $6, $7, $8, $9, $10,
-      $11, $12, $13, $14, $15, $16, $17, $18, $19, 
-      $20, $21
+      $11, $12, $13, $14, $15, $16, $17, $18, $19, $20
     )
     RETURNING *`,
     [
@@ -35,10 +34,9 @@ export const create = async (
       data.difficulty,
       data.cuisine,
       data.image_url,
-      data.card_image_url,
       data.utensils,
-      data.meal_type,
-      data.dietary_preference,
+      data.meal_types,
+      data.dietary_preferences,
       data.calories,
       data.protein,
       data.carbs,
@@ -73,15 +71,15 @@ export const getCount = async ({
   queryText,
   difficulty,
   cuisine,
-  mealType,
-  dietaryPreference,
+  mealTypes,
+  dietaryPreferences,
   totalTime,
 }: {
   queryText?: string;
   difficulty?: string[];
   cuisine?: string[];
-  mealType?: string[];
-  dietaryPreference?: string[];
+  mealTypes?: string[];
+  dietaryPreferences?: string[];
   totalTime?: string[];
 }): Promise<number> => {
   let baseQuery = "SELECT COUNT(*) FROM recipes";
@@ -103,14 +101,14 @@ export const getCount = async ({
     whereClauses.push(`cuisine = ANY($${values.length})`);
   }
 
-  if (mealType?.length) {
-    values.push(mealType);
-    whereClauses.push(`meal_type = ANY($${values.length})`);
+  if (mealTypes?.length) {
+    values.push(mealTypes);
+    whereClauses.push(`meal_types && $${values.length}`);
   }
 
-  if (dietaryPreference?.length) {
-    values.push(dietaryPreference);
-    whereClauses.push(`dietary_preference = ANY($${values.length})`);
+  if (dietaryPreferences?.length) {
+    values.push(dietaryPreferences);
+    whereClauses.push(`dietary_preferences && $${values.length}`);
   }
 
   if (totalTime?.length) {
@@ -155,8 +153,8 @@ export const getAll = async ({
   queryText,
   difficulty,
   cuisine,
-  mealType,
-  dietaryPreference,
+  mealTypes,
+  dietaryPreferences,
   totalTime,
   sortBy = "newest",
 }: {
@@ -165,18 +163,16 @@ export const getAll = async ({
   queryText?: string;
   difficulty?: string[];
   cuisine?: string[];
-  mealType?: string[];
-  dietaryPreference?: string[];
+  mealTypes?: string[];
+  dietaryPreferences?: string[];
   totalTime?: string[];
   sortBy?: string;
 }): Promise<Recipe[]> => {
   const values: any[] = [];
   let baseQuery = `
     SELECT id, title, subtitle, prep_time, cook_time,
-    difficulty, cuisine, meal_type,
-    dietary_preference, card_image_url,
-    created_at
-    FROM recipes
+    difficulty, cuisine, calories, image_url,
+    created_at, updated_at FROM recipes
   `;
 
   const whereClauses: string[] = [];
@@ -196,14 +192,14 @@ export const getAll = async ({
     whereClauses.push(`cuisine = ANY($${values.length})`);
   }
 
-  if (mealType?.length) {
-    values.push(mealType);
-    whereClauses.push(`meal_type = ANY($${values.length})`);
+  if (mealTypes?.length) {
+    values.push(mealTypes);
+    whereClauses.push(`meal_types && $${values.length}`);
   }
 
-  if (dietaryPreference?.length) {
-    values.push(dietaryPreference);
-    whereClauses.push(`dietary_preference = ANY($${values.length})`);
+  if (dietaryPreferences?.length) {
+    values.push(dietaryPreferences);
+    whereClauses.push(`dietary_preferences && $${values.length}`);
   }
 
   if (totalTime?.length) {
@@ -217,8 +213,11 @@ export const getAll = async ({
         case "BETWEEN_15_AND_30":
           timeConditions.push("cook_time + prep_time BETWEEN 15 AND 30");
           break;
-        case "OVER_30":
-          timeConditions.push("cook_time + prep_time > 30");
+        case "BETWEEN_30_AND_60":
+          timeConditions.push("cook_time + prep_time BETWEEN 30 AND 60");
+          break;
+        case "OVER_60":
+          timeConditions.push("cook_time + prep_time > 60");
           break;
       }
     });

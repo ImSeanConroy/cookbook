@@ -59,20 +59,20 @@ export const getAllRecipesController = asyncHandler(
       query,
       difficulty,
       cuisine,
-      mealType,
-      dietaryPreference,
+      mealTypes,
+      dietaryPreferences,
       totalTime,
       sortBy,
     } = getAllRecipesQuerySchema.parse(req.query);
 
     const filters = {
-  difficulty,
-  cuisine,
-  mealType,
-  dietaryPreference,
-  totalTime,
-  sortBy,
-};
+      difficulty,
+      cuisine,
+      mealTypes,
+      dietaryPreferences,
+      totalTime,
+      sortBy,
+    };
 
     const result = await getAllRecipesService(page, limit, query, filters);
 

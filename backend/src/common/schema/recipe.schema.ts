@@ -3,9 +3,49 @@ import { z } from "zod";
 // --------------------
 // Enums / constants
 // --------------------
-export const difficulties = ["beginner", "intermediate", "advanced"] as const;
-export const mealTypes = ["breakfast", "lunch", "dinner", "snack", "dessert"] as const;
-export const dietaryPreference = ["vegan", "keto", "gluten free", "vegetarain"] as const;
+const cuisinesEnum = [
+  "Italian",
+  "Mexican",
+  "Indian",
+  "Chinese",
+  "American",
+  "Mediterranean",
+  "Japanese",
+  "Thai",
+  "Greek",
+  "French",
+  "Spanish",
+  "Korean",
+  "Vietnamese",
+  "Turkish",
+  "British",
+  "Caribbean",
+  "Moroccan",
+  "Ethiopian",
+] as const;
+
+const difficultiesEnum = ["beginner", "intermediate", "advanced"] as const;
+
+const mealTypesEnum = [
+  "breakfast",
+  "brunch",
+  "lunch",
+  "dinner",
+  "snack",
+  "dessert",
+  "appetizer",
+] as const;
+
+const dietaryPreferencesEnum = [
+  "vegetarian",
+  "vegan",
+  "gluten-free",
+  "keto",
+  "pescatarian",
+  "paleo",
+  "low-carb",
+  "dairy-free",
+] as const;
 
 // --------------------
 // Field Schemas
@@ -14,25 +54,24 @@ export const recipeIdSchema = z.string().trim().min(1);
 export const titleSchema = z.string().trim().min(1).max(100);
 export const subtitleSchema = z.string().trim().min(1).max(150);
 export const descriptionSchema = z.string().trim().min(1);
+export const imageUrlSchema = z.string().url();
+
 export const prepTimeSchema = z.number().int().nonnegative();
 export const cookTimeSchema = z.number().int().nonnegative();
 export const servingsSchema = z.number().int().positive();
 
-export const difficultySchema = z.enum(difficulties);
-export const cuisineSchema = z.string().trim().min(1);
-export const mealTypeSchema = z.enum(mealTypes);
-export const dietaryPreferenceSchema = z.enum(dietaryPreference);
+export const difficultySchema = z.enum(difficultiesEnum);
+export const cuisineSchema = z.enum(cuisinesEnum);
+export const mealTypeSchema = z.array(z.enum(mealTypesEnum));
+export const dietaryPreferenceSchema = z.array(z.enum(dietaryPreferencesEnum));
 
-export const imageUrlSchema = z.string().url();
-
+export const stepsSchema = z.array(z.string().trim().min(1));
 export const ingredientsSchema = z.array(
   z.object({
     name: z.string().trim().min(1),
     quantity: z.string().trim().min(1),
-  })
+  }),
 );
-
-export const stepsSchema = z.array(z.string().trim().min(1));
 
 // --------------------
 // Create / Update Recipe Schemas
@@ -47,10 +86,9 @@ export const createRecipeSchema = z.object({
   difficulty: difficultySchema,
   cuisine: cuisineSchema,
   image_url: imageUrlSchema,
-  card_image_url: imageUrlSchema,
-  meal_type: mealTypeSchema,
-  dietary_preference: dietaryPreferenceSchema,
-  
+  meal_types: mealTypeSchema,
+  dietary_preferences: dietaryPreferenceSchema,
+
   calories: z.number().int().positive().nullable(),
   protein: z.number().nonnegative().nullable(),
   carbs: z.number().nonnegative().nullable(),
@@ -85,12 +123,12 @@ export const getAllRecipesQuerySchema = z.object({
     .optional()
     .transform((val) => (val ? val.split(",") : undefined)),
 
-  mealType: z
+  mealTypes: z
     .string()
     .optional()
     .transform((val) => (val ? val.split(",") : undefined)),
 
-  dietaryPreference: z
+  dietaryPreferences: z
     .string()
     .optional()
     .transform((val) => (val ? val.split(",") : undefined)),
@@ -102,4 +140,3 @@ export const getAllRecipesQuerySchema = z.object({
 
   sortBy: z.string().optional().default("newest"),
 });
-

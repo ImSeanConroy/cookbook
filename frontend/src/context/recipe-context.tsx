@@ -11,8 +11,8 @@ type Filters = {
   query?: string;
   cuisine?: string[];
   difficulty?: string[];
-  mealType?: string[];
-  dietaryPreference?: string[];
+  mealTypes?: string[];
+  dietaryPreferences?: string[];
   totalTime?: string[];
 };
 

@@ -1,34 +1,51 @@
 "use client";
 
+import { X } from "lucide-react";
+
 import { Input } from "@/components/ui/input";
-import { useRecipes } from "../../context/recipe-context";
+import { Button } from "@/components/ui/button";
+
+import { useRecipes } from "@/context/recipe-context";
+import ThemeToggle from "@/components/other/theme-toggle";
+import { TableFilter } from "@/components/table/table-filter";
 import {
   cuisines,
   totalTime,
   difficulties,
   mealTypes,
   dietaryPreferences,
-} from "./data";
-import { TableFilter } from "./table-filter";
-import { Button } from "../ui/button";
-import { X } from "lucide-react";
-import ThemeToggle from "../ui/theme-toggle";
+} from "@/components/table/filters";
+import { useEffect, useState } from "react";
 
 export function TableToolbar() {
   const { filters, setFilters } = useRecipes();
+  const [searchValue, setSearchValue] = useState(filters.query ?? "");
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setFilters((prev) => ({
+        ...prev,
+        page: 1,
+        query: searchValue || undefined,
+      }));
+    }, 400);
+
+    return () => clearTimeout(timeout);
+  }, [searchValue, setFilters]);
 
   const hasActiveFilters =
     filters.query ||
     filters.cuisine?.length ||
     filters.difficulty?.length ||
-    filters.mealType?.length ||
-    filters.dietaryPreference?.length ||
+    filters.mealTypes?.length ||
+    filters.dietaryPreferences?.length ||
     filters.totalTime?.length;
 
   const handleReset = () => {
+    setSearchValue("");
     setFilters((prev) => ({
       page: 1,
-      limit: prev.limit, // keep current page size
+      limit: prev.limit,
     }));
   };
 
@@ -51,13 +68,13 @@ export function TableToolbar() {
 
         <TableFilter
           title="Meal Type"
-          filterKey="mealType"
+          filterKey="mealTypes"
           options={mealTypes}
         />
 
         <TableFilter
           title="Dietary Preference"
-          filterKey="dietaryPreference"
+          filterKey="dietaryPreferences"
           options={dietaryPreferences}
         />
 
@@ -77,14 +94,8 @@ export function TableToolbar() {
       <div className="flex items-center gap-2">
         <Input
           placeholder="Search recipes..."
-          value={filters.query ?? ""}
-          onChange={(e) =>
-            setFilters((prev) => ({
-              ...prev,
-              page: 1,
-              query: e.target.value || undefined,
-            }))
-          }
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
           className="h-8 w-[250px]"
         />
         <ThemeToggle />

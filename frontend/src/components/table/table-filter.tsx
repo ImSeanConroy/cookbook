@@ -1,8 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { Check, PlusCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Check, PlusCircle } from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,15 +21,16 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import { useRecipes } from "../../context/recipe-context";
+
+import { useRecipes } from "@/context/recipe-context";
 
 interface TableFilterProps {
   title: string;
   filterKey:
     | "cuisine"
     | "difficulty"
-    | "mealType"
-    | "dietaryPreference"
+    | "mealTypes"
+    | "dietaryPreferences"
     | "totalTime";
   options: {
     label: string;

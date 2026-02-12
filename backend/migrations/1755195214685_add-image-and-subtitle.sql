@@ -2,7 +2,6 @@
 
 ALTER TABLE recipes
 ADD COLUMN subtitle VARCHAR(150) NOT NULL,
-ADD COLUMN card_image_url TEXT NOT NULL,
 ADD COLUMN calories INT,
 ADD COLUMN protein DECIMAL(5,2),
 ADD COLUMN carbs DECIMAL(5,2),
@@ -12,14 +11,13 @@ ADD COLUMN fiber DECIMAL(5,2),
 ADD COLUMN saturated_fat DECIMAL(5,2),
 ADD COLUMN sodium INT,
 ADD COLUMN utensils VARCHAR(50)[],
-ADD COLUMN meal_type VARCHAR(50),
-ADD COLUMN dietary_preference VARCHAR(50);
+ADD COLUMN meal_types TEXT[] DEFAULT '{}',
+ADD COLUMN dietary_preferences TEXT[] DEFAULT '{}';
 
 -- Down Migration
 
 ALTER TABLE recipes
 DROP COLUMN IF EXISTS subtitle,
-DROP COLUMN IF EXISTS card_image_url,
 DROP COLUMN IF EXISTS calories,
 DROP COLUMN IF EXISTS protein,
 DROP COLUMN IF EXISTS carbs,
@@ -29,5 +27,5 @@ DROP COLUMN IF EXISTS fiber,
 DROP COLUMN IF EXISTS saturated_fat,
 DROP COLUMN IF EXISTS sodium,
 DROP COLUMN IF EXISTS utensils,
-DROP COLUMN IF EXISTS meal_type,
-DROP COLUMN IF EXISTS dietary_preference;
+DROP COLUMN IF EXISTS meal_types,
+DROP COLUMN IF EXISTS dietary_preferences;

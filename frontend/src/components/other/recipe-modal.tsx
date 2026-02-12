@@ -1,3 +1,11 @@
+import { useEffect, useState } from "react";
+import {
+  LucideActivity,
+  LucideClock,
+  LucideFlame,
+  LucideUtensils,
+} from "lucide-react";
+
 import {
   Dialog,
   DialogContent,
@@ -5,20 +13,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  LucideActivity,
-  LucideClock,
-  LucideFlame,
-  LucideUtensils,
-} from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { useRecipes } from "@/context/recipe-context";
-import { Button } from "../ui/button";
-import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+
 import { config } from "@/config";
 import type { RecipeType } from "@/types/recipe";
-import RecipeError from "./recipe-error";
-import RecipeSkeleton from "./recipe-skeleton";
+import { useRecipes } from "@/context/recipe-context";
+import RecipeError from "@/components/other/recipe-error";
+import RecipeSkeleton from "@/components/other/recipe-skeleton";
 
 const RecipeModel = () => {
   const [data, setData] = useState<RecipeType | null>(null);
@@ -171,6 +173,20 @@ const RecipeModel = () => {
                     </span>
                   </Button>
                 ))}
+
+                {data.dietaryPreferences &&
+                  data.dietaryPreferences.map((peference) => (
+                    <Button key={peference} variant="outline">
+                      <span>{peference.charAt(0).toLocaleUpperCase() + peference.slice(1)}</span>
+                    </Button>
+                  ))}
+
+                {data.mealTypes &&
+                  data.mealTypes.map((type) => (
+                    <Button key={type} variant="outline">
+                      <span>{type.charAt(0).toLocaleUpperCase() + type.slice(1)}</span>
+                    </Button>
+                  ))}
               </div>
             </div>
           </>

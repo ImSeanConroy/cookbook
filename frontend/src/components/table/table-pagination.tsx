@@ -7,14 +7,14 @@ import {
   ChevronsRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useRecipes } from "../../context/recipe-context";
+import { useRecipes } from "@/context/recipe-context";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "@/components/ui/select";
 
 export function TablePagination() {
   const { filters, setFilters, totalPages, totalCount } = useRecipes();

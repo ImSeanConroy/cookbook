@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "../ui/badge";
+import { Badge } from "@/components/ui/badge";
 
 import { useRecipes } from "@/context/recipe-context";
 
@@ -20,7 +20,7 @@ interface RecipeCardProps {
   cookTime: number;
   prepTime: number;
   selected?: boolean;
-  calories: string;
+  calories: number;
 }
 
 const RecipeCard = ({
@@ -61,7 +61,7 @@ const RecipeCard = ({
           </div>
           <div className="flex items-center gap-1">
             <LucideActivity className="h-3 w-3" />
-            <span>500 cals</span>
+            <span>{calories} cals</span>
           </div>
           <div className="flex items-center gap-1">
             <LucideFlame className="h-3 w-3" />
