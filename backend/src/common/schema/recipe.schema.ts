@@ -1,12 +1,51 @@
-import { z } from "zod";
+import { optional, z } from "zod";
 
 // --------------------
 // Enums / constants
 // --------------------
-export const difficulties = ["beginner", "intermediate", "advanced"] as const;
-export const cuisines = ["italian", "indian", "mexican", "japanese"] as const;
-export const cookTimes = ["under15", "15to30", "30to60", "over60"] as const;
-export const sortOptions = ["newest", "oldest", "az", "za"] as const;
+const cuisinesEnum = [
+  "Italian",
+  "Mexican",
+  "Indian",
+  "Chinese",
+  "American",
+  "Mediterranean",
+  "Japanese",
+  "Thai",
+  "Greek",
+  "French",
+  "Spanish",
+  "Korean",
+  "Vietnamese",
+  "Turkish",
+  "British",
+  "Caribbean",
+  "Moroccan",
+  "Ethiopian",
+] as const;
+
+const difficultiesEnum = ["beginner", "intermediate", "advanced"] as const;
+
+const mealTypesEnum = [
+  "breakfast",
+  "brunch",
+  "lunch",
+  "dinner",
+  "snack",
+  "dessert",
+  "appetizer",
+] as const;
+
+const dietaryPreferencesEnum = [
+  "vegetarian",
+  "vegan",
+  "gluten-free",
+  "keto",
+  "pescatarian",
+  "paleo",
+  "low-carb",
+  "dairy-free",
+] as const;
 
 // --------------------
 // Field Schemas
@@ -15,21 +54,26 @@ export const recipeIdSchema = z.string().trim().min(1);
 export const titleSchema = z.string().trim().min(1).max(100);
 export const subtitleSchema = z.string().trim().min(1).max(150);
 export const descriptionSchema = z.string().trim().min(1);
+export const imageUrlSchema = z.string().url();
+
 export const prepTimeSchema = z.number().int().nonnegative();
 export const cookTimeSchema = z.number().int().nonnegative();
 export const servingsSchema = z.number().int().positive();
-export const difficultySchema = z.enum(difficulties);
-export const cuisineSchema = z.enum(cuisines);
-export const imageUrlSchema = z.string().url();
 
+export const difficultySchema = z.enum(difficultiesEnum);
+export const cuisineSchema = z.enum(cuisinesEnum);
+export const mealTypeSchema = z.array(z.enum(mealTypesEnum));
+export const dietaryPreferenceSchema = z.array(z.enum(dietaryPreferencesEnum));
+
+export const stepsSchema = z.array(z.string().trim().min(1));
 export const ingredientsSchema = z.array(
   z.object({
     name: z.string().trim().min(1),
-    quantity: z.string().trim().min(1),
-  })
+    quantity: z.number(),
+    unit: z.string().trim().min(1),
+    optional: z.boolean().default(false),
+  }),
 );
-
-export const stepsSchema = z.array(z.string().trim().min(1));
 
 // --------------------
 // Create / Update Recipe Schemas
@@ -44,7 +88,9 @@ export const createRecipeSchema = z.object({
   difficulty: difficultySchema,
   cuisine: cuisineSchema,
   image_url: imageUrlSchema,
-  card_image_url: imageUrlSchema,
+  meal_types: mealTypeSchema,
+  dietary_preferences: dietaryPreferenceSchema,
+
   calories: z.number().int().positive().nullable(),
   protein: z.number().nonnegative().nullable(),
   carbs: z.number().nonnegative().nullable(),
@@ -66,9 +112,33 @@ export const updateRecipeSchema = createRecipeSchema.partial();
 export const getAllRecipesQuerySchema = z.object({
   page: z.string().regex(/^\d+$/).transform(Number).default("1"),
   limit: z.string().regex(/^\d+$/).transform(Number).default("12"),
+
   query: z.string().optional(),
-  difficulty: z.enum([...difficulties, "any"]).optional().default("any"),
-  cuisine: z.enum([...cuisines, "any"]).optional().default("any"),
-  cookTime: z.enum([...cookTimes, "any"]).optional().default("any"),
-  sortBy: z.enum(sortOptions).optional().default("newest"),
+
+  difficulty: z
+    .string()
+    .optional()
+    .transform((val) => (val ? val.split(",") : undefined)),
+
+  cuisine: z
+    .string()
+    .optional()
+    .transform((val) => (val ? val.split(",") : undefined)),
+
+  mealTypes: z
+    .string()
+    .optional()
+    .transform((val) => (val ? val.split(",") : undefined)),
+
+  dietaryPreferences: z
+    .string()
+    .optional()
+    .transform((val) => (val ? val.split(",") : undefined)),
+
+  totalTime: z
+    .string()
+    .optional()
+    .transform((val) => (val ? val.split(",") : undefined)),
+
+  sortBy: z.string().optional().default("newest"),
 });

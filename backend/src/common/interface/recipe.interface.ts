@@ -8,7 +8,9 @@ export type DifficultyLevel = 'beginner' | 'intermediate' | 'advanced';
 // --------------------
 export interface Ingredient {
   name: string;
-  quantity: string;
+  quantity: number;
+  unit: string;
+  optional?: boolean;
 }
 
 export interface Step {
@@ -28,9 +30,10 @@ export interface Recipe {
   cook_time: number;
   servings: number;
   difficulty: DifficultyLevel;
+  meal_types: string[];
+  dietary_preferences: string[];
   cuisine: string;
   image_url: string;
-  card_image_url: string;
   calories: number | null;
   protein: number | null;
   carbs: number | null;

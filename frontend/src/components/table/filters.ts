@@ -1,0 +1,70 @@
+import {
+  Flame,
+  Clock,
+  ChefHat,
+  Leaf,
+  Wheat,
+  Candy,
+  Sandwich,
+  Pizza,
+  Croissant,
+  Apple,
+  Zap,
+  Fish,
+  Drumstick,
+  Milk,
+  Sparkles,
+} from "lucide-react";
+
+export const cuisines = [
+  { value: "American", label: "American" },
+  { value: "British", label: "British" },
+  { value: "Caribbean", label: "Caribbean" },
+  { value: "Chinese", label: "Chinese" },
+  { value: "Ethiopian", label: "Ethiopian" },
+  { value: "French", label: "French" },
+  { value: "Greek", label: "Greek" },
+  { value: "Indian", label: "Indian" },
+  { value: "Italian", label: "Italian" },
+  { value: "Japanese", label: "Japanese" },
+  { value: "Korean", label: "Korean" },
+  { value: "Mediterranean", label: "Mediterranean" },
+  { value: "Moroccan", label: "Moroccan" },
+  { value: "Mexican", label: "Mexican" },
+  { value: "Spanish", label: "Spanish" },
+  { value: "Thai", label: "Thai" },
+  { value: "Turkish", label: "Turkish" },
+  { value: "Vietnamese", label: "Vietnamese" },
+];
+
+export const totalTime = [
+  { value: "UNDER_15", label: "Under 15 mins", icon: Clock },
+  { value: "BETWEEN_15_AND_30", label: "15–30 mins", icon: Clock },
+  { value: "BETWEEN_30_AND_60", label: "30–60 mins", icon: Clock },
+  { value: "OVER_60", label: "Over 60 mins", icon: Clock },
+];
+
+export const difficulties = [
+  { value: "beginner", label: "Beginner", icon: Leaf },
+  { value: "intermediate", label: "Intermediate", icon: ChefHat },
+  { value: "advanced", label: "Advanced", icon: Flame },
+];
+
+export const mealTypes = [
+  { value: "breakfast", label: "Breakfast", icon: Croissant },
+  { value: "lunch", label: "lunch", icon: Sandwich },
+  { value: "dinner", label: "Dinner", icon: Pizza },
+  { value: "snack", label: "Snack", icon: Apple },
+  { value: "dessert", label: "Dessert", icon: Candy },
+];
+
+export const dietaryPreferences = [
+  { value: "dairy-free", label: "Dairy-Free", icon: Milk },
+  { value: "gluten-free", label: "Gluten-Free", icon: Wheat },
+  { value: "keto", label: "Keto", icon: Zap },
+  { value: "low-carb", label: "Low Carb", icon: Sparkles },
+  { value: "paleo", label: "Paleo", icon: Drumstick },
+  { value: "pescatarian", label: "Pescatarian", icon: Fish },
+  { value: "vegan", label: "Vegan", icon: Leaf },
+  { value: "vegetarian", label: "Vegetarian", icon: Leaf },
+];

@@ -45,7 +45,7 @@ export const updateRecipeController = asyncHandler(
       message: "Recipe updated successfully",
       recipe: updatedRecipe,
     });
-  }
+  },
 );
 
 /**
@@ -53,9 +53,26 @@ export const updateRecipeController = asyncHandler(
  */
 export const getAllRecipesController = asyncHandler(
   async (req: Request, res: Response) => {
-    const { page, limit, query, difficulty, cuisine, cookTime, sortBy } =
-      getAllRecipesQuerySchema.parse(req.query);
-    const filters = { difficulty, cuisine, cookTime, sortBy };
+    const {
+      page,
+      limit,
+      query,
+      difficulty,
+      cuisine,
+      mealTypes,
+      dietaryPreferences,
+      totalTime,
+      sortBy,
+    } = getAllRecipesQuerySchema.parse(req.query);
+
+    const filters = {
+      difficulty,
+      cuisine,
+      mealTypes,
+      dietaryPreferences,
+      totalTime,
+      sortBy,
+    };
 
     const result = await getAllRecipesService(page, limit, query, filters);
 

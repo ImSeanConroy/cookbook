@@ -17,11 +17,11 @@ export const create = async (
   const res = await query(
     `INSERT INTO recipes (
       title, subtitle, description, prep_time, cook_time, servings, difficulty,
-      cuisine, image_url, card_image_url, utensils,
+      cuisine, image_url, utensils, meal_types, dietary_preferences,
       calories, protein, carbs, fat, sugars, fiber, saturated_fat, sodium
     ) VALUES (
       $1, $2, $3, $4, $5, $6, $7, $8, $9, $10,
-      $11, $12, $13, $14, $15, $16, $17, $18, $19
+      $11, $12, $13, $14, $15, $16, $17, $18, $19, $20
     )
     RETURNING *`,
     [
@@ -34,8 +34,9 @@ export const create = async (
       data.difficulty,
       data.cuisine,
       data.image_url,
-      data.card_image_url,
       data.utensils,
+      data.meal_types,
+      data.dietary_preferences,
       data.calories,
       data.protein,
       data.carbs,
@@ -44,7 +45,7 @@ export const create = async (
       data.fiber,
       data.saturated_fat,
       data.sodium,
-    ]
+    ],
   );
   return toCamelCase(res.rows)[0];
 };
@@ -70,12 +71,16 @@ export const getCount = async ({
   queryText,
   difficulty,
   cuisine,
-  cookTime,
+  mealTypes,
+  dietaryPreferences,
+  totalTime,
 }: {
   queryText?: string;
-  difficulty?: string;
-  cuisine?: string;
-  cookTime?: string;
+  difficulty?: string[];
+  cuisine?: string[];
+  mealTypes?: string[];
+  dietaryPreferences?: string[];
+  totalTime?: string[];
 }): Promise<number> => {
   let baseQuery = "SELECT COUNT(*) FROM recipes";
   const values: any[] = [];
@@ -83,37 +88,56 @@ export const getCount = async ({
 
   if (queryText) {
     values.push(`%${queryText}%`);
-    whereClauses.push(`title ILIKE $${values.length}`);
+    whereClauses.push(`title ILIKE $${values.length} OR subtitle ILIKE $${values.length + 1}`);
+    values.push(`%${queryText}%`);
   }
 
-  if (difficulty && difficulty !== "any") {
+  if (difficulty?.length) {
     values.push(difficulty);
-    whereClauses.push(`difficulty = $${values.length}`);
+    whereClauses.push(`difficulty = ANY($${values.length})`);
   }
 
-  if (cuisine && cuisine !== "any") {
+  if (cuisine?.length) {
     values.push(cuisine);
-    whereClauses.push(`cuisine = $${values.length}`);
+    whereClauses.push(`cuisine = ANY($${values.length})`);
   }
 
-  if (cookTime && cookTime !== "any") {
-    switch (cookTime) {
-      case "under15":
-        whereClauses.push(`cook_time < 15`);
-        break;
-      case "15to30":
-        whereClauses.push(`cook_time BETWEEN 15 AND 30`);
-        break;
-      case "30to60":
-        whereClauses.push(`cook_time BETWEEN 30 AND 60`);
-        break;
-      case "over60":
-        whereClauses.push(`cook_time > 60`);
-        break;
+  if (mealTypes?.length) {
+    values.push(mealTypes);
+    whereClauses.push(`meal_types = ANY($${values.length})`);
+  }
+
+  if (dietaryPreferences?.length) {
+    values.push(dietaryPreferences);
+    whereClauses.push(`dietary_preferences = ANY($${values.length})`);
+  }
+
+  if (totalTime?.length) {
+    const timeConditions: string[] = [];
+
+    totalTime.forEach((time) => {
+      switch (time) {
+        case "UNDER_15":
+          timeConditions.push("cook_time + prep_time < 15");
+          break;
+        case "BETWEEN_15_AND_30":
+          timeConditions.push("cook_time + prep_time BETWEEN 15 AND 30");
+          break;
+        case "BETWEEN_30_AND_60":
+          timeConditions.push("cook_time + prep_time BETWEEN 30 AND 60");
+          break;
+        case "OVER_60":
+          timeConditions.push("cook_time + prep_time > 60");
+          break;
+      }
+    });
+
+    if (timeConditions.length) {
+      whereClauses.push(`(${timeConditions.join(" OR ")})`);
     }
   }
 
-  if (whereClauses.length > 0) {
+  if (whereClauses.length) {
     baseQuery += " WHERE " + whereClauses.join(" AND ");
   }
 
@@ -129,66 +153,92 @@ export const getCount = async ({
  */
 export const getAll = async ({
   offset = 0,
-  limit = 10,
+  limit = 12,
   queryText,
   difficulty,
   cuisine,
-  cookTime,
+  mealTypes,
+  dietaryPreferences,
+  totalTime,
   sortBy = "newest",
 }: {
   offset?: number;
   limit?: number;
   queryText?: string;
-  difficulty?: string;
-  cuisine?: string;
-  cookTime?: string;
+  difficulty?: string[];
+  cuisine?: string[];
+  mealTypes?: string[];
+  dietaryPreferences?: string[];
+  totalTime?: string[];
   sortBy?: string;
 }): Promise<Recipe[]> => {
   const values: any[] = [];
   let baseQuery = `
-    SELECT id, title, subtitle, prep_time, cook_time, servings, difficulty, cuisine, card_image_url, created_at, updated_at 
-    FROM recipes
+    SELECT id, title, subtitle, prep_time, cook_time,
+    difficulty, cuisine, calories, image_url,
+    created_at, updated_at FROM recipes
   `;
 
   const whereClauses: string[] = [];
 
   if (queryText) {
     values.push(`%${queryText}%`);
-    whereClauses.push(`title ILIKE $${values.length}`);
+    whereClauses.push(`title ILIKE $${values.length} OR subtitle ILIKE $${values.length + 1}`);
+    values.push(`%${queryText}%`);
   }
 
-  if (difficulty && difficulty !== "any") {
+  if (difficulty?.length) {
     values.push(difficulty);
-    whereClauses.push(`difficulty = $${values.length}`);
+    whereClauses.push(`difficulty = ANY($${values.length})`);
   }
 
-  if (cuisine && cuisine !== "any") {
+  if (cuisine?.length) {
     values.push(cuisine);
-    whereClauses.push(`cuisine = $${values.length}`);
+    whereClauses.push(`cuisine = ANY($${values.length})`);
   }
 
-  if (cookTime && cookTime !== "any") {
-    switch (cookTime) {
-      case "under15":
-        whereClauses.push(`cook_time < 15`);
-        break;
-      case "15to30":
-        whereClauses.push(`cook_time BETWEEN 15 AND 30`);
-        break;
-      case "30to60":
-        whereClauses.push(`cook_time BETWEEN 30 AND 60`);
-        break;
-      case "over60":
-        whereClauses.push(`cook_time > 60`);
-        break;
+  if (mealTypes?.length) {
+    values.push(mealTypes);
+    whereClauses.push(`meal_types = ANY($${values.length})`);
+  }
+
+  if (dietaryPreferences?.length) {
+    values.push(dietaryPreferences);
+    whereClauses.push(`dietary_preferences = ANY($${values.length})`);
+  }
+
+  if (totalTime?.length) {
+    const timeConditions: string[] = [];
+
+    totalTime.forEach((time) => {
+      switch (time) {
+        case "UNDER_15":
+          timeConditions.push("cook_time + prep_time < 15");
+          break;
+        case "BETWEEN_15_AND_30":
+          timeConditions.push("cook_time + prep_time BETWEEN 15 AND 30");
+          break;
+        case "BETWEEN_30_AND_60":
+          timeConditions.push("cook_time + prep_time BETWEEN 30 AND 60");
+          break;
+        case "OVER_60":
+          timeConditions.push("cook_time + prep_time > 60");
+          break;
+      }
+    });
+
+    if (timeConditions.length) {
+      whereClauses.push(`(${timeConditions.join(" OR ")})`);
     }
   }
 
-  if (whereClauses.length > 0) {
+  if (whereClauses.length) {
     baseQuery += " WHERE " + whereClauses.join(" AND ");
   }
 
+  // Sorting
   let orderClause = "ORDER BY created_at DESC";
+
   switch (sortBy) {
     case "oldest":
       orderClause = "ORDER BY created_at ASC";
@@ -202,7 +252,10 @@ export const getAll = async ({
   }
 
   values.push(limit, offset);
-  baseQuery += ` ${orderClause} LIMIT $${values.length - 1} OFFSET $${values.length}`;
+
+  baseQuery += ` ${orderClause}
+    LIMIT $${values.length - 1}
+    OFFSET $${values.length}`;
 
   const res = await query(baseQuery, values);
   return toCamelCase(res.rows);
@@ -215,7 +268,7 @@ export const getAll = async ({
  * @returns The updated recipe object or null if not found
  */
 export const update = async (
-  data: Partial<Omit<Recipe, "created_at" | "updated_at">>
+  data: Partial<Omit<Recipe, "created_at" | "updated_at">>,
 ): Promise<Recipe | null> => {
   const fields = [];
   const values = [];
@@ -231,7 +284,7 @@ export const update = async (
   values.push(data.id);
   const res = await query(
     `UPDATE recipes SET ${fields.join(", ")} WHERE id = $${i} RETURNING *;`,
-    values
+    values,
   );
 
   return toCamelCase(res.rows)[0] || null;

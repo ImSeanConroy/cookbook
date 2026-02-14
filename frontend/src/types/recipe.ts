@@ -1,22 +1,30 @@
-type DifficultyLevel = "easy" | "medium" | "hard" | "intermediate";
+type DifficultyLevelType = "beginner" | "intermedate" | "advanced";
+type MealTypeType = "breakfast" | "lunch" | "dinner" | "snack" | "dessert";
 
-export interface Ingredient {
+export interface IngredientType {
   name: string;
-  quantity: string;
+  quantity: number;
+  unit: string;
+  optional: boolean;
 }
 
-export interface Recipe {
+export interface RecipeType {
   id: string;
   title: string;
   subtitle: string;
   description: string;
+
   prepTime: number;
   cookTime: number;
   servings: number;
-  difficulty: DifficultyLevel;
+  
+  difficulty: DifficultyLevelType;
+  mealTypes: MealTypeType[];
+  dietaryPreferences: string[];
   cuisine: string;
+  
   imageUrl: string;
-  cardImageUrl: string;
+  
   calories: number | null;
   protein: number | null;
   carbs: number | null;
@@ -25,23 +33,30 @@ export interface Recipe {
   fiber: number | null;
   saturatedFat: number | null;
   sodium: number | null;
+  
   createdAt: string;
   updatedAt: string;
-  ingredients: Ingredient[];
+  
+  ingredients: IngredientType[];
   steps: string[];
   utensils: string[];
 }
 
-export interface RecipeSummary {
+export interface RecipeSummaryType {
   id: string;
   title: string;
   subtitle: string;
+  
   prepTime: number;
   cookTime: number;
   servings: number;
-  difficulty: string;
+  
   cuisine: string;
-  cardImageUrl: string;
+  difficulty: DifficultyLevelType;
+  calories: number;
+  
+  imageUrl: string;
+  
   createdAt: string;
   updatedAt: string;
 }

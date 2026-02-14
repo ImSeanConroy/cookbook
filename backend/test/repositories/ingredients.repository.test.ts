@@ -14,11 +14,21 @@ const mockedQuery = vi.mocked(query);
 
 describe("Ingredient Repository", () => {
   const recipeId = "abc123";
-  const ingredient = { name: "salt", quantity: "1 tsp" };
-  const mockRow = { name: "salt", quantity: "1 tsp" };
+  const ingredient = {
+    name: "salt",
+    quantity: 1,
+    unit: "tsp",
+    optional: false,
+  };
+  const mockRow = {
+    name: "salt",
+    quantity: 1,
+    unit: "tsp",
+    optional: false,
+  };
   const mockRows = [
-    { name: "salt", quantity: "1 tsp" },
-    { name: "pepper", quantity: "2 tsp" },
+    { name: "salt", quantity: 1, unit: "tsp", optional: false },
+    { name: "pepper", quantity: 2, unit: "tsp", optional: true },
   ];
 
   beforeEach(() => {
@@ -26,41 +36,41 @@ describe("Ingredient Repository", () => {
   });
 
   describe("create", () => {
-    it("should insert an ingredient and return the inserted row", async () => {
+    it("inserts an ingredient and returns it", async () => {
       mockedQuery.mockResolvedValue({ rows: [mockRow] });
 
       const result = await IngredientRepo.create(recipeId, ingredient);
 
       expect(mockedQuery).toHaveBeenCalledWith(
-        `INSERT INTO ingredients (recipe_id, name, quantity) VALUES ($1, $2, $3) RETURNING name, quantity`,
-        [recipeId, "salt", "1 tsp"]
+        `INSERT INTO ingredients (recipe_id, name, quantity, unit, optional) VALUES ($1, $2, $3, $4, $5) RETURNING name, quantity`,
+        [recipeId, "salt", 1, "tsp", false],
       );
       expect(result).toEqual(mockRow);
     });
 
-    it("should throw an error if the database query fails", async () => {
+    it("throws if the database query fails", async () => {
       mockedQuery.mockRejectedValue(new Error("DB failure"));
 
       await expect(IngredientRepo.create(recipeId, ingredient)).rejects.toThrow(
-        "DB failure"
+        "DB failure",
       );
     });
   });
 
   describe("findByRecipeId", () => {
-    it("should return ingredients for the given recipe ID", async () => {
+    it("returns all ingredients for a recipe", async () => {
       mockedQuery.mockResolvedValue({ rows: mockRows });
 
       const result = await IngredientRepo.findByRecipeId(recipeId);
 
       expect(mockedQuery).toHaveBeenCalledWith(
-        `SELECT name, quantity FROM ingredients WHERE recipe_id = $1 ORDER BY id ASC`,
-        [recipeId]
+        `SELECT name, quantity, unit, optional FROM ingredients WHERE recipe_id = $1 ORDER BY name ASC`,
+        [recipeId],
       );
       expect(result).toEqual(mockRows);
     });
 
-    it("should return empty array if no ingredients found", async () => {
+    it("returns empty array if no ingredients found", async () => {
       mockedQuery.mockResolvedValue({ rows: [] });
 
       const result = await IngredientRepo.findByRecipeId(recipeId);
@@ -68,33 +78,33 @@ describe("Ingredient Repository", () => {
       expect(result).toEqual([]);
     });
 
-    it("should throw an error if the database query fails", async () => {
+    it("throws if DB query fails", async () => {
       mockedQuery.mockRejectedValue(new Error("DB failure"));
 
       await expect(IngredientRepo.findByRecipeId(recipeId)).rejects.toThrow(
-        "DB failure"
+        "DB failure",
       );
     });
   });
 
   describe("deleteByRecipeId", () => {
-    it("should delete ingredients for a recipe and return null", async () => {
+    it("deletes ingredients and returns null", async () => {
       mockedQuery.mockResolvedValue({ rows: [] });
 
       const result = await IngredientRepo.deleteByRecipeId(recipeId);
 
       expect(mockedQuery).toHaveBeenCalledWith(
         `DELETE FROM ingredients WHERE recipe_id = $1`,
-        [recipeId]
+        [recipeId],
       );
       expect(result).toBeNull();
     });
 
-    it("should throw an error if the database query fails", async () => {
+    it("throws if DB query fails", async () => {
       mockedQuery.mockRejectedValue(new Error("DB failure"));
 
       await expect(IngredientRepo.deleteByRecipeId(recipeId)).rejects.toThrow(
-        "DB failure"
+        "DB failure",
       );
     });
   });

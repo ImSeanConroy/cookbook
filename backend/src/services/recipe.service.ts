@@ -16,7 +16,9 @@ import * as StepRepo from "../repositories/step.repository";
  * @returns The newly created recipe including ingredients and steps
  * @throws BadRequestException if creation fails
  */
-export const createRecipeService = async (body: RecipeInput): Promise<Recipe> => {
+export const createRecipeService = async (
+  body: RecipeInput,
+): Promise<Recipe> => {
   const { ingredients, steps, ...recipeData } = body;
 
   const newRecipe = await RecipeRepo.create(recipeData);
@@ -24,6 +26,8 @@ export const createRecipeService = async (body: RecipeInput): Promise<Recipe> =>
 
   const newIngredients = await Promise.all(
     ingredients.map(async (ingredient: Ingredient) => {
+
+      
       const created = await IngredientRepo.create(newRecipe.id, ingredient);
       if (!created) throw new BadRequestException("Failed to create recipe ingredient");
       return created;
@@ -57,7 +61,9 @@ export const createRecipeService = async (body: RecipeInput): Promise<Recipe> =>
  * @returns The recipe with ingredients and steps
  * @throws NotFoundException if the recipe or related data is not found
  */
-export const getRecipeByIdService = async (recipeId: string): Promise<Recipe> => {
+export const getRecipeByIdService = async (
+  recipeId: string,
+): Promise<Recipe> => {
   const recipe = await RecipeRepo.findById(recipeId);
   if (!recipe) throw new NotFoundException("Recipe not found");
 
@@ -87,7 +93,14 @@ export const getAllRecipesService = async (
   page = 1,
   limit = 12,
   query?: string,
-  filters?: { difficulty?: string; cuisine?: string; cookTime?: string; sortBy?: string }
+  filters?: {
+    difficulty?: string[];
+    cuisine?: string[];
+    mealTypes?: string[];
+    dietaryPreferences?: string[];
+    totalTime?: string[];
+    sortBy?: string;
+  },
 ) => {
   const offset = (page - 1) * limit;
 
@@ -98,14 +111,18 @@ export const getAllRecipesService = async (
       queryText: query,
       difficulty: filters?.difficulty,
       cuisine: filters?.cuisine,
-      cookTime: filters?.cookTime,
+      totalTime: filters?.totalTime,
       sortBy: filters?.sortBy,
+      mealTypes: filters?.mealTypes,
+      dietaryPreferences: filters?.dietaryPreferences,
     }),
     RecipeRepo.getCount({
       queryText: query,
       difficulty: filters?.difficulty,
       cuisine: filters?.cuisine,
-      cookTime: filters?.cookTime,
+      totalTime: filters?.totalTime,
+      mealTypes: filters?.mealTypes,
+      dietaryPreferences: filters?.dietaryPreferences,
     }),
   ]);
 
@@ -146,7 +163,6 @@ export const updateRecipeService = async (
     difficulty: body.difficulty || safeExistingRecipe.difficulty,
     cuisine: body.cuisine || safeExistingRecipe.cuisine,
     image_url: body.image_url || safeExistingRecipe.image_url,
-    card_image_url: body.card_image_url || safeExistingRecipe.card_image_url,
   };
 
   const updatedRecipe = await RecipeRepo.update(mergedRecipe);
