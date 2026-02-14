@@ -17,43 +17,40 @@ describe("Step Repository", () => {
     vi.clearAllMocks();
   });
 
+  const recipeId = "recipe-1";
+  const step = { step_number: 1, instruction: "Boil water" };
+  const mockRow = { ...step };
+  const mockRows = [
+    { step_number: 1, instruction: "Step 1" },
+    { step_number: 2, instruction: "Step 2" },
+  ];
+
   describe("create", () => {
     it("should insert a step and return it", async () => {
-      const mockRow = {
-        step_number: 1,
-        instruction: "Boil water",
-      };
       mockedQuery.mockResolvedValue({ rows: [mockRow] });
 
-      const result = await StepRepo.create("recipe-1", mockRow);
+      const result = await StepRepo.create(recipeId, step);
 
-      expect(mockedQuery).toHaveBeenCalledOnce();
+      expect(mockedQuery).toHaveBeenCalledTimes(1);
       expect(result).toEqual(mockRow);
     });
 
-    it("should throw an error if the database query fails", async () => {
+    it("should throw if the database query fails", async () => {
       mockedQuery.mockRejectedValue(new Error("DB failure"));
 
-      await expect(StepRepo.create("recipe-1", {
-        step_number: 1,
-        instruction: "Boil water",
-      })).rejects.toThrow("DB failure");
+      await expect(StepRepo.create(recipeId, step)).rejects.toThrow("DB failure");
     });
   });
 
   describe("findByRecipeId", () => {
     it("should return steps for the given recipe", async () => {
-      const mockRows = [
-        { step_number: 1, instruction: "Step 1" },
-        { step_number: 2, instruction: "Step 2" },
-      ];
       mockedQuery.mockResolvedValue({ rows: mockRows });
 
-      const result = await StepRepo.findByRecipeId("recipe-1");
+      const result = await StepRepo.findByRecipeId(recipeId);
 
       expect(mockedQuery).toHaveBeenCalledWith(
-        expect.stringContaining("SELECT"),
-        ["recipe-1"]
+        `SELECT step_number, instruction FROM steps WHERE recipe_id = $1 ORDER BY step_number ASC`,
+        [recipeId]
       );
       expect(result).toEqual(mockRows);
     });
@@ -61,28 +58,27 @@ describe("Step Repository", () => {
     it("should return empty array if no steps found", async () => {
       mockedQuery.mockResolvedValue({ rows: [] });
 
-      const result = await StepRepo.findByRecipeId("recipe-1");
+      const result = await StepRepo.findByRecipeId(recipeId);
 
       expect(result).toEqual([]);
     });
 
-    it("should throw an error if the database query fails", async () => {
+    it("should throw if the database query fails", async () => {
       mockedQuery.mockRejectedValue(new Error("DB failure"));
 
-      await expect(StepRepo.findByRecipeId("recipe-1")).rejects.toThrow("DB failure");
+      await expect(StepRepo.findByRecipeId(recipeId)).rejects.toThrow("DB failure");
     });
   });
 
   describe("deleteByRecipeId", () => {
-    it("should delete steps and return result when deletion occurs", async () => {
-      const mockRow = { deleted: true };
+    it("should delete steps and return deleted row if present", async () => {
       mockedQuery.mockResolvedValue({ rows: [mockRow] });
 
-      const result = await StepRepo.deleteByRecipeId("recipe-1");
+      const result = await StepRepo.deleteByRecipeId(recipeId);
 
       expect(mockedQuery).toHaveBeenCalledWith(
-        expect.stringContaining("DELETE"),
-        ["recipe-1"]
+        `DELETE FROM steps WHERE recipe_id = $1`,
+        [recipeId]
       );
       expect(result).toEqual(mockRow);
     });
@@ -90,15 +86,15 @@ describe("Step Repository", () => {
     it("should return null if no steps were deleted", async () => {
       mockedQuery.mockResolvedValue({ rows: [] });
 
-      const result = await StepRepo.deleteByRecipeId("recipe-1");
+      const result = await StepRepo.deleteByRecipeId(recipeId);
 
       expect(result).toBeNull();
     });
 
-    it("should throw an error if the database query fails", async () => {
+    it("should throw if the database query fails", async () => {
       mockedQuery.mockRejectedValue(new Error("DB failure"));
 
-      await expect(StepRepo.deleteByRecipeId("recipe-1")).rejects.toThrow("DB failure");
+      await expect(StepRepo.deleteByRecipeId(recipeId)).rejects.toThrow("DB failure");
     });
   });
 });

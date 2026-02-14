@@ -104,12 +104,12 @@ export const getCount = async ({
 
   if (mealTypes?.length) {
     values.push(mealTypes);
-    whereClauses.push(`meal_types && $${values.length}`);
+    whereClauses.push(`meal_types = ANY($${values.length})`);
   }
 
   if (dietaryPreferences?.length) {
     values.push(dietaryPreferences);
-    whereClauses.push(`dietary_preferences && $${values.length}`);
+    whereClauses.push(`dietary_preferences = ANY($${values.length})`);
   }
 
   if (totalTime?.length) {
@@ -123,8 +123,11 @@ export const getCount = async ({
         case "BETWEEN_15_AND_30":
           timeConditions.push("cook_time + prep_time BETWEEN 15 AND 30");
           break;
-        case "OVER_30":
-          timeConditions.push("cook_time + prep_time > 30");
+        case "BETWEEN_30_AND_60":
+          timeConditions.push("cook_time + prep_time BETWEEN 30 AND 60");
+          break;
+        case "OVER_60":
+          timeConditions.push("cook_time + prep_time > 60");
           break;
       }
     });
@@ -196,12 +199,12 @@ export const getAll = async ({
 
   if (mealTypes?.length) {
     values.push(mealTypes);
-    whereClauses.push(`meal_types && $${values.length}`);
+    whereClauses.push(`meal_types = ANY($${values.length})`);
   }
 
   if (dietaryPreferences?.length) {
     values.push(dietaryPreferences);
-    whereClauses.push(`dietary_preferences && $${values.length}`);
+    whereClauses.push(`dietary_preferences = ANY($${values.length})`);
   }
 
   if (totalTime?.length) {

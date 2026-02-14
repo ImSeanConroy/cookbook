@@ -30,7 +30,6 @@ export const createRecipeService = async (
       
       const created = await IngredientRepo.create(newRecipe.id, ingredient);
       if (!created) throw new BadRequestException("Failed to create recipe ingredient");
-      console.log(ingredient)
       return created;
     })
   );

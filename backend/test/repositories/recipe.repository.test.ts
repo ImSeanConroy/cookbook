@@ -60,6 +60,8 @@ describe("Recipe Repository", () => {
         fiber: 4.0,
         saturated_fat: 5.0,
         sodium: 600,
+        meal_types: ["lunch"],
+        dietary_preferences: [],
         utensils: ["example-1", "example-2"],
       });
 
@@ -89,8 +91,10 @@ describe("Recipe Repository", () => {
           fiber: 4.0,
           saturated_fat: 5.0,
           sodium: 600,
+          meal_types: ["lunch"],
+          dietary_preferences: [],
           utensils: ["example-1", "example-2"],
-        })
+        }),
       ).rejects.toThrow("DB failure");
     });
   });
@@ -137,92 +141,79 @@ describe("Recipe Repository", () => {
       expect(result).toEqual(mockRows);
     });
 
-    it("filters by queryText", async () => {
-      mockedQuery.mockResolvedValue({ rows: [{ title: "Veggie" }] });
+    const filters = [
+      {
+        name: "queryText",
+        value: "Veggie",
+        expected: "WHERE title ILIKE $1",
+        params: ["%Veggie%", "%Veggie%", 12, 0],
+      },
+      {
+        name: "difficulty",
+        value: ["beginner"],
+        expected: "difficulty = ANY($1)",
+        params: [["beginner"], 12, 0],
+      },
+      {
+        name: "cuisine",
+        value: ["Italian"],
+        expected: "cuisine = ANY($1)",
+        params: [["Italian"], 12, 0],
+      },
+      {
+        name: "mealTypes",
+        value: ["lunch"],
+        expected: "meal_types = ANY($1)",
+        params: [["lunch"], 12, 0],
+      },
+      {
+        name: "dietaryPreferences",
+        value: ["vegan"],
+        expected: "dietary_preferences = ANY($1)",
+        params: [["vegan"], 12, 0],
+      },
+      {
+        name: "totalTime UNDER_15",
+        value: ["UNDER_15"],
+        expected: "cook_time + prep_time < 15",
+        params: [12, 0],
+      },
+      {
+        name: "totalTime BETWEEN_15_AND_30",
+        value: ["BETWEEN_15_AND_30"],
+        expected: "cook_time + prep_time BETWEEN 15 AND 30",
+        params: [12, 0],
+      },
+      {
+        name: "totalTime BETWEEN_30_AND_60",
+        value: ["BETWEEN_30_AND_60"],
+        expected: "cook_time + prep_time BETWEEN 30 AND 60",
+        params: [12, 0],
+      },
+      {
+        name: "totalTime OVER_60",
+        value: ["OVER_60"],
+        expected: "cook_time + prep_time > 60",
+        params: [12, 0],
+      },
+    ];
 
-      await RecipeRepo.getAll({
-        queryText: "Veggie",
-        offset: 0,
-        limit: 5,
+    filters.forEach(({ name, value, expected, params }) => {
+      it(`filters by ${name}`, async () => {
+        mockedQuery.mockResolvedValue({ rows: [{ title: "X" }] });
+        await RecipeRepo.getAll({ [name.split(" ")[0]]: value });
+        expect(mockedQuery).toHaveBeenCalledWith(
+          expect.stringContaining(expected),
+          params,
+        );
       });
-
-      expect(mockedQuery).toHaveBeenCalledWith(
-        expect.stringContaining("WHERE title ILIKE $1"),
-        ["%Veggie%", 5, 0]
-      );
-    });
-
-    it("filters by difficulty", async () => {
-      mockedQuery.mockResolvedValue({ rows: [{ title: "X" }] });
-
-      await RecipeRepo.getAll({ difficulty: "beginner" });
-
-      expect(mockedQuery).toHaveBeenCalledWith(
-        expect.stringContaining("difficulty = $1"),
-        ["beginner", 10, 0]
-      );
-    });
-
-    it("filters by cuisine", async () => {
-      mockedQuery.mockResolvedValue({ rows: [{ title: "Y" }] });
-
-      await RecipeRepo.getAll({ cuisine: "Italian" });
-
-      expect(mockedQuery).toHaveBeenCalledWith(
-        expect.stringContaining("cuisine = $1"),
-        ["Italian", 10, 0]
-      );
-    });
-
-    it("filters by cookTime under15", async () => {
-      mockedQuery.mockResolvedValue({ rows: [{ title: "Quick" }] });
-
-      await RecipeRepo.getAll({ cookTime: "under15" });
-
-      expect(mockedQuery).toHaveBeenCalledWith(
-        expect.stringContaining("cook_time < 15"),
-        [10, 0]
-      );
-    });
-
-    it("filters by cookTime 15to30", async () => {
-      mockedQuery.mockResolvedValue({ rows: [{ title: "Medium" }] });
-
-      await RecipeRepo.getAll({ cookTime: "15to30" });
-
-      expect(mockedQuery).toHaveBeenCalledWith(
-        expect.stringContaining("cook_time BETWEEN 15 AND 30"),
-        [10, 0]
-      );
-    });
-
-    it("filters by cookTime 30to60", async () => {
-      mockedQuery.mockResolvedValue({ rows: [{ title: "Long" }] });
-
-      await RecipeRepo.getAll({ cookTime: "30to60" });
-
-      expect(mockedQuery).toHaveBeenCalledWith(
-        expect.stringContaining("cook_time BETWEEN 30 AND 60"),
-        [10, 0]
-      );
-    });
-
-    it("filters by cookTime over60", async () => {
-      mockedQuery.mockResolvedValue({ rows: [{ title: "Slow" }] });
-
-      await RecipeRepo.getAll({ cookTime: "over60" });
-
-      expect(mockedQuery).toHaveBeenCalledWith(
-        expect.stringContaining("cook_time > 60"),
-        [10, 0]
-      );
     });
 
     it("throws if DB query fails", async () => {
       mockedQuery.mockRejectedValue(new Error("DB failure"));
 
       await expect(RecipeRepo.getAll({ offset: 0, limit: 10 })).rejects.toThrow(
-        "DB failure"
+        "DB failure",
       );
     });
   });
@@ -235,88 +226,45 @@ describe("Recipe Repository", () => {
 
       expect(mockedQuery).toHaveBeenCalledWith(
         "SELECT COUNT(*) FROM recipes",
-        []
+        [],
       );
       expect(result).toBe(42);
     });
 
-    it("filters by difficulty", async () => {
-      mockedQuery.mockResolvedValue({ rows: [{ count: "3" }] });
+    const countFilters = [
+      { key: "difficulty", value: ["beginner"], count: 3 },
+      { key: "cuisine", value: ["Italian"], count: 2 },
+      { key: "mealTypes", value: ["lunch"], count: 2 },
+      { key: "dietaryPreferences", value: ["vegan"], count: 2 },
+      { key: "totalTime UNDER_15", value: ["UNDER_15"], count: 4 },
+      {
+        key: "totalTime BETWEEN_15_AND_30",
+        value: ["BETWEEN_15_AND_30"],
+        count: 5,
+      },
+      {
+        key: "totalTime BETWEEN_30_AND_60",
+        value: ["BETWEEN_30_AND_60"],
+        count: 6,
+      },
+      { key: "totalTime OVER_60", value: ["OVER_60"], count: 7 },
+    ];
 
-      const result = await RecipeRepo.getCount({ difficulty: "beginner" });
-
-      expect(mockedQuery).toHaveBeenCalledWith(
-        expect.stringContaining("difficulty = $1"),
-        ["beginner"]
-      );
-      expect(result).toBe(3);
-    });
-
-    it("filters by cuisine", async () => {
-      mockedQuery.mockResolvedValue({ rows: [{ count: "2" }] });
-
-      const result = await RecipeRepo.getCount({ cuisine: "Italian" });
-
-      expect(mockedQuery).toHaveBeenCalledWith(
-        expect.stringContaining("cuisine = $1"),
-        ["Italian"]
-      );
-      expect(result).toBe(2);
-    });
-
-    it("filters by cookTime under15", async () => {
-      mockedQuery.mockResolvedValue({ rows: [{ count: "4" }] });
-
-      const result = await RecipeRepo.getCount({ cookTime: "under15" });
-
-      expect(mockedQuery).toHaveBeenCalledWith(
-        expect.stringContaining("cook_time < 15"),
-        []
-      );
-      expect(result).toBe(4);
-    });
-
-    it("filters by cookTime 15to30", async () => {
-      mockedQuery.mockResolvedValue({ rows: [{ count: "5" }] });
-
-      const result = await RecipeRepo.getCount({ cookTime: "15to30" });
-
-      expect(mockedQuery).toHaveBeenCalledWith(
-        expect.stringContaining("cook_time BETWEEN 15 AND 30"),
-        []
-      );
-      expect(result).toBe(5);
-    });
-
-    it("filters by cookTime 30to60", async () => {
-      mockedQuery.mockResolvedValue({ rows: [{ count: "6" }] });
-
-      const result = await RecipeRepo.getCount({ cookTime: "30to60" });
-
-      expect(mockedQuery).toHaveBeenCalledWith(
-        expect.stringContaining("cook_time BETWEEN 30 AND 60"),
-        []
-      );
-      expect(result).toBe(6);
-    });
-
-    it("filters by cookTime over60", async () => {
-      mockedQuery.mockResolvedValue({ rows: [{ count: "7" }] });
-
-      const result = await RecipeRepo.getCount({ cookTime: "over60" });
-
-      expect(mockedQuery).toHaveBeenCalledWith(
-        expect.stringContaining("cook_time > 60"),
-        []
-      );
-      expect(result).toBe(7);
+    countFilters.forEach(({ key, value, count }) => {
+      it(`filters count by ${key}`, async () => {
+        mockedQuery.mockResolvedValue({ rows: [{ count: String(count) }] });
+        const result = await RecipeRepo.getCount({
+          [key.split(" ")[0]]: value,
+        });
+        expect(result).toBe(count);
+      });
     });
 
     it("throws if DB query fails", async () => {
       mockedQuery.mockRejectedValue(new Error("DB failure"));
 
       await expect(RecipeRepo.getAll({ offset: 0, limit: 10 })).rejects.toThrow(
-        "DB failure"
+        "DB failure",
       );
     });
   });
@@ -343,7 +291,7 @@ describe("Recipe Repository", () => {
       mockedQuery.mockRejectedValue(new Error("DB failure"));
 
       await expect(
-        RecipeRepo.update({ id: "1", title: "Updated" })
+        RecipeRepo.update({ id: "1", title: "Updated" }),
       ).rejects.toThrow("DB failure");
     });
   });
