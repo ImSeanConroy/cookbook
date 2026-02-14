@@ -9,6 +9,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 
 import { useRecipes } from "@/context/recipe-context";
+import { data } from "react-router-dom";
 
 interface RecipeCardProps {
   id: string;
@@ -48,11 +49,11 @@ const RecipeCard = ({
       </div>
       <img
         src={imageUrl}
-        alt="Event cover"
-        className="relative z-20 aspect-video w-full object-cover rounded-t-lg bg-foreground"
+        alt={title + " image"}
+        className="relative z-20 aspect-video w-full object-cover object-center rounded-t-lg bg-foreground"
       />
       <CardHeader className="px-4">
-        <CardTitle>{title}</CardTitle>
+        <CardTitle className="truncate">{title}</CardTitle>
         <CardDescription className="truncate">{subtitle}</CardDescription>
         <div className="mt-1 flex items-center gap-4 text-xs text-muted-foreground">
           <div className="flex items-center gap-1">

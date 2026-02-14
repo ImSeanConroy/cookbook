@@ -88,7 +88,8 @@ export const getCount = async ({
 
   if (queryText) {
     values.push(`%${queryText}%`);
-    whereClauses.push(`title ILIKE $${values.length}`);
+    whereClauses.push(`title ILIKE $${values.length} OR subtitle ILIKE $${values.length + 1}`);
+    values.push(`%${queryText}%`);
   }
 
   if (difficulty?.length) {
@@ -179,7 +180,8 @@ export const getAll = async ({
 
   if (queryText) {
     values.push(`%${queryText}%`);
-    whereClauses.push(`title ILIKE $${values.length}`);
+    whereClauses.push(`title ILIKE $${values.length} OR subtitle ILIKE $${values.length + 1}`);
+    values.push(`%${queryText}%`);
   }
 
   if (difficulty?.length) {

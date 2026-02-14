@@ -3,7 +3,9 @@ type MealTypeType = "breakfast" | "lunch" | "dinner" | "snack" | "dessert";
 
 export interface IngredientType {
   name: string;
-  quantity: string;
+  quantity: number;
+  unit: string;
+  optional: boolean;
 }
 
 export interface RecipeType {

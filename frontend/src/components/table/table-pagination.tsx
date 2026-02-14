@@ -24,7 +24,7 @@ export function TablePagination() {
 
   return (
     <div className="flex items-center justify-between px-2">
-      <div className="text-muted-foreground flex-1 text-sm">
+      <div className="text-muted-foreground flex-1 text-sm hidden md:block">
         Showing <span className="font-medium">{(page - 1) * limit + 1}</span> –{" "}
         <span className="font-medium">
           {Math.min(page * limit, totalCount)}
@@ -32,7 +32,7 @@ export function TablePagination() {
         of <span className="font-medium">{totalCount}</span> results
       </div>
       <div className="flex items-center space-x-6 lg:space-x-8">
-        <div className="flex items-center space-x-2">
+        <div className="items-center space-x-2 hidden md:flex">
           <p className="text-sm font-medium">Results per page</p>
           <Select
             value={String(limit)}

@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  LucideActivity,
-  LucideClock,
-  LucideFlame,
-  LucideUtensils,
-} from "lucide-react";
+import { LucideClock, LucideFlame, LucideUtensils, User } from "lucide-react";
 
 import {
   Dialog,
@@ -24,7 +19,7 @@ import RecipeSkeleton from "@/components/other/recipe-skeleton";
 
 const RecipeModel = () => {
   const [data, setData] = useState<RecipeType | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   const { recipe, setCurrentRecipe } = useRecipes();
@@ -81,14 +76,14 @@ const RecipeModel = () => {
               <img
                 src={data.imageUrl}
                 alt={data.title}
-                className="w-full h-[300px] md:h-[275px] object-cover rounded-t-lg bg-foreground"
+                className="w-full h-[300px] md:h-[300px] object-cover object-center rounded-t-lg bg-foreground"
               />
             </div>
 
             <DialogHeader className="mb-6 mx-4">
               <div className="flex flex-row justify-between items-start">
                 <div>
-                  <DialogTitle className="text-3xl font-bold text-foreground">
+                  <DialogTitle className="text-3xl font-bold text-accent-foreground">
                     {data.title}
                   </DialogTitle>
                   <p className="text-xl text-muted-foreground">
@@ -96,18 +91,18 @@ const RecipeModel = () => {
                   </p>
                 </div>
 
-                <div className="mt-1 flex items-center gap-4 text-md text-muted-foreground">
+                <div className="mt-1 hidden xl:flex items-center gap-4 text-md text-muted-foreground">
                   <Button variant="outline">
                     <LucideUtensils className="h-5 w-5" />
                     <span>{data.cuisine}</span>
                   </Button>
                   <Button variant="outline">
-                    <LucideClock className="h-5 w-5" />
-                    <span>{data.cookTime + data.prepTime} minutes</span>
+                    <User className="h-5 w-5" />
+                    <span>{data.servings} servings</span>
                   </Button>
                   <Button variant="outline">
-                    <LucideActivity className="h-5 w-5" />
-                    <span>{data.calories} calories</span>
+                    <LucideClock className="h-5 w-5" />
+                    <span>{data.cookTime + data.prepTime} minutes</span>
                   </Button>
                   <Button variant="outline">
                     <LucideFlame className="h-5 w-5" />
@@ -122,18 +117,46 @@ const RecipeModel = () => {
               <DialogDescription className="mt-4 text-base">
                 {data.description}
               </DialogDescription>
+
+              <div className="mt-4 xl:hidden flex items-center gap-4 text-md text-muted-foreground">
+                <Button variant="outline">
+                  <LucideUtensils className="h-5 w-5" />
+                  <span>{data.cuisine}</span>
+                </Button>
+                <Button variant="outline">
+                  <User className="h-5 w-5" />
+                  <span>{data.servings} servings</span>
+                </Button>
+                <Button variant="outline">
+                  <LucideClock className="h-5 w-5" />
+                  <span>{data.cookTime + data.prepTime} minutes</span>
+                </Button>
+                <Button variant="outline">
+                  <LucideFlame className="h-5 w-5" />
+                  <span>
+                    {data.difficulty.charAt(0).toUpperCase() +
+                      data.difficulty.slice(1)}
+                  </span>
+                </Button>
+              </div>
             </DialogHeader>
 
-            <div className="grid grid-cols-3 md:grid-cols-3 gap-10 mx-4 mb-4">
+            <div className="flex flex-col xl:grid grid-cols-3 xl:grid-cols-3 gap-10 mx-4 mb-4">
               <Card className="shadow-2xs rounded-lg">
                 <CardContent>
                   <h3 className="text-xl font-semibold mb-4">Ingredients</h3>
-                  <ul className="space-y-2">
+                  <ul className="space-y-2 mt-4">
                     {data.ingredients.map((ingredient, index) => (
                       <li key={index} className="flex justify-between">
-                        <span>{ingredient.name}</span>
                         <span className="text-muted-foreground">
-                          {ingredient.quantity}
+                          {ingredient.name}
+                        </span>
+                        <span>
+                          {ingredient.quantity &&
+                            ingredient.quantity > 0 &&
+                            ingredient.quantity}
+                          {ingredient.unit != "g" && " "}
+                          {ingredient.unit}
                         </span>
                       </li>
                     ))}
@@ -141,7 +164,7 @@ const RecipeModel = () => {
                 </CardContent>
               </Card>
 
-              <Card className="shadow-2xs rounded-lg md:col-span-2">
+              <Card className="shadow-2xs rounded-lg xl:col-span-2">
                 <CardContent>
                   <h3 className="text-xl font-semibold mb-4">Instructions</h3>
                   <ol className="space-y-6">
@@ -174,7 +197,7 @@ const RecipeModel = () => {
                   </Button>
                 ))}
 
-                {data.dietaryPreferences &&
+                {/* {data.dietaryPreferences &&
                   data.dietaryPreferences.map((peference) => (
                     <Button key={peference} variant="outline">
                       <span>{peference.charAt(0).toLocaleUpperCase() + peference.slice(1)}</span>
@@ -186,7 +209,7 @@ const RecipeModel = () => {
                     <Button key={type} variant="outline">
                       <span>{type.charAt(0).toLocaleUpperCase() + type.slice(1)}</span>
                     </Button>
-                  ))}
+                  ))} */}
               </div>
             </div>
           </>

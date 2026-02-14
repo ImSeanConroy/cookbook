@@ -14,8 +14,8 @@ export const create = async (
   data: Ingredient
 ): Promise<Ingredient> => {
   const res = await query(
-    `INSERT INTO ingredients (recipe_id, name, quantity) VALUES ($1, $2, $3) RETURNING name, quantity`,
-    [recipe_id, data.name, data.quantity]
+    `INSERT INTO ingredients (recipe_id, name, quantity, unit, optional) VALUES ($1, $2, $3, $4, $5) RETURNING name, quantity`,
+    [recipe_id, data.name, data.quantity, data.unit, data.optional]
   );
   return toCamelCase(res.rows)[0];
 };
@@ -30,7 +30,7 @@ export const findByRecipeId = async (
   recipe_id: string
 ): Promise<Ingredient[]> => {
   const res = await query(
-    `SELECT name, quantity FROM ingredients WHERE recipe_id = $1 ORDER BY id ASC`,
+    `SELECT name, quantity, unit, optional FROM ingredients WHERE recipe_id = $1 ORDER BY name ASC`,
     [recipe_id]
   );
   return toCamelCase(res.rows);

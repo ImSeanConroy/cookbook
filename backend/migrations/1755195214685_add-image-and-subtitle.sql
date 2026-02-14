@@ -14,6 +14,11 @@ ADD COLUMN utensils VARCHAR(50)[],
 ADD COLUMN meal_types TEXT[] DEFAULT '{}',
 ADD COLUMN dietary_preferences TEXT[] DEFAULT '{}';
 
+ALTER TABLE ingredients
+ADD COLUMN unit TEXT,
+ADD COLUMN optional BOOLEAN,
+ALTER COLUMN quantity TYPE DECIMAL USING quantity::DECIMAL;
+
 -- Down Migration
 
 ALTER TABLE recipes
@@ -29,3 +34,8 @@ DROP COLUMN IF EXISTS sodium,
 DROP COLUMN IF EXISTS utensils,
 DROP COLUMN IF EXISTS meal_types,
 DROP COLUMN IF EXISTS dietary_preferences;
+
+ALTER TABLE ingredients
+DROP COLUMN unit,
+DROP COLUMN optional,
+ALTER COLUMN quantity TYPE TEXT USING quantity::TEXT;

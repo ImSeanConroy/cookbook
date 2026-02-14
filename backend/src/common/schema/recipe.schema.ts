@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { optional, z } from "zod";
 
 // --------------------
 // Enums / constants
@@ -69,7 +69,9 @@ export const stepsSchema = z.array(z.string().trim().min(1));
 export const ingredientsSchema = z.array(
   z.object({
     name: z.string().trim().min(1),
-    quantity: z.string().trim().min(1),
+    quantity: z.number(),
+    unit: z.string().trim().min(1),
+    optional: z.boolean().default(false),
   }),
 );
 

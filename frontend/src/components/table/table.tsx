@@ -34,7 +34,7 @@ export function Table() {
       {!isLoading && !error && recipes.length === 0 && <InfoState />}
 
       {recipes.length > 0 && (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {recipes.map((recipe) => (
             <RecipeCard key={recipe.id} {...recipe} />
           ))}

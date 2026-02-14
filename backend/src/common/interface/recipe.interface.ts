@@ -8,7 +8,9 @@ export type DifficultyLevel = 'beginner' | 'intermediate' | 'advanced';
 // --------------------
 export interface Ingredient {
   name: string;
-  quantity: string;
+  quantity: number;
+  unit: string;
+  optional?: boolean;
 }
 
 export interface Step {
