@@ -1,5 +1,5 @@
 import { Table } from "@/components/table/table";
-import RecipeModel from "@/components/other/recipe-modal";
+import RecipeModel from "@/components/modals/recipe-modal";
 
 const HomePage = () => {
   return (

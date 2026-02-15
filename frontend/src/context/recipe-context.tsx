@@ -24,8 +24,6 @@ type RecipesContextType = {
   setFilters: React.Dispatch<React.SetStateAction<Filters>>;
   totalPages: number;
   totalCount: number;
-  recipe: string | null;
-  setCurrentRecipe: (recipeId: string | null) => void;
 };
 
 const RecipesContext = createContext<RecipesContextType | undefined>(undefined);
@@ -36,7 +34,6 @@ export const RecipesProvider = ({ children }: { children: ReactNode }) => {
   const [error, setError] = useState<string | null>(null);
   const [totalPages, setTotalPages] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
-  const [recipe, setRecipe] = useState<string | null>(null);
 
   const [filters, setFilters] = useState<Filters>({
     page: 1,
@@ -92,13 +89,9 @@ export const RecipesProvider = ({ children }: { children: ReactNode }) => {
     return () => controller.abort();
   }, [filters]);
 
-  const setCurrentRecipe = (recipeId: string | null) => {
-    setRecipe(recipeId);
-  };
-
   return (
     <RecipesContext.Provider
-      value={{ recipes, isLoading, error, filters, setFilters, totalPages, totalCount, recipe, setCurrentRecipe }}
+      value={{ recipes, isLoading, error, filters, setFilters, totalPages, totalCount }}
     >
       {children}
     </RecipesContext.Provider>

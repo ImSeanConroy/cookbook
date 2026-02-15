@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
-import { useRecipes } from "@/context/recipe-context";
+import { useModal } from "@/context/modal-context";
 
 interface RecipeCardProps {
   id: string;
@@ -32,12 +32,12 @@ const RecipeCard = ({
   cookTime,
   calories,
 }: RecipeCardProps) => {
-  const { setCurrentRecipe } = useRecipes();
+  const { onOpen } = useModal();
 
   return (
     <Card
       className="rounded-lg relative mx-auto w-full max-w-sm pt-0 shadow-xs pb-5 gap-5 cursor-pointer"
-      onClick={() => setCurrentRecipe(id)}
+      onClick={() => onOpen("showRecipe", { recipeId: id })}
     >
       <div className="absolute z-50 w-100 px-3 py-2">
         <Badge variant="secondary" className="ml-auto rounded-sm">
