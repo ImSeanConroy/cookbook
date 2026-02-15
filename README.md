@@ -7,9 +7,13 @@ Save, organize, and discover recipes all in one place — built for food lovers 
 
 ## Table of Contents
 
+- [Table of Contents](#table-of-contents)
 - [About the Project](#about-the-project)
 - [Features](#features)
 - [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Option 1 — Run with Docker (Recommended)](#option-1--run-with-docker-recommended)
+  - [Option 2 — Run Manually (Without Docker)](#option-2--run-manually-without-docker)
 - [Development and Testing](#development-and-testing)
 - [Development Plan and Improvements](#development-plan-and-improvements)
 - [Project Structure](#project-structure)
@@ -20,17 +24,17 @@ Save, organize, and discover recipes all in one place — built for food lovers 
 ## About the Project
 
 Cookbook is a modern, full-stack web app that lets users create, store, and share their favorite recipes.  
-It features a fast React frontend, a secure Node/Express API, and a PostgreSQL database for reliable data storage.
+It features a fast React frontend, a Node/Express API, and a PostgreSQL database for reliable data storage.
 
 Whether you’re tracking your family’s secret recipes or exploring new cuisines, **Cookbook keeps everything organized and searchable**.
 
 ## Features
 
-- Create, edit, and delete recipes  
-- Search recipes by name, ingredient, or category  
-- Upload and view recipe images  
-- Simple, responsive UI built with React and Tailwind  
-- Dockerized backend and database setup for easy development
+- Create, edit, and delete recipes (Under Development).
+- Search recipes by name and subtitle.
+- Filter recipes by cuisine, cooktime, difficulty, meal type and dietary requirements.
+- Simple, responsive UI built with React, Tailwind and Shadcn.
+- Dockerized backend and database setup for easy development.
 
 ## Getting Started
 
@@ -41,79 +45,96 @@ Before getting started, ensure you have the following installed:
 - [npm](https://www.npmjs.com/)
 - [Docker](https://www.docker.com/)
 
-### Installation
+### Option 1 — Run with Docker (Recommended)
 
-Follow these steps to set up the application locally:
+This runs PostgreSQL, Backend, Frontend, and PGAdmin in containers:
 
-### 1. Clone the repository:
+1. **Clone the repository:**
+```bash
+git clone https://github.com/imseanconroy/cookbook.git
+cd cookbook
+```
+
+2. **Start the development environment:**
+```bash
+docker compose --env-file docker/env/.env.dev -f docker/compose/docker-compose.dev.yaml up --build -d
+```
+
+3. **Run database migrations:**
+```bash
+docker compose --env-file docker/env/.env.dev -f docker/compose/docker-compose.dev.yaml exec backend npm run migrate:up
+```
+
+4. **Seed the database (Optional):**
+```bash
+docker compose --env-file docker/env/.env.dev -f docker/compose/docker-compose.dev.yaml exec backend npm run seed
+```
+
+5. **Access the application:**
+ 
+- Frontend (React App) - http://localhost:5173
+- Backend API - http://localhost:8000
+- PGAdmin (Database GUI) - http://localhost:5050
+
+6. **To stop the application:**
+```bash
+docker compose --env-file docker/env/.env.dev -f docker/compose/docker-compose.dev.yaml down -v
+```
+
+### Option 2 — Run Manually (Without Docker)
+
+This runs PostgreSQL, Backend, Frontend, and PGAdmin in containers:
+
+1. **Clone the repository:**
 
 ```bash
 git clone https://github.com/imseanconroy/cookbook.git
 cd cookbook
 ```
 
-### 2. Frontend Setup:
-   
-1. **Install Dependencies**: Navigate to the `frontend` directory and install required dependencies:
-```bash
-cd frontend
-npm install
-```
-
-2. **Configure Environment Variables**: Create a `.env` file in the frontend directory with the following content:
-```env
-VITE_API_BASE_URL=http://localhost:8000
-```
-
-3. **Start Frontend Development Server**: Run the following command to start the frontend development server:
-```bash
-npm run dev
-```
-
-### 2. Backend & Database Setup:
-
-1. **Install Backend Dependencies**: Navigate to the `backend` directory and install the required dependencies:
+2. **Install backend dependencies**:
 ```bash
 cd backend
 npm install
 ```
 
-2. **Configure Environment Variables**: Create a `.env` file in the `backend` directory with the following content:
+3. **Configure backend environment variables**:
 ```env
 PORT=8000
 NODE_ENV=development
 READ_ONLY=false
 
-SESSION_SECRET=example
-SESSION_EXPIRES_IN=1d
-
 FRONTEND_ORIGIN=http://localhost:5173
-
-PGADMIN_DEFAULT_EMAIL=<pg_admin_email>
-PGADMIN_DEFAULT_PASSWORD=<pg_admin_password>
 
 POSTGRES_PASSWORD=<database_password>
 POSTGRES_USER=<database_user>
 POSTGRES_DB=<database_name>
 POSTGRES_PORT=5432
 POSTGRES_HOST=localhost
-
-DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
 ```
 
-3. **Start Docker Container**: Run the following command to start the Docker container:
+4. **Create the database tables and seed the database**:
+```
+DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB} npm run migrate:up && npm run seed
+```
+
+5. **Start backend express server**: 
+```bash
+npm run dev
+```
+
+6. **Install frontend dependencies:**
+```bash
+cd frontend
+npm install
+```
+
+7. **Configure frontend environment variables:** 
 ```env
-docker compose up -d
+VITE_API_BASE_URL=http://localhost:8000
 ```
 
-4. **Access PGAdmin**: Open your browser and go to `localhost:5050` to log in to PGAdmin using the credentials defined in the .env file. Once logged in, connect to PostgreSQL and connect to the database matching the name defined in `{POSTGRES_DB}`.
-
-5. **Run Database Migrations**: Use PG-migrate to set up the database tables by running:
-```
-DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB} npm run migrate:up
-```
-
-6. **Start Backend Development Server**: Run the following command to start the backend development server:
+8. **Start the frontend react application:**
 ```bash
 npm run dev
 ```
@@ -131,8 +152,7 @@ npm run test
 This section outlines upcoming features and improvements:
 
 1. **User Features:**
-   - Add admin dashobard to create, update and delete recipes.
-   - Add autocomplete and suggestions to improve search usability.
+   - Add ability to create, update and delete recipes from the fronted.
    - Add local bookmarking and “favorites” functionality.
 
 2. **Testing and Quality Assurance:**
@@ -159,12 +179,13 @@ cookbook/
 │   │   ├── routes/            # API endpoint definitions
 │   │   ├── services/          # Core business logic
 │   │   └── util/              # Utility functions (e.g., validation, logging)
+├── docker/                    # Docker configuration files
 └── README.md                  # Project documentation
 ```
 
 ## Contributing
 
-Contributions are welcome. Please open an issue or submit a pull request for any enhancements or bug fixes.
+Contributions are welcome. Please open an issue or fork the repository, create a new branch (`feature/your-feature-name`) and submit a pull request for any enhancements or bug fixes.
 
 ## License
 

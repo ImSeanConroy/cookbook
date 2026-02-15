@@ -1,4 +1,3 @@
-process.env.SESSION_SECRET = "testsecret";
 process.env.POSTGRES_USER = "testuser";
 process.env.POSTGRES_PASSWORD = "testpass";
 process.env.POSTGRES_DB = "testdb";

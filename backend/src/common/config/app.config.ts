@@ -9,8 +9,6 @@ interface AppConfig {
   READ_ONLY: string;
   BASE_PATH: string;
 
-  SESSION_SECRET: string;
-
   POSTGRES_USER: string;
   POSTGRES_HOST: string;
   POSTGRES_DB: string;
@@ -29,8 +27,6 @@ const appConfig = (): AppConfig => ({
   PORT: getEnv("PORT", "5000"),
   READ_ONLY: getEnv("READ_ONLY", "false"),
   BASE_PATH: getEnv("BASE_PATH", "/api"),
-
-  SESSION_SECRET: getEnv("SESSION_SECRET"),
 
   POSTGRES_USER: getEnv("POSTGRES_USER"),
   POSTGRES_HOST: getEnv("POSTGRES_HOST"),

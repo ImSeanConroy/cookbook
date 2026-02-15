@@ -3,7 +3,6 @@ dotenv.config();
 
 import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
-import session from "cookie-session";
 import { config } from "./common/config/app.config";
 import connectDatabase from "./common/config/database.config";
 import { errorHandler } from "./middleware/error-handler.middleware";
@@ -22,18 +21,6 @@ const BASE_PATH = config.BASE_PATH;
 // Parse JSON and URL-encoded bodies
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Session configuration
-app.use(
-  session({
-    name: "session",
-    keys: [config.SESSION_SECRET],
-    maxAge: 24 * 60 * 60 * 1000,
-    secure: config.NODE_ENV === "production",
-    httpOnly: true,
-    sameSite: "lax",
-  })
-);
 
 // Enable CORS
 app.use(
