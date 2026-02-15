@@ -163,13 +163,13 @@ describe("Recipe Repository", () => {
       {
         name: "mealTypes",
         value: ["lunch"],
-        expected: "meal_types = ANY($1)",
+        expected: "meal_types && $1",
         params: [["lunch"], 12, 0],
       },
       {
         name: "dietaryPreferences",
         value: ["vegan"],
-        expected: "dietary_preferences = ANY($1)",
+        expected: "dietary_preferences && $1",
         params: [["vegan"], 12, 0],
       },
       {

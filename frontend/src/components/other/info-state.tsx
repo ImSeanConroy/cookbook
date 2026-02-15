@@ -1,4 +1,4 @@
-import { ArrowUpRightIcon, Utensils } from "lucide-react";
+import { Utensils } from "lucide-react";
 
 import {
   Empty,
@@ -7,19 +7,16 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { Button } from "@/components/ui/button";
 
 interface InfoStatePrope {
   title?: string;
   description?: string;
-  showButton?: boolean;
   Icon?: React.ComponentType<{ className?: string }>;
 }
 
 const InfoState = ({
   title = "No recipes found",
   description = "No results match your current filters. Try changing your filters or search term.",
-  showButton = true,
   Icon = Utensils,
 }: InfoStatePrope) => {
   return (
@@ -32,20 +29,6 @@ const InfoState = ({
           <EmptyTitle>{title}</EmptyTitle>
           <EmptyDescription>{description}</EmptyDescription>
         </EmptyHeader>
-
-        {showButton && (
-          <Button
-            variant="link"
-            asChild
-            size="sm"
-            className="text-muted-foreground"
-          >
-            <a href="#">
-              Learn more
-              <ArrowUpRightIcon className="ml-1 h-4 w-4" />
-            </a>
-          </Button>
-        )}
       </Empty>
     </div>
   );

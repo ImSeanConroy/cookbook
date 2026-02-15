@@ -18,7 +18,6 @@ export function Table() {
         <InfoState
           title="Loading recipes..."
           description="Please wait while we fetch the recipes."
-          showButton={false}
           Icon={Loader2}
         />
       )}

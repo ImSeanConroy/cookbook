@@ -18,23 +18,16 @@ import {
 
 export const cuisines = [
   { value: "American", label: "American" },
+  { value: "African", label: "African" },
+  { value: "Asian", label: "Asian" },
   { value: "British", label: "British" },
   { value: "Caribbean", label: "Caribbean" },
-  { value: "Chinese", label: "Chinese" },
-  { value: "Ethiopian", label: "Ethiopian" },
+  { value: "European", label: "European" },
   { value: "French", label: "French" },
-  { value: "Greek", label: "Greek" },
-  { value: "Indian", label: "Indian" },
   { value: "Italian", label: "Italian" },
-  { value: "Japanese", label: "Japanese" },
   { value: "Korean", label: "Korean" },
-  { value: "Mediterranean", label: "Mediterranean" },
-  { value: "Moroccan", label: "Moroccan" },
-  { value: "Mexican", label: "Mexican" },
-  { value: "Spanish", label: "Spanish" },
-  { value: "Thai", label: "Thai" },
-  { value: "Turkish", label: "Turkish" },
-  { value: "Vietnamese", label: "Vietnamese" },
+  { value: "Latin American", label: "Latin American" },
+  { value: "Middle Eastern", label: "Middle Eastern" },
 ];
 
 export const totalTime = [

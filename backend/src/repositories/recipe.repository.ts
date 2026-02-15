@@ -104,12 +104,12 @@ export const getCount = async ({
 
   if (mealTypes?.length) {
     values.push(mealTypes);
-    whereClauses.push(`meal_types = ANY($${values.length})`);
+    whereClauses.push(`meal_types && $${values.length}`);
   }
 
   if (dietaryPreferences?.length) {
     values.push(dietaryPreferences);
-    whereClauses.push(`dietary_preferences = ANY($${values.length})`);
+    whereClauses.push(`dietary_preferences && $${values.length}`);
   }
 
   if (totalTime?.length) {
@@ -199,12 +199,12 @@ export const getAll = async ({
 
   if (mealTypes?.length) {
     values.push(mealTypes);
-    whereClauses.push(`meal_types = ANY($${values.length})`);
+    whereClauses.push(`meal_types && $${values.length}`);
   }
 
   if (dietaryPreferences?.length) {
     values.push(dietaryPreferences);
-    whereClauses.push(`dietary_preferences = ANY($${values.length})`);
+    whereClauses.push(`dietary_preferences && $${values.length}`);
   }
 
   if (totalTime?.length) {
