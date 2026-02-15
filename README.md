@@ -3,7 +3,7 @@
 A full-stack recipe management app built with the **PERN stack (PostgreSQL, Express, React, Node.js)**.  
 Save, organize, and discover recipes all in one place — built for food lovers and home cooks.
 
-<!-- ![Project Colors Demo](.github/imgs/repo-img.png) -->
+ ![Project Colors Demo](.github/imgs/repo-img.png) 
 
 ## Table of Contents
 
