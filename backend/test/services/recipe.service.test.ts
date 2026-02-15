@@ -17,7 +17,6 @@ describe("Recipe Service", () => {
     title: "Pasta",
     subtitle: "Yummy Pasta",
     description: "Delicious",
-    prep_time: 10,
     cook_time: 15,
     servings: 2,
     difficulty: "beginner",

@@ -26,7 +26,6 @@ export interface Recipe {
   title: string;
   subtitle: string;
   description: string;
-  prep_time: number;
   cook_time: number;
   servings: number;
   difficulty: DifficultyLevel;
@@ -42,7 +41,6 @@ export interface Recipe {
   fiber: number | null;
   saturated_fat: number | null;
   sodium: number | null;
-  utensils: string[];
   ingredients: Ingredient[];
   steps: string[];
   created_at: string;

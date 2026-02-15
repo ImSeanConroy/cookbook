@@ -102,7 +102,7 @@ const RecipeModel = () => {
                   </Button>
                   <Button variant="outline">
                     <LucideClock className="h-5 w-5" />
-                    <span>{data.cookTime + data.prepTime} minutes</span>
+                    <span>{data.cookTime} minutes</span>
                   </Button>
                   <Button variant="outline">
                     <LucideFlame className="h-5 w-5" />
@@ -129,7 +129,7 @@ const RecipeModel = () => {
                 </Button>
                 <Button variant="outline">
                   <LucideClock className="h-5 w-5" />
-                  <span>{data.cookTime + data.prepTime} minutes</span>
+                  <span>{data.cookTime} minutes</span>
                 </Button>
                 <Button variant="outline">
                   <LucideFlame className="h-5 w-5" />

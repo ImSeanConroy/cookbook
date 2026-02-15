@@ -26,8 +26,6 @@ export const createRecipeService = async (
 
   const newIngredients = await Promise.all(
     ingredients.map(async (ingredient: Ingredient) => {
-
-      
       const created = await IngredientRepo.create(newRecipe.id, ingredient);
       if (!created) throw new BadRequestException("Failed to create recipe ingredient");
       return created;
@@ -98,7 +96,7 @@ export const getAllRecipesService = async (
     cuisine?: string[];
     mealTypes?: string[];
     dietaryPreferences?: string[];
-    totalTime?: string[];
+    cookTime?: string[];
     sortBy?: string;
   },
 ) => {
@@ -111,7 +109,7 @@ export const getAllRecipesService = async (
       queryText: query,
       difficulty: filters?.difficulty,
       cuisine: filters?.cuisine,
-      totalTime: filters?.totalTime,
+      cookTime: filters?.cookTime,
       sortBy: filters?.sortBy,
       mealTypes: filters?.mealTypes,
       dietaryPreferences: filters?.dietaryPreferences,
@@ -120,7 +118,7 @@ export const getAllRecipesService = async (
       queryText: query,
       difficulty: filters?.difficulty,
       cuisine: filters?.cuisine,
-      totalTime: filters?.totalTime,
+      cookTime: filters?.cookTime,
       mealTypes: filters?.mealTypes,
       dietaryPreferences: filters?.dietaryPreferences,
     }),
@@ -157,7 +155,6 @@ export const updateRecipeService = async (
     title: body.title || safeExistingRecipe.title,
     subtitle: body.subtitle || safeExistingRecipe.subtitle,
     description: body.description || safeExistingRecipe.description,
-    prep_time: body.prep_time || safeExistingRecipe.prep_time,
     cook_time: body.cook_time || safeExistingRecipe.cook_time,
     servings: body.servings || safeExistingRecipe.servings,
     difficulty: body.difficulty || safeExistingRecipe.difficulty,

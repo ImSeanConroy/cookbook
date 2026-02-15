@@ -31,7 +31,7 @@ interface TableFilterProps {
     | "difficulty"
     | "mealTypes"
     | "dietaryPreferences"
-    | "totalTime";
+    | "cookTime";
   options: {
     label: string;
     value: string;

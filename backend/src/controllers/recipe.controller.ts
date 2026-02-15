@@ -61,7 +61,7 @@ export const getAllRecipesController = asyncHandler(
       cuisine,
       mealTypes,
       dietaryPreferences,
-      totalTime,
+      cookTime,
       sortBy,
     } = getAllRecipesQuerySchema.parse(req.query);
 
@@ -70,7 +70,7 @@ export const getAllRecipesController = asyncHandler(
       cuisine,
       mealTypes,
       dietaryPreferences,
-      totalTime,
+      cookTime,
       sortBy,
     };
 

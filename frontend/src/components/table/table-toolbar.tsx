@@ -10,7 +10,7 @@ import ThemeToggle from "@/components/other/theme-toggle";
 import { TableFilter } from "@/components/table/table-filter";
 import {
   cuisines,
-  totalTime,
+  cookTime,
   difficulties,
   mealTypes,
   dietaryPreferences,
@@ -39,7 +39,7 @@ export function TableToolbar() {
     filters.difficulty?.length ||
     filters.mealTypes?.length ||
     filters.dietaryPreferences?.length ||
-    filters.totalTime?.length;
+    filters.cookTime?.length;
 
   const handleReset = () => {
     setSearchValue("");
@@ -56,8 +56,8 @@ export function TableToolbar() {
 
         <TableFilter
           title="Cook Time"
-          filterKey="totalTime"
-          options={totalTime}
+          filterKey="cookTime"
+          options={cookTime}
         />
 
         <TableFilter

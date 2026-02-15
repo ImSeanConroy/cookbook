@@ -9,7 +9,6 @@ import {
 import { Badge } from "@/components/ui/badge";
 
 import { useRecipes } from "@/context/recipe-context";
-import { data } from "react-router-dom";
 
 interface RecipeCardProps {
   id: string;
@@ -19,7 +18,6 @@ interface RecipeCardProps {
   difficulty: string;
   cuisine: string;
   cookTime: number;
-  prepTime: number;
   selected?: boolean;
   calories: number;
 }
@@ -32,7 +30,6 @@ const RecipeCard = ({
   difficulty,
   cuisine,
   cookTime,
-  prepTime,
   calories,
 }: RecipeCardProps) => {
   const { setCurrentRecipe } = useRecipes();
@@ -58,7 +55,7 @@ const RecipeCard = ({
         <div className="mt-1 flex items-center gap-4 text-xs text-muted-foreground">
           <div className="flex items-center gap-1">
             <LucideClock className="h-3 w-3" />
-            <span>{cookTime + prepTime} minutes</span>
+            <span>{cookTime} minutes</span>
           </div>
           <div className="flex items-center gap-1">
             <LucideActivity className="h-3 w-3" />

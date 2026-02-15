@@ -56,7 +56,6 @@ export const subtitleSchema = z.string().trim().min(1).max(150);
 export const descriptionSchema = z.string().trim().min(1);
 export const imageUrlSchema = z.string().url();
 
-export const prepTimeSchema = z.number().int().nonnegative();
 export const cookTimeSchema = z.number().int().nonnegative();
 export const servingsSchema = z.number().int().positive();
 
@@ -82,7 +81,6 @@ export const createRecipeSchema = z.object({
   title: titleSchema,
   subtitle: subtitleSchema,
   description: descriptionSchema,
-  prep_time: prepTimeSchema,
   cook_time: cookTimeSchema,
   servings: servingsSchema,
   difficulty: difficultySchema,
@@ -101,7 +99,6 @@ export const createRecipeSchema = z.object({
   sodium: z.number().int().nonnegative().nullable(),
   ingredients: ingredientsSchema,
   steps: stepsSchema,
-  utensils: stepsSchema,
 });
 
 export const updateRecipeSchema = createRecipeSchema.partial();
@@ -135,7 +132,7 @@ export const getAllRecipesQuerySchema = z.object({
     .optional()
     .transform((val) => (val ? val.split(",") : undefined)),
 
-  totalTime: z
+  cookTime: z
     .string()
     .optional()
     .transform((val) => (val ? val.split(",") : undefined)),

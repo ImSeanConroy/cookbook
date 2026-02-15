@@ -30,7 +30,7 @@ export const cuisines = [
   { value: "Middle Eastern", label: "Middle Eastern" },
 ];
 
-export const totalTime = [
+export const cookTime = [
   { value: "UNDER_15", label: "Under 15 mins", icon: Clock },
   { value: "BETWEEN_15_AND_30", label: "15–30 mins", icon: Clock },
   { value: "BETWEEN_30_AND_60", label: "30–60 mins", icon: Clock },

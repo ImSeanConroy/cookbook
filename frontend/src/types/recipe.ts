@@ -14,7 +14,6 @@ export interface RecipeType {
   subtitle: string;
   description: string;
 
-  prepTime: number;
   cookTime: number;
   servings: number;
   
@@ -39,7 +38,6 @@ export interface RecipeType {
   
   ingredients: IngredientType[];
   steps: string[];
-  utensils: string[];
 }
 
 export interface RecipeSummaryType {
@@ -47,7 +45,6 @@ export interface RecipeSummaryType {
   title: string;
   subtitle: string;
   
-  prepTime: number;
   cookTime: number;
   servings: number;
   

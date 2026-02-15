@@ -24,7 +24,6 @@ describe("Recipe Repository", () => {
         title: "Pasta",
         subtitle: "Pasta",
         description: "Yummy",
-        prep_time: 10,
         cook_time: 15,
         servings: 2,
         difficulty: "beginner",
@@ -38,7 +37,6 @@ describe("Recipe Repository", () => {
         fiber: 4.0,
         saturated_fat: 5.0,
         sodium: 600,
-        utensils: ["example-1", "example-2"],
       };
       mockedQuery.mockResolvedValue({ rows: [mockRow] });
 
@@ -46,7 +44,6 @@ describe("Recipe Repository", () => {
         title: "Pasta",
         subtitle: "Pasta",
         description: "Yummy",
-        prep_time: 10,
         cook_time: 15,
         servings: 2,
         difficulty: "beginner",
@@ -62,7 +59,6 @@ describe("Recipe Repository", () => {
         sodium: 600,
         meal_types: ["lunch"],
         dietary_preferences: [],
-        utensils: ["example-1", "example-2"],
       });
 
       expect(mockedQuery).toHaveBeenCalledOnce();
@@ -77,7 +73,6 @@ describe("Recipe Repository", () => {
           title: "Pasta",
           subtitle: "Pasta",
           description: "Yummy",
-          prep_time: 10,
           cook_time: 15,
           servings: 2,
           difficulty: "beginner",
@@ -93,7 +88,6 @@ describe("Recipe Repository", () => {
           sodium: 600,
           meal_types: ["lunch"],
           dietary_preferences: [],
-          utensils: ["example-1", "example-2"],
         }),
       ).rejects.toThrow("DB failure");
     });
@@ -173,27 +167,27 @@ describe("Recipe Repository", () => {
         params: [["vegan"], 12, 0],
       },
       {
-        name: "totalTime UNDER_15",
+        name: "cookTime UNDER_15",
         value: ["UNDER_15"],
-        expected: "cook_time + prep_time < 15",
+        expected: "cook_time < 15",
         params: [12, 0],
       },
       {
-        name: "totalTime BETWEEN_15_AND_30",
+        name: "cookTime BETWEEN_15_AND_30",
         value: ["BETWEEN_15_AND_30"],
-        expected: "cook_time + prep_time BETWEEN 15 AND 30",
+        expected: "cook_time BETWEEN 15 AND 30",
         params: [12, 0],
       },
       {
-        name: "totalTime BETWEEN_30_AND_60",
+        name: "cookTime BETWEEN_30_AND_60",
         value: ["BETWEEN_30_AND_60"],
-        expected: "cook_time + prep_time BETWEEN 30 AND 60",
+        expected: "cook_time BETWEEN 30 AND 60",
         params: [12, 0],
       },
       {
-        name: "totalTime OVER_60",
+        name: "cookTime OVER_60",
         value: ["OVER_60"],
-        expected: "cook_time + prep_time > 60",
+        expected: "cook_time > 60",
         params: [12, 0],
       },
     ];
@@ -236,18 +230,18 @@ describe("Recipe Repository", () => {
       { key: "cuisine", value: ["Italian"], count: 2 },
       { key: "mealTypes", value: ["lunch"], count: 2 },
       { key: "dietaryPreferences", value: ["vegan"], count: 2 },
-      { key: "totalTime UNDER_15", value: ["UNDER_15"], count: 4 },
+      { key: "cookTime UNDER_15", value: ["UNDER_15"], count: 4 },
       {
-        key: "totalTime BETWEEN_15_AND_30",
+        key: "cookTime BETWEEN_15_AND_30",
         value: ["BETWEEN_15_AND_30"],
         count: 5,
       },
       {
-        key: "totalTime BETWEEN_30_AND_60",
+        key: "cookTime BETWEEN_30_AND_60",
         value: ["BETWEEN_30_AND_60"],
         count: 6,
       },
-      { key: "totalTime OVER_60", value: ["OVER_60"], count: 7 },
+      { key: "cookTime OVER_60", value: ["OVER_60"], count: 7 },
     ];
 
     countFilters.forEach(({ key, value, count }) => {

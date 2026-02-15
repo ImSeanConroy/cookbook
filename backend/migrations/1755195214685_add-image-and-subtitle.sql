@@ -10,9 +10,9 @@ ADD COLUMN sugars DECIMAL(5,2),
 ADD COLUMN fiber DECIMAL(5,2),
 ADD COLUMN saturated_fat DECIMAL(5,2),
 ADD COLUMN sodium INT,
-ADD COLUMN utensils VARCHAR(50)[],
 ADD COLUMN meal_types TEXT[] DEFAULT '{}',
-ADD COLUMN dietary_preferences TEXT[] DEFAULT '{}';
+ADD COLUMN dietary_preferences TEXT[] DEFAULT '{}',
+DROP COLUMN IF EXISTS prep_time;
 
 ALTER TABLE ingredients
 ADD COLUMN unit TEXT,
@@ -31,9 +31,9 @@ DROP COLUMN IF EXISTS sugars,
 DROP COLUMN IF EXISTS fiber,
 DROP COLUMN IF EXISTS saturated_fat,
 DROP COLUMN IF EXISTS sodium,
-DROP COLUMN IF EXISTS utensils,
 DROP COLUMN IF EXISTS meal_types,
-DROP COLUMN IF EXISTS dietary_preferences;
+DROP COLUMN IF EXISTS dietary_preferences,
+ADD COLUMN prep_time INT;
 
 ALTER TABLE ingredients
 DROP COLUMN unit,

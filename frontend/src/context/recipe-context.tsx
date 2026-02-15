@@ -13,7 +13,7 @@ type Filters = {
   difficulty?: string[];
   mealTypes?: string[];
   dietaryPreferences?: string[];
-  totalTime?: string[];
+  cookTime?: string[];
 };
 
 type RecipesContextType = {

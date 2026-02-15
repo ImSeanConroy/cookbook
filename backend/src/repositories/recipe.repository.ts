@@ -16,25 +16,23 @@ export const create = async (
 ): Promise<Recipe> => {
   const res = await query(
     `INSERT INTO recipes (
-      title, subtitle, description, prep_time, cook_time, servings, difficulty,
-      cuisine, image_url, utensils, meal_types, dietary_preferences,
+      title, subtitle, description, cook_time, servings, difficulty,
+      cuisine, image_url, meal_types, dietary_preferences,
       calories, protein, carbs, fat, sugars, fiber, saturated_fat, sodium
     ) VALUES (
       $1, $2, $3, $4, $5, $6, $7, $8, $9, $10,
-      $11, $12, $13, $14, $15, $16, $17, $18, $19, $20
+      $11, $12, $13, $14, $15, $16, $17, $18
     )
     RETURNING *`,
     [
       data.title,
       data.subtitle,
       data.description,
-      data.prep_time,
       data.cook_time,
       data.servings,
       data.difficulty,
       data.cuisine,
       data.image_url,
-      data.utensils,
       data.meal_types,
       data.dietary_preferences,
       data.calories,
@@ -73,14 +71,14 @@ export const getCount = async ({
   cuisine,
   mealTypes,
   dietaryPreferences,
-  totalTime,
+  cookTime,
 }: {
   queryText?: string;
   difficulty?: string[];
   cuisine?: string[];
   mealTypes?: string[];
   dietaryPreferences?: string[];
-  totalTime?: string[];
+  cookTime?: string[];
 }): Promise<number> => {
   let baseQuery = "SELECT COUNT(*) FROM recipes";
   const values: any[] = [];
@@ -112,22 +110,22 @@ export const getCount = async ({
     whereClauses.push(`dietary_preferences && $${values.length}`);
   }
 
-  if (totalTime?.length) {
+  if (cookTime?.length) {
     const timeConditions: string[] = [];
 
-    totalTime.forEach((time) => {
+    cookTime.forEach((time) => {
       switch (time) {
         case "UNDER_15":
-          timeConditions.push("cook_time + prep_time < 15");
+          timeConditions.push("cook_time < 15");
           break;
         case "BETWEEN_15_AND_30":
-          timeConditions.push("cook_time + prep_time BETWEEN 15 AND 30");
+          timeConditions.push("cook_time BETWEEN 15 AND 30");
           break;
         case "BETWEEN_30_AND_60":
-          timeConditions.push("cook_time + prep_time BETWEEN 30 AND 60");
+          timeConditions.push("cook_time BETWEEN 30 AND 60");
           break;
         case "OVER_60":
-          timeConditions.push("cook_time + prep_time > 60");
+          timeConditions.push("cook_time > 60");
           break;
       }
     });
@@ -159,7 +157,7 @@ export const getAll = async ({
   cuisine,
   mealTypes,
   dietaryPreferences,
-  totalTime,
+  cookTime,
   sortBy = "newest",
 }: {
   offset?: number;
@@ -169,12 +167,12 @@ export const getAll = async ({
   cuisine?: string[];
   mealTypes?: string[];
   dietaryPreferences?: string[];
-  totalTime?: string[];
+  cookTime?: string[];
   sortBy?: string;
 }): Promise<Recipe[]> => {
   const values: any[] = [];
   let baseQuery = `
-    SELECT id, title, subtitle, prep_time, cook_time,
+    SELECT id, title, subtitle, cook_time,
     difficulty, cuisine, calories, image_url,
     created_at, updated_at FROM recipes
   `;
@@ -207,22 +205,22 @@ export const getAll = async ({
     whereClauses.push(`dietary_preferences && $${values.length}`);
   }
 
-  if (totalTime?.length) {
+  if (cookTime?.length) {
     const timeConditions: string[] = [];
 
-    totalTime.forEach((time) => {
+    cookTime.forEach((time) => {
       switch (time) {
         case "UNDER_15":
-          timeConditions.push("cook_time + prep_time < 15");
+          timeConditions.push("cook_time < 15");
           break;
         case "BETWEEN_15_AND_30":
-          timeConditions.push("cook_time + prep_time BETWEEN 15 AND 30");
+          timeConditions.push("cook_time BETWEEN 15 AND 30");
           break;
         case "BETWEEN_30_AND_60":
-          timeConditions.push("cook_time + prep_time BETWEEN 30 AND 60");
+          timeConditions.push("cook_time BETWEEN 30 AND 60");
           break;
         case "OVER_60":
-          timeConditions.push("cook_time + prep_time > 60");
+          timeConditions.push("cook_time > 60");
           break;
       }
     });
