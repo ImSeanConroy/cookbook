@@ -5,6 +5,7 @@ export type ModalType = "showRecipe" | "createRecipe" | "editRecipe" | "deleteRe
 
 interface ModalDataType {
   recipeId?: string;
+  recipeTitle?: string;
 }
 
 /**

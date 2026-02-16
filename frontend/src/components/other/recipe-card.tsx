@@ -1,4 +1,9 @@
-import { LucideActivity, LucideClock, LucideFlame } from "lucide-react";
+import {
+  LucideActivity,
+  LucideClock,
+  LucideFlame,
+  MoreHorizontal,
+} from "lucide-react";
 
 import {
   Card,
@@ -7,8 +12,18 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 
 import { useModal } from "@/context/modal-context";
+import { Button } from "@/components/ui/button";
+import { config } from "@/config";
 
 interface RecipeCardProps {
   id: string;
@@ -36,19 +51,67 @@ const RecipeCard = ({
 
   return (
     <Card
-      className="rounded-lg relative mx-auto w-full max-w-sm pt-0 shadow-xs pb-5 gap-5 cursor-pointer"
+      className="rounded-lg relative mx-auto w-full max-w-sm pt-0 shadow-xs pb-5 gap-5 cursor-pointer group"
       onClick={() => onOpen("showRecipe", { recipeId: id })}
     >
-      <div className="absolute z-50 w-100 px-3 py-2">
-        <Badge variant="secondary" className="ml-auto rounded-sm">
-          {cuisine}
-        </Badge>
+      <div className="relative">
+        <div className="absolute top-0 left-0 z-50 p-3">
+          <Badge variant="secondary" className="rounded-sm">
+            {cuisine}
+          </Badge>
+        </div>
+
+        {config.READ_ONLY == false && (
+          <div className="absolute top-0 right-0 z-50 p-3">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="default"
+                  size="sm"
+                  className="data-[state=open]:bg-muted size-8 cursor-pointer"
+                >
+                  <MoreHorizontal />
+                  <span className="sr-only">Open menu</span>
+                </Button>
+              </DropdownMenuTrigger>
+
+              <DropdownMenuContent align="end" className="w-[160px]">
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onOpen("editRecipe");
+                  }}
+                >
+                  Edit
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  variant="destructive"
+                  className="cursor-pointer"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onOpen("deleteRecipe", {
+                      recipeId: id,
+                      recipeTitle: title,
+                    });
+                  }}
+                >
+                  Delete
+                  <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        )}
+
+        <img
+          src={imageUrl}
+          alt={title + " image"}
+          className="aspect-video w-full object-cover object-center rounded-t-lg bg-foreground"
+        />
       </div>
-      <img
-        src={imageUrl}
-        alt={title + " image"}
-        className="relative z-20 aspect-video w-full object-cover object-center rounded-t-lg bg-foreground"
-      />
+
       <CardHeader className="px-4">
         <CardTitle className="truncate">{title}</CardTitle>
         <CardDescription className="truncate">{subtitle}</CardDescription>

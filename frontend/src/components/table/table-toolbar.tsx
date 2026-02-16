@@ -16,9 +16,12 @@ import {
   dietaryPreferences,
 } from "@/components/table/filters";
 import { useEffect, useState } from "react";
+import { useModal } from "@/context/modal-context";
+import { config } from "@/config";
 
 export function TableToolbar() {
   const { filters, setFilters } = useRecipes();
+  const { onOpen } = useModal();
   const [searchValue, setSearchValue] = useState(filters.query ?? "");
 
   useEffect(() => {
@@ -99,6 +102,15 @@ export function TableToolbar() {
           className="h-8 w-[250px]"
         />
         <ThemeToggle />
+        {config.READ_ONLY == false && (
+          <Button
+            size="sm"
+            className="cursor-pointer"
+            onClick={() => onOpen("createRecipe")}
+          >
+            Create Recipe
+          </Button>
+        )}
       </div>
     </div>
   );

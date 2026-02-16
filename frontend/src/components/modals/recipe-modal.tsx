@@ -100,19 +100,19 @@ const RecipeModel = () => {
                 </div>
 
                 <div className="mt-1 hidden xl:flex items-center gap-4 text-md text-muted-foreground">
-                  <Button variant="outline">
+                  <Button variant="outline" size="sm">
                     <LucideUtensils className="h-5 w-5" />
                     <span>{recipeData.meta.cuisine}</span>
                   </Button>
-                  <Button variant="outline">
+                  <Button variant="outline" size="sm">
                     <User className="h-5 w-5" />
                     <span>{recipeData.meta.servings} servings</span>
                   </Button>
-                  <Button variant="outline">
+                  <Button variant="outline" size="sm">
                     <LucideClock className="h-5 w-5" />
                     <span>{recipeData.meta.cookTime} minutes</span>
                   </Button>
-                  <Button variant="outline">
+                  <Button variant="outline" size="sm">
                     <LucideFlame className="h-5 w-5" />
                     <span>
                       {recipeData.meta.difficulty.charAt(0).toUpperCase() +
@@ -127,19 +127,19 @@ const RecipeModel = () => {
               </DialogDescription>
 
               <div className="mt-4 xl:hidden flex items-center gap-4 text-md text-muted-foreground">
-                <Button variant="outline">
+                <Button variant="outline" size="sm">
                   <LucideUtensils className="h-5 w-5" />
                   <span>{recipeData.meta.cuisine}</span>
                 </Button>
-                <Button variant="outline">
+                <Button variant="outline" size="sm">
                   <User className="h-5 w-5" />
                   <span>{recipeData.meta.servings} servings</span>
                 </Button>
-                <Button variant="outline">
+                <Button variant="outline" size="sm">
                   <LucideClock className="h-5 w-5" />
                   <span>{recipeData.meta.cookTime} minutes</span>
                 </Button>
-                <Button variant="outline">
+                <Button variant="outline" size="sm">
                   <LucideFlame className="h-5 w-5" />
                   <span>
                     {recipeData.meta.difficulty.charAt(0).toUpperCase() +
@@ -222,7 +222,7 @@ const RecipeModel = () => {
                     unit: "g",
                   },
                 ].map((nutrient) => (
-                  <Button key={nutrient.label} variant="outline">
+                  <Button key={nutrient.label} variant="outline" size="sm">
                     <span>
                       {nutrient.value}
                       {nutrient.unit} {nutrient.label}

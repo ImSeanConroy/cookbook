@@ -1,10 +1,10 @@
 import { Table } from "@/components/table/table";
-import RecipeModel from "@/components/modals/recipe-modal";
+import { Modals } from "@/components/modals/modal";
 
 const HomePage = () => {
   return (
     <>
-      <RecipeModel />
+      <Modals />
       <Table />
     </>
   );
