@@ -1,6 +1,5 @@
 import { query } from "../common/config/database.config";
 import { Ingredient } from "../common/interface/recipe.interface";
-import { toCamelCase } from "../utils/to-camel-case";
 
 /**
  * Creates a new ingredient for a given recipe.
@@ -15,9 +14,9 @@ export const create = async (
 ): Promise<Ingredient> => {
   const res = await query(
     `INSERT INTO ingredients (recipe_id, name, quantity, unit, optional) VALUES ($1, $2, $3, $4, $5) RETURNING name, quantity`,
-    [recipe_id, data.name, data.quantity, data.unit, data.optional]
+    [recipe_id, data.name, data.quantity, data.unit, data.optional || false]
   );
-  return toCamelCase(res.rows)[0];
+  return res[0];
 };
 
 /**
@@ -33,7 +32,7 @@ export const findByRecipeId = async (
     `SELECT name, quantity, unit, optional FROM ingredients WHERE recipe_id = $1 ORDER BY name ASC`,
     [recipe_id]
   );
-  return toCamelCase(res.rows);
+  return res;
 };
 
 /**
@@ -46,5 +45,5 @@ export const deleteByRecipeId = async (recipe_id: string): Promise<void> => {
   const res = await query(`DELETE FROM ingredients WHERE recipe_id = $1`, [
     recipe_id,
   ]);
-  return toCamelCase(res.rows)[0] || null;
+  return res[0] || null;
 };

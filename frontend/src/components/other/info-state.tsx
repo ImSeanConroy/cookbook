@@ -24,7 +24,7 @@ const InfoState = ({
       <Empty>
         <EmptyHeader>
           <EmptyMedia variant="icon">
-            <Icon className="h-12 w-12 text-muted-foreground animate-pulse" />
+            <Icon className="h-12 w-12 text-muted-foreground" />
           </EmptyMedia>
           <EmptyTitle>{title}</EmptyTitle>
           <EmptyDescription>{description}</EmptyDescription>

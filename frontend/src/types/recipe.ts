@@ -14,30 +14,37 @@ export interface RecipeType {
   subtitle: string;
   description: string;
 
-  cookTime: number;
-  servings: number;
+  meta: {
+    cookTime: number;
+    servings: number;
+    difficulty: DifficultyLevelType;
+    mealTypes: MealTypeType[];
+    dietaryPreferences: string[];
+    cuisine: string;
+  }
   
-  difficulty: DifficultyLevelType;
-  mealTypes: MealTypeType[];
-  dietaryPreferences: string[];
-  cuisine: string;
-  
-  imageUrl: string;
-  
-  calories: number | null;
-  protein: number | null;
-  carbs: number | null;
-  fat: number | null;
-  sugars: number | null;
-  fiber: number | null;
-  saturatedFat: number | null;
-  sodium: number | null;
-  
-  createdAt: string;
-  updatedAt: string;
-  
+  media: {
+    imageUrl: string;
+  }
+
+  nutrition: {
+    calories: number | null;
+    protein: number | null;
+    carbs: number | null;
+    fat: number | null;
+    sugars: number | null;
+    fiber: number | null;
+    saturatedFat: number | null;
+    sodium: number | null;
+  }
+
   ingredients: IngredientType[];
   steps: string[];
+
+  timestamp: {
+    createdAt: string;
+    updatedAt: string;
+  }
 }
 
 export interface RecipeSummaryType {
@@ -55,5 +62,4 @@ export interface RecipeSummaryType {
   imageUrl: string;
   
   createdAt: string;
-  updatedAt: string;
 }

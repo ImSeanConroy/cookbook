@@ -1,13 +1,16 @@
 import {
   Ingredient,
-  Recipe,
   RecipeInput,
+  RecipeResponse,
   Step,
+  UpdateRecipeInput,
 } from "../common/interface/recipe.interface";
 import { BadRequestException, NotFoundException } from "../utils/app-error";
 import * as RecipeRepo from "../repositories/recipe.repository";
 import * as IngredientRepo from "../repositories/ingredient.repository";
 import * as StepRepo from "../repositories/step.repository";
+import { toRecipeResponse } from "../utils/to-recipe-response";
+import { toRecipeEntity } from "../utils/to-recipe-entity";
 
 /**
  * Creates a new recipe along with its ingredients and steps.
@@ -17,11 +20,13 @@ import * as StepRepo from "../repositories/step.repository";
  * @throws BadRequestException if creation fails
  */
 export const createRecipeService = async (
-  body: RecipeInput,
-): Promise<Recipe> => {
+  body: RecipeInput
+): Promise<RecipeResponse> => {
   const { ingredients, steps, ...recipeData } = body;
 
-  const newRecipe = await RecipeRepo.create(recipeData);
+  const entityData = toRecipeEntity(body);
+
+  const newRecipe = await RecipeRepo.create(entityData);
   if (!newRecipe) throw new BadRequestException("Failed to create recipe");
 
   const newIngredients = await Promise.all(
@@ -45,11 +50,11 @@ export const createRecipeService = async (
     })
   );
 
-  return {
+  return toRecipeResponse({
     ...newRecipe,
     ingredients: newIngredients,
     steps: newSteps.map((s) => s.instruction),
-  };
+  });
 };
 
 /**
@@ -61,7 +66,7 @@ export const createRecipeService = async (
  */
 export const getRecipeByIdService = async (
   recipeId: string,
-): Promise<Recipe> => {
+): Promise<RecipeResponse> => {
   const recipe = await RecipeRepo.findById(recipeId);
   if (!recipe) throw new NotFoundException("Recipe not found");
 
@@ -71,11 +76,11 @@ export const getRecipeByIdService = async (
   if (!ingredients || !steps)
     throw new NotFoundException("Ingredients or steps not found");
 
-  return {
+  return toRecipeResponse({
     ...recipe,
     ingredients,
     steps: steps.map((s) => s.instruction),
-  };
+  });
 };
 
 /**
@@ -143,23 +148,23 @@ export const getAllRecipesService = async (
  */
 export const updateRecipeService = async (
   recipeId: string,
-  body: Partial<RecipeInput>
-): Promise<Recipe> => {
+  body: UpdateRecipeInput
+): Promise<RecipeResponse> => {
   const existingRecipe = await RecipeRepo.findById(recipeId);
   if (!existingRecipe) throw new NotFoundException("Recipe not found");
 
-  const { created_at, updated_at, ...safeExistingRecipe } = existingRecipe;
+  const { createdAt, updatedAt, ...safeExistingRecipe } = existingRecipe;
 
   const mergedRecipe = {
     id: recipeId,
     title: body.title || safeExistingRecipe.title,
     subtitle: body.subtitle || safeExistingRecipe.subtitle,
     description: body.description || safeExistingRecipe.description,
-    cook_time: body.cook_time || safeExistingRecipe.cook_time,
-    servings: body.servings || safeExistingRecipe.servings,
-    difficulty: body.difficulty || safeExistingRecipe.difficulty,
-    cuisine: body.cuisine || safeExistingRecipe.cuisine,
-    image_url: body.image_url || safeExistingRecipe.image_url,
+    cook_time: body.meta?.cookTime || safeExistingRecipe.cookTime,
+    servings: body.meta?.servings || safeExistingRecipe.servings,
+    difficulty: body.meta?.difficulty || safeExistingRecipe.difficulty,
+    cuisine: body.meta?.cuisine || safeExistingRecipe.cuisine,
+    image_url: body.media?.imageUrl || safeExistingRecipe.imageUrl,
   };
 
   const updatedRecipe = await RecipeRepo.update(mergedRecipe);
@@ -199,11 +204,11 @@ export const updateRecipeService = async (
     updatedSteps = await StepRepo.findByRecipeId(recipeId);
   }
 
-  return {
+  return toRecipeResponse({
     ...updatedRecipe,
     ingredients: updatedIngredients,
     steps: updatedSteps.map((s) => s.instruction),
-  };
+  });
 };
 
 /**

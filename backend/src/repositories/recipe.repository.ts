@@ -1,5 +1,4 @@
-import { Recipe } from "../common/interface/recipe.interface";
-import { toCamelCase } from "../utils/to-camel-case";
+import { RecipeEntity } from "../common/interface/recipe.interface";
 import { query } from "../common/config/database.config";
 
 /**
@@ -10,10 +9,10 @@ import { query } from "../common/config/database.config";
  */
 export const create = async (
   data: Omit<
-    Recipe,
-    "id" | "ingredients" | "steps" | "created_at" | "updated_at"
+    RecipeEntity,
+    "id" | "ingredients" | "steps" | "createdAt" | "updatedAt"
   >
-): Promise<Recipe> => {
+): Promise<RecipeEntity> => {
   const res = await query(
     `INSERT INTO recipes (
       title, subtitle, description, cook_time, servings, difficulty,
@@ -28,24 +27,24 @@ export const create = async (
       data.title,
       data.subtitle,
       data.description,
-      data.cook_time,
+      data.cookTime,
       data.servings,
       data.difficulty,
       data.cuisine,
-      data.image_url,
-      data.meal_types,
-      data.dietary_preferences,
+      data.imageUrl,
+      data.mealTypes,
+      data.dietaryPreferences,
       data.calories,
       data.protein,
       data.carbs,
       data.fat,
       data.sugars,
       data.fiber,
-      data.saturated_fat,
+      data.saturatedFat,
       data.sodium,
     ],
   );
-  return toCamelCase(res.rows)[0];
+  return res[0] as RecipeEntity;
 };
 
 /**
@@ -54,9 +53,9 @@ export const create = async (
  * @param id - Recipe ID
  * @returns The recipe object or null if not found
  */
-export const findById = async (id: string): Promise<Recipe | null> => {
+export const findById = async (id: string): Promise<RecipeEntity | null> => {
   const res = await query("SELECT * FROM recipes WHERE id = $1", [id]);
-  return toCamelCase(res.rows)[0] || null;
+  return res[0] as RecipeEntity || null;
 };
 
 /**
@@ -140,7 +139,7 @@ export const getCount = async ({
   }
 
   const res = await query(baseQuery, values);
-  return parseInt(res.rows[0].count, 10);
+  return parseInt(res[0].count, 10);
 };
 
 /**
@@ -169,12 +168,12 @@ export const getAll = async ({
   dietaryPreferences?: string[];
   cookTime?: string[];
   sortBy?: string;
-}): Promise<Recipe[]> => {
+}): Promise<RecipeEntity[]> => {
   const values: any[] = [];
   let baseQuery = `
     SELECT id, title, subtitle, cook_time,
     difficulty, cuisine, calories, image_url,
-    created_at, updated_at FROM recipes
+    created_at FROM recipes
   `;
 
   const whereClauses: string[] = [];
@@ -256,7 +255,7 @@ export const getAll = async ({
     OFFSET $${values.length}`;
 
   const res = await query(baseQuery, values);
-  return toCamelCase(res.rows);
+  return res as RecipeEntity[];
 };
 
 /**
@@ -266,8 +265,8 @@ export const getAll = async ({
  * @returns The updated recipe object or null if not found
  */
 export const update = async (
-  data: Partial<Omit<Recipe, "created_at" | "updated_at">>,
-): Promise<Recipe | null> => {
+  data: Partial<Omit<RecipeEntity, "createdAt" | "updatedAt">>,
+): Promise<RecipeEntity | null> => {
   const fields = [];
   const values = [];
   let i = 1;
@@ -285,7 +284,7 @@ export const update = async (
     values,
   );
 
-  return toCamelCase(res.rows)[0] || null;
+  return res[0] as RecipeEntity || null;
 };
 
 /**
@@ -294,9 +293,9 @@ export const update = async (
  * @param id - Recipe ID
  * @returns The deleted recipe object or null if not found
  */
-export const deleteById = async (id: string): Promise<Recipe | null> => {
+export const deleteById = async (id: string): Promise<RecipeEntity | null> => {
   const res = await query("DELETE FROM recipes WHERE id = $1 RETURNING *", [
     id,
   ]);
-  return toCamelCase(res.rows)[0] || null;
+  return res[0] as RecipeEntity || null;
 };

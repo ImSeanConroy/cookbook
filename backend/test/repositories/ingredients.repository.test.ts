@@ -37,7 +37,7 @@ describe("Ingredient Repository", () => {
 
   describe("create", () => {
     it("inserts an ingredient and returns it", async () => {
-      mockedQuery.mockResolvedValue({ rows: [mockRow] });
+      mockedQuery.mockResolvedValue([mockRow]);
 
       const result = await IngredientRepo.create(recipeId, ingredient);
 
@@ -59,7 +59,7 @@ describe("Ingredient Repository", () => {
 
   describe("findByRecipeId", () => {
     it("returns all ingredients for a recipe", async () => {
-      mockedQuery.mockResolvedValue({ rows: mockRows });
+      mockedQuery.mockResolvedValue(mockRows);
 
       const result = await IngredientRepo.findByRecipeId(recipeId);
 
@@ -71,7 +71,7 @@ describe("Ingredient Repository", () => {
     });
 
     it("returns empty array if no ingredients found", async () => {
-      mockedQuery.mockResolvedValue({ rows: [] });
+      mockedQuery.mockResolvedValue([]);
 
       const result = await IngredientRepo.findByRecipeId(recipeId);
 
@@ -89,7 +89,7 @@ describe("Ingredient Repository", () => {
 
   describe("deleteByRecipeId", () => {
     it("deletes ingredients and returns null", async () => {
-      mockedQuery.mockResolvedValue({ rows: [] });
+      mockedQuery.mockResolvedValue([]);
 
       const result = await IngredientRepo.deleteByRecipeId(recipeId);
 

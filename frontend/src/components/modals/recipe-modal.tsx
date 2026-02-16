@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
-import { LucideClock, LucideFlame, LucideUtensils, User } from "lucide-react";
+import {
+  AlertCircle,
+  Loader2,
+  LucideClock,
+  LucideFlame,
+  LucideUtensils,
+  User,
+} from "lucide-react";
 
 import {
   Dialog,
@@ -13,9 +20,8 @@ import { Button } from "@/components/ui/button";
 
 import { config } from "@/config";
 import type { RecipeType } from "@/types/recipe";
-import RecipeError from "@/components/other/recipe-error";
-import RecipeSkeleton from "@/components/other/recipe-skeleton";
 import { useModal } from "@/context/modal-context";
+import InfoState from "@/components/other/info-state";
 
 const RecipeModel = () => {
   const [recipeData, setRecipeData] = useState<RecipeType | null>(null);
@@ -54,19 +60,21 @@ const RecipeModel = () => {
   }, [recipe]);
 
   return (
-    <Dialog
-      open={isModalOpen}
-      onOpenChange={onClose}
-    >
+    <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="min-w-[70vw] max-h-[95vh] overflow-y-auto">
-        {isLoading && <RecipeSkeleton />}
+        {isLoading && (
+          <InfoState
+            title="Loading recipe..."
+            description="Please wait while we fetch the recipe."
+            Icon={Loader2}
+          />
+        )}
 
         {error && !isLoading && (
-          <RecipeError
-            message={error}
-            onRetry={() => {
-              // if (recipe) setCurrentRecipe(recipe);
-            }}
+          <InfoState
+            title="Failed to load recipe"
+            description="Something went wrong while fetching the recipe."
+            Icon={AlertCircle}
           />
         )}
 
@@ -74,7 +82,7 @@ const RecipeModel = () => {
           <>
             <div className="-mx-6 -mt-6 mb-4">
               <img
-                src={recipeData.imageUrl}
+                src={recipeData.media.imageUrl}
                 alt={recipeData.title}
                 className="w-full h-[300px] md:h-[300px] object-cover object-center rounded-t-lg bg-foreground"
               />
@@ -94,21 +102,21 @@ const RecipeModel = () => {
                 <div className="mt-1 hidden xl:flex items-center gap-4 text-md text-muted-foreground">
                   <Button variant="outline">
                     <LucideUtensils className="h-5 w-5" />
-                    <span>{recipeData.cuisine}</span>
+                    <span>{recipeData.meta.cuisine}</span>
                   </Button>
                   <Button variant="outline">
                     <User className="h-5 w-5" />
-                    <span>{recipeData.servings} servings</span>
+                    <span>{recipeData.meta.servings} servings</span>
                   </Button>
                   <Button variant="outline">
                     <LucideClock className="h-5 w-5" />
-                    <span>{recipeData.cookTime} minutes</span>
+                    <span>{recipeData.meta.cookTime} minutes</span>
                   </Button>
                   <Button variant="outline">
                     <LucideFlame className="h-5 w-5" />
                     <span>
-                      {recipeData.difficulty.charAt(0).toUpperCase() +
-                        recipeData.difficulty.slice(1)}
+                      {recipeData.meta.difficulty.charAt(0).toUpperCase() +
+                        recipeData.meta.difficulty.slice(1)}
                     </span>
                   </Button>
                 </div>
@@ -121,21 +129,21 @@ const RecipeModel = () => {
               <div className="mt-4 xl:hidden flex items-center gap-4 text-md text-muted-foreground">
                 <Button variant="outline">
                   <LucideUtensils className="h-5 w-5" />
-                  <span>{recipeData.cuisine}</span>
+                  <span>{recipeData.meta.cuisine}</span>
                 </Button>
                 <Button variant="outline">
                   <User className="h-5 w-5" />
-                  <span>{recipeData.servings} servings</span>
+                  <span>{recipeData.meta.servings} servings</span>
                 </Button>
                 <Button variant="outline">
                   <LucideClock className="h-5 w-5" />
-                  <span>{recipeData.cookTime} minutes</span>
+                  <span>{recipeData.meta.cookTime} minutes</span>
                 </Button>
                 <Button variant="outline">
                   <LucideFlame className="h-5 w-5" />
                   <span>
-                    {recipeData.difficulty.charAt(0).toUpperCase() +
-                      recipeData.difficulty.slice(1)}
+                    {recipeData.meta.difficulty.charAt(0).toUpperCase() +
+                      recipeData.meta.difficulty.slice(1)}
                   </span>
                 </Button>
               </div>
@@ -177,35 +185,60 @@ const RecipeModel = () => {
 
               <div className="mt-1 col-span-2 flex flex-wrap items-center gap-3 text-md text-muted-foreground">
                 {[
-                  { label: "calories", value: recipeData.calories, unit: "" },
-                  { label: "carbs", value: recipeData.carbs, unit: "g" },
-                  { label: "fat", value: recipeData.fat, unit: "g" },
-                  { label: "fiber", value: recipeData.fiber, unit: "g" },
-                  { label: "protein", value: recipeData.protein, unit: "g" },
                   {
-                    label: "saturated fat",
-                    value: recipeData.saturatedFat,
+                    label: "calories",
+                    value: recipeData.nutrition.calories,
+                    unit: "",
+                  },
+                  {
+                    label: "carbs",
+                    value: recipeData.nutrition.carbs,
                     unit: "g",
                   },
-                  { label: "sodium", value: recipeData.sodium, unit: "mg" },
-                  { label: "sugar", value: recipeData.sugars, unit: "g" },
+                  { label: "fat", value: recipeData.nutrition.fat, unit: "g" },
+                  {
+                    label: "fiber",
+                    value: recipeData.nutrition.fiber,
+                    unit: "g",
+                  },
+                  {
+                    label: "protein",
+                    value: recipeData.nutrition.protein,
+                    unit: "g",
+                  },
+                  {
+                    label: "saturated fat",
+                    value: recipeData.nutrition.saturatedFat,
+                    unit: "g",
+                  },
+                  {
+                    label: "sodium",
+                    value: recipeData.nutrition.sodium,
+                    unit: "mg",
+                  },
+                  {
+                    label: "sugar",
+                    value: recipeData.nutrition.sugars,
+                    unit: "g",
+                  },
                 ].map((nutrient) => (
                   <Button key={nutrient.label} variant="outline">
                     <span>
-                      {nutrient.value} {nutrient.unit} {nutrient.label}
+                      {nutrient.value}
+                      {nutrient.unit} {nutrient.label}
                     </span>
                   </Button>
                 ))}
 
-                {/* {recipeData.dietaryPreferences &&
-                  recipeData.dietaryPreferences.map((peference) => (
+                {/* {recipeData.meta.dietaryPreferences &&
+                  recipeData.meta.dietaryPreferences.map((peference) => (
                     <Button key={peference} variant="outline">
                       <span>{peference.charAt(0).toLocaleUpperCase() + peference.slice(1)}</span>
                     </Button>
                   ))}
 
-                {recipeData.mealTypes &&
-                  recipeData.mealTypes.map((type) => (
+                {recipeData.meta.mealTypes &&
+                  recipeData.meta.mealTypes.map((type) => (
                     <Button key={type} variant="outline">
                       <span>{type.charAt(0).toLocaleUpperCase() + type.slice(1)}</span>
                     </Button>

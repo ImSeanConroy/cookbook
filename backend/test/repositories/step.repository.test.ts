@@ -27,7 +27,7 @@ describe("Step Repository", () => {
 
   describe("create", () => {
     it("should insert a step and return it", async () => {
-      mockedQuery.mockResolvedValue({ rows: [mockRow] });
+      mockedQuery.mockResolvedValue([mockRow]);
 
       const result = await StepRepo.create(recipeId, step);
 
@@ -44,7 +44,7 @@ describe("Step Repository", () => {
 
   describe("findByRecipeId", () => {
     it("should return steps for the given recipe", async () => {
-      mockedQuery.mockResolvedValue({ rows: mockRows });
+      mockedQuery.mockResolvedValue(mockRows);
 
       const result = await StepRepo.findByRecipeId(recipeId);
 
@@ -56,7 +56,7 @@ describe("Step Repository", () => {
     });
 
     it("should return empty array if no steps found", async () => {
-      mockedQuery.mockResolvedValue({ rows: [] });
+      mockedQuery.mockResolvedValue([]);
 
       const result = await StepRepo.findByRecipeId(recipeId);
 
@@ -72,7 +72,7 @@ describe("Step Repository", () => {
 
   describe("deleteByRecipeId", () => {
     it("should delete steps and return deleted row if present", async () => {
-      mockedQuery.mockResolvedValue({ rows: [mockRow] });
+      mockedQuery.mockResolvedValue([mockRow]);
 
       const result = await StepRepo.deleteByRecipeId(recipeId);
 
@@ -84,7 +84,7 @@ describe("Step Repository", () => {
     });
 
     it("should return null if no steps were deleted", async () => {
-      mockedQuery.mockResolvedValue({ rows: [] });
+      mockedQuery.mockResolvedValue([]);
 
       const result = await StepRepo.deleteByRecipeId(recipeId);
 

@@ -4,24 +4,16 @@ import { optional, z } from "zod";
 // Enums / constants
 // --------------------
 const cuisinesEnum = [
-  "Italian",
-  "Mexican",
-  "Indian",
-  "Chinese",
   "American",
-  "Mediterranean",
-  "Japanese",
-  "Thai",
-  "Greek",
-  "French",
-  "Spanish",
-  "Korean",
-  "Vietnamese",
-  "Turkish",
+  "African",
+  "Asian",
   "British",
   "Caribbean",
-  "Moroccan",
-  "Ethiopian",
+  "European",
+  "French",
+  "Italian",
+  "Latin American",
+  "Middle Eastern",
 ] as const;
 
 const difficultiesEnum = ["beginner", "intermediate", "advanced"] as const;
@@ -70,7 +62,7 @@ export const ingredientsSchema = z.array(
     name: z.string().trim().min(1),
     quantity: z.number(),
     unit: z.string().trim().min(1),
-    optional: z.boolean().default(false),
+    optional: z.boolean().default(false).optional(),
   }),
 );
 
@@ -81,22 +73,27 @@ export const createRecipeSchema = z.object({
   title: titleSchema,
   subtitle: subtitleSchema,
   description: descriptionSchema,
-  cook_time: cookTimeSchema,
-  servings: servingsSchema,
-  difficulty: difficultySchema,
-  cuisine: cuisineSchema,
-  image_url: imageUrlSchema,
-  meal_types: mealTypeSchema,
-  dietary_preferences: dietaryPreferenceSchema,
-
-  calories: z.number().int().positive().nullable(),
-  protein: z.number().nonnegative().nullable(),
-  carbs: z.number().nonnegative().nullable(),
-  fat: z.number().nonnegative().nullable(),
-  sugars: z.number().nonnegative().nullable(),
-  fiber: z.number().nonnegative().nullable(),
-  saturated_fat: z.number().nonnegative().nullable(),
-  sodium: z.number().int().nonnegative().nullable(),
+  meta: z.object({
+    cookTime: cookTimeSchema,
+    servings: servingsSchema,
+    difficulty: difficultySchema,
+    mealTypes: mealTypeSchema,
+    dietaryPreferences: dietaryPreferenceSchema,
+    cuisine: cuisineSchema,
+  }),
+  nutrition: z.object({
+    calories: z.number().int().positive().nullable(),
+    protein: z.number().nonnegative().nullable(),
+    carbs: z.number().nonnegative().nullable(),
+    fat: z.number().nonnegative().nullable(),
+    sugars: z.number().nonnegative().nullable(),
+    fiber: z.number().nonnegative().nullable(),
+    saturatedFat: z.number().nonnegative().nullable(),
+    sodium: z.number().int().nonnegative().nullable(),
+  }),
+  media: z.object({
+    imageUrl: imageUrlSchema,
+  }),
   ingredients: ingredientsSchema,
   steps: stepsSchema,
 });
@@ -109,33 +106,26 @@ export const updateRecipeSchema = createRecipeSchema.partial();
 export const getAllRecipesQuerySchema = z.object({
   page: z.string().regex(/^\d+$/).transform(Number).default("1"),
   limit: z.string().regex(/^\d+$/).transform(Number).default("12"),
-
   query: z.string().optional(),
-
   difficulty: z
     .string()
     .optional()
     .transform((val) => (val ? val.split(",") : undefined)),
-
   cuisine: z
     .string()
     .optional()
     .transform((val) => (val ? val.split(",") : undefined)),
-
   mealTypes: z
     .string()
     .optional()
     .transform((val) => (val ? val.split(",") : undefined)),
-
   dietaryPreferences: z
     .string()
     .optional()
     .transform((val) => (val ? val.split(",") : undefined)),
-
   cookTime: z
     .string()
     .optional()
     .transform((val) => (val ? val.split(",") : undefined)),
-
   sortBy: z.string().optional().default("newest"),
 });

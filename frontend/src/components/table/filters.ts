@@ -25,7 +25,6 @@ export const cuisines = [
   { value: "European", label: "European" },
   { value: "French", label: "French" },
   { value: "Italian", label: "Italian" },
-  { value: "Korean", label: "Korean" },
   { value: "Latin American", label: "Latin American" },
   { value: "Middle Eastern", label: "Middle Eastern" },
 ];

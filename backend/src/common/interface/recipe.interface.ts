@@ -1,11 +1,22 @@
-// --------------------
-// Difficulty Enum
-// --------------------
-export type DifficultyLevel = 'beginner' | 'intermediate' | 'advanced';
+import { z } from "zod";
+import {
+  createRecipeSchema,
+  updateRecipeSchema,
+} from "../schema/recipe.schema";
 
 // --------------------
-// Ingredient / Step Interfaces
+// Enums
 // --------------------
+
+export type DifficultyLevel =
+  | "beginner"
+  | "intermediate"
+  | "advanced";
+
+// --------------------
+// Shared Types
+// --------------------
+
 export interface Ingredient {
   name: string;
   quantity: number;
@@ -19,36 +30,74 @@ export interface Step {
 }
 
 // --------------------
-// Recipe Interface
+// Database Model (Flat)
 // --------------------
-export interface Recipe {
+
+export interface RecipeEntity {
   id: string;
   title: string;
   subtitle: string;
   description: string;
-  cook_time: number;
+  cookTime: number;
   servings: number;
   difficulty: DifficultyLevel;
-  meal_types: string[];
-  dietary_preferences: string[];
+  mealTypes: string[];
+  dietaryPreferences: string[];
   cuisine: string;
-  image_url: string;
+  imageUrl: string;
   calories: number | null;
   protein: number | null;
   carbs: number | null;
   fat: number | null;
   sugars: number | null;
   fiber: number | null;
-  saturated_fat: number | null;
+  saturatedFat: number | null;
   sodium: number | null;
-  ingredients: Ingredient[];
-  steps: string[];
-  created_at: string;
-  updated_at: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 // --------------------
-// Recipe Input Type
+// API Response Model (Nested)
 // --------------------
-// This is the shape expected when creating or updating a recipe.
-export type RecipeInput = Omit<Recipe, 'id' | 'created_at' | 'updated_at'>;
+
+export interface RecipeResponse {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  meta: {
+    cookTime: number;
+    servings: number;
+    difficulty: DifficultyLevel;
+    mealTypes: string[];
+    dietaryPreferences: string[];
+    cuisine: string;
+  };
+  nutrition: {
+    calories: number | null;
+    protein: number | null;
+    carbs: number | null;
+    fat: number | null;
+    sugars: number | null;
+    fiber: number | null;
+    saturatedFat: number | null;
+    sodium: number | null;
+  };
+  media: {
+    imageUrl: string;
+  };
+  ingredients: Ingredient[];
+  steps: string[];
+  timestamps: {
+    createdAt: string;
+    updatedAt: string;
+  };
+}
+
+// --------------------
+// DTO Types (Derived from Zod)
+// --------------------
+
+export type RecipeInput = z.infer<typeof createRecipeSchema>;
+export type UpdateRecipeInput = z.infer<typeof updateRecipeSchema>;

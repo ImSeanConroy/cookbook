@@ -1,5 +1,6 @@
 import pg from "pg";
 import { config } from "./app.config";
+import { toCamelCase } from "../../utils/case-converter";
 
 /**
  * Create a PostgreSQL connection pool using environment configuration.
@@ -17,13 +18,14 @@ const pool = new pg.Pool({
  * Generic query function for executing SQL statements.
  * @param text SQL query string
  * @param params Optional array of parameters for parameterized queries
- * @returns Promise resolving to pg.QueryResult
+ * @returns Promise resolving to Promise<T[]>
  */
-export const query = (
+export const query = async <T = any>(
   text: string,
   params?: unknown[]
-): Promise<pg.QueryResult> => {
-  return pool.query(text, params);
+): Promise<T[]> => {
+  const res = await pool.query(text, params);
+  return toCamelCase(res.rows);
 };
 
 /**

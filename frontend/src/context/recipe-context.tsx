@@ -71,8 +71,8 @@ export const RecipesProvider = ({ children }: { children: ReactNode }) => {
         const json = await res.json();
 
         setRecipes(json.recipes || []);
-        setTotalPages(json.totalPages || 1);
-        setTotalCount(json.recipeCount || 0);
+        setTotalPages(json.meta.totalPages || 1);
+        setTotalCount(json.meta.totalItems || 0);
         setError(null);
       } catch (err: any) {
         if (err.name !== "AbortError") {

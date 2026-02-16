@@ -79,9 +79,13 @@ export const getAllRecipesController = asyncHandler(
     return res.status(HTTPSTATUS.OK).json({
       message: "All recipes fetched successfully",
       recipes: result.data,
-      recipeCount: result.totalItems,
-      currentPage: result.currentPage,
-      totalPages: result.totalPages,
+      meta: {
+        totalItems: result.totalItems,
+        currentPage: result.currentPage,
+        totalPages: result.totalPages,
+        pageSize: limit
+      },
+      filters,
     });
   }
 );

@@ -38,27 +38,27 @@ describe("Recipe Repository", () => {
         saturated_fat: 5.0,
         sodium: 600,
       };
-      mockedQuery.mockResolvedValue({ rows: [mockRow] });
+      mockedQuery.mockResolvedValue([mockRow]);
 
       const result = await RecipeRepo.create({
         title: "Pasta",
         subtitle: "Pasta",
         description: "Yummy",
-        cook_time: 15,
+        cookTime: 15,
         servings: 2,
         difficulty: "beginner",
         cuisine: "Italian",
-        image_url: "http://image.com",
+        imageUrl: "http://image.com",
         calories: 450,
         protein: 20.5,
         carbs: 55.0,
         fat: 15.0,
         sugars: 8.0,
         fiber: 4.0,
-        saturated_fat: 5.0,
+        saturatedFat: 5.0,
         sodium: 600,
-        meal_types: ["lunch"],
-        dietary_preferences: [],
+        mealTypes: ["lunch"],
+        dietaryPreferences: [],
       });
 
       expect(mockedQuery).toHaveBeenCalledOnce();
@@ -73,21 +73,21 @@ describe("Recipe Repository", () => {
           title: "Pasta",
           subtitle: "Pasta",
           description: "Yummy",
-          cook_time: 15,
+          cookTime: 15,
           servings: 2,
           difficulty: "beginner",
           cuisine: "Italian",
-          image_url: "http://image.com",
+          imageUrl: "http://image.com",
           calories: 450,
           protein: 20.5,
           carbs: 55.0,
           fat: 15.0,
           sugars: 8.0,
           fiber: 4.0,
-          saturated_fat: 5.0,
+          saturatedFat: 5.0,
           sodium: 600,
-          meal_types: ["lunch"],
-          dietary_preferences: [],
+          mealTypes: ["lunch"],
+          dietaryPreferences: [],
         }),
       ).rejects.toThrow("DB failure");
     });
@@ -96,14 +96,14 @@ describe("Recipe Repository", () => {
   describe("findById", () => {
     it("returns recipe if found", async () => {
       const mockRow = { id: "1", title: "Soup" };
-      mockedQuery.mockResolvedValue({ rows: [mockRow] });
+      mockedQuery.mockResolvedValue([mockRow]);
 
       const result = await RecipeRepo.findById("1");
       expect(result).toEqual(mockRow);
     });
 
     it("returns null if not found", async () => {
-      mockedQuery.mockResolvedValue({ rows: [] });
+      mockedQuery.mockResolvedValue([]);
 
       const result = await RecipeRepo.findById("99");
       expect(result).toBeNull();
@@ -119,7 +119,7 @@ describe("Recipe Repository", () => {
   describe("getAll", () => {
     it("returns paginated recipes with offset and limit", async () => {
       const mockRows = [{ title: "A" }, { title: "B" }];
-      mockedQuery.mockResolvedValue({ rows: mockRows });
+      mockedQuery.mockResolvedValue(mockRows);
 
       const result = await RecipeRepo.getAll({ offset: 0, limit: 2 });
 
@@ -128,7 +128,7 @@ describe("Recipe Repository", () => {
 
     it("uses default pagination params if none passed", async () => {
       const mockRows = [{ title: "X" }];
-      mockedQuery.mockResolvedValue({ rows: mockRows });
+      mockedQuery.mockResolvedValue(mockRows);
 
       const result = await RecipeRepo.getAll({});
 
@@ -194,7 +194,7 @@ describe("Recipe Repository", () => {
 
     filters.forEach(({ name, value, expected, params }) => {
       it(`filters by ${name}`, async () => {
-        mockedQuery.mockResolvedValue({ rows: [{ title: "X" }] });
+        mockedQuery.mockResolvedValue([{ title: "X" }]);
         await RecipeRepo.getAll({ [name.split(" ")[0]]: value });
         expect(mockedQuery).toHaveBeenCalledWith(
           expect.stringContaining(expected),
@@ -214,7 +214,7 @@ describe("Recipe Repository", () => {
 
   describe("getCount", () => {
     it("returns total number of recipes", async () => {
-      mockedQuery.mockResolvedValue({ rows: [{ count: "42" }] });
+      mockedQuery.mockResolvedValue([{ count: "42" }]);
 
       const result = await RecipeRepo.getCount({});
 
@@ -246,7 +246,7 @@ describe("Recipe Repository", () => {
 
     countFilters.forEach(({ key, value, count }) => {
       it(`filters count by ${key}`, async () => {
-        mockedQuery.mockResolvedValue({ rows: [{ count: String(count) }] });
+        mockedQuery.mockResolvedValue([{ count: String(count) }]);
         const result = await RecipeRepo.getCount({
           [key.split(" ")[0]]: value,
         });
@@ -266,7 +266,7 @@ describe("Recipe Repository", () => {
   describe("update", () => {
     it("updates and returns recipe", async () => {
       const updated = { id: "1", title: "Updated" };
-      mockedQuery.mockResolvedValue({ rows: [updated] });
+      mockedQuery.mockResolvedValue([updated]);
 
       const result = await RecipeRepo.update({ id: "1", title: "Updated" });
 
@@ -274,7 +274,7 @@ describe("Recipe Repository", () => {
     });
 
     it("returns null if update fails", async () => {
-      mockedQuery.mockResolvedValue({ rows: [] });
+      mockedQuery.mockResolvedValue([]);
 
       const result = await RecipeRepo.update({ id: "1", title: "Nothing" });
 
@@ -293,14 +293,14 @@ describe("Recipe Repository", () => {
   describe("deleteById", () => {
     it("deletes and returns recipe", async () => {
       const deleted = { id: "1", title: "Deleted" };
-      mockedQuery.mockResolvedValue({ rows: [deleted] });
+      mockedQuery.mockResolvedValue([deleted]);
 
       const result = await RecipeRepo.deleteById("1");
       expect(result).toEqual(deleted);
     });
 
     it("returns null if not found", async () => {
-      mockedQuery.mockResolvedValue({ rows: [] });
+      mockedQuery.mockResolvedValue([]);
 
       const result = await RecipeRepo.deleteById("999");
       expect(result).toBeNull();
