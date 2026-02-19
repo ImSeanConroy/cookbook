@@ -10,9 +10,23 @@ import { asyncHandler } from "./middleware/async-handler.middleware";
 import { HTTPSTATUS } from "./common/config/http.config";
 
 import recipeRoutes from "./routes/recipe.route";
+import { logger } from "./common/config/logger.config";
+import { morganMiddleware } from "./common/config/morgan.config";
 
 const app = express();
 const BASE_PATH = config.BASE_PATH;
+
+logger.info("Starting application", {
+  context: "Application",
+  environment: config.NODE_ENV,
+  port: config.PORT,
+});
+
+if ((config.READ_ONLY || "").toLowerCase() === "true") {
+  logger.warn("Application running in READ_ONLY mode", {
+    context: "Application",
+  });
+}
 
 // ---------------------------
 // Middleware
@@ -30,6 +44,9 @@ app.use(
   })
 );
 
+// HTTP request logging
+app.use(morganMiddleware);
+
 // ---------------------------
 // Routes
 // ---------------------------
@@ -38,6 +55,9 @@ app.use(
 app.get(
   `${BASE_PATH}/status`,
   asyncHandler(async (_req: Request, res: Response, _next: NextFunction) => {
+    logger.debug("Health check endpoint called", {
+      context: "Application",
+    });
     return res.status(HTTPSTATUS.OK).json({ status: "ok" });
   })
 );
@@ -55,6 +75,10 @@ app.use(errorHandler);
 // ---------------------------
 
 app.listen(config.PORT, async () => {
-  console.log(`Server listening on port ${config.PORT} in ${config.NODE_ENV} mode`);
+  logger.info("Server listening", {
+    context: "Application",
+    environment: config.NODE_ENV,
+    port: config.PORT,
+  });
   await connectDatabase();
 });

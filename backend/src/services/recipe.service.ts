@@ -11,6 +11,7 @@ import * as IngredientRepo from "../repositories/ingredient.repository";
 import * as StepRepo from "../repositories/step.repository";
 import { toRecipeResponse } from "../utils/to-recipe-response";
 import { toRecipeEntity } from "../utils/to-recipe-entity";
+import { logger } from "../common/config/logger.config";
 
 /**
  * Creates a new recipe along with its ingredients and steps.
@@ -22,17 +23,32 @@ import { toRecipeEntity } from "../utils/to-recipe-entity";
 export const createRecipeService = async (
   body: RecipeInput
 ): Promise<RecipeResponse> => {
+  const startTime = Date.now();
+
   const { ingredients, steps, ...recipeData } = body;
 
   const entityData = toRecipeEntity(body);
 
   const newRecipe = await RecipeRepo.create(entityData);
-  if (!newRecipe) throw new BadRequestException("Failed to create recipe");
+  if (!newRecipe) {
+    logger.error("Failed to create recipe in database", {
+      context: "RecipeService",
+      title: body.title,
+    });
+    throw new BadRequestException("Failed to create recipe");
+  }
 
   const newIngredients = await Promise.all(
     ingredients.map(async (ingredient: Ingredient) => {
       const created = await IngredientRepo.create(newRecipe.id, ingredient);
-      if (!created) throw new BadRequestException("Failed to create recipe ingredient");
+      if (!created) {
+        logger.error("Failed to create recipe ingredient", {
+          context: "RecipeService",
+          recipeId: newRecipe.id,
+          ingredientName: ingredient.name,
+        });
+        throw new BadRequestException("Failed to create recipe ingredient");
+      }
       return created;
     })
   );
@@ -45,16 +61,33 @@ export const createRecipeService = async (
   const newSteps = await Promise.all(
     stepsWithNumbers.map(async (step) => {
       const created = await StepRepo.create(newRecipe.id, step);
-      if (!created) throw new BadRequestException("Failed to create recipe step");
+      if (!created) {
+        logger.error("Failed to create recipe step", {
+          context: "RecipeService",
+          recipeId: newRecipe.id,
+          stepNumber: step.step_number,
+        });
+        throw new BadRequestException("Failed to create recipe step");
+      }
       return created;
     })
   );
 
-  return toRecipeResponse({
+  const result = toRecipeResponse({
     ...newRecipe,
     ingredients: newIngredients,
     steps: newSteps.map((s) => s.instruction),
   });
+
+  const duration = Date.now() - startTime;
+  logger.info("Recipe created successfully", {
+    context: "RecipeService",
+    recipeId: result.id,
+    title: result.title,
+    durationMs: duration,
+  });
+
+  return result;
 };
 
 /**
@@ -68,13 +101,26 @@ export const getRecipeByIdService = async (
   recipeId: string,
 ): Promise<RecipeResponse> => {
   const recipe = await RecipeRepo.findById(recipeId);
-  if (!recipe) throw new NotFoundException("Recipe not found");
+  if (!recipe) {
+    logger.warn("Recipe not found", {
+      context: "RecipeService",
+      recipeId,
+    });
+    throw new NotFoundException("Recipe not found");
+  }
 
   const ingredients = await IngredientRepo.findByRecipeId(recipeId);
   const steps = await StepRepo.findByRecipeId(recipeId);
 
-  if (!ingredients || !steps)
+  if (!ingredients || !steps) {
+    logger.warn("Recipe ingredients or steps not found", {
+      context: "RecipeService",
+      recipeId,
+      hasIngredients: !!ingredients,
+      hasSteps: !!steps,
+    });
     throw new NotFoundException("Ingredients or steps not found");
+  }
 
   return toRecipeResponse({
     ...recipe,
@@ -129,12 +175,14 @@ export const getAllRecipesService = async (
     }),
   ]);
 
-  return {
+  const result = {
     data: recipes,
     currentPage: page,
     totalPages: Math.ceil(totalItems / limit),
     totalItems,
   };
+
+  return result;
 };
 
 /**
@@ -150,8 +198,16 @@ export const updateRecipeService = async (
   recipeId: string,
   body: UpdateRecipeInput
 ): Promise<RecipeResponse> => {
+  const startTime = Date.now();
+
   const existingRecipe = await RecipeRepo.findById(recipeId);
-  if (!existingRecipe) throw new NotFoundException("Recipe not found");
+  if (!existingRecipe) {
+    logger.warn("Recipe not found for update", {
+      context: "RecipeService",
+      recipeId,
+    });
+    throw new NotFoundException("Recipe not found");
+  }
 
   const { createdAt, updatedAt, ...safeExistingRecipe } = existingRecipe;
 
@@ -168,7 +224,13 @@ export const updateRecipeService = async (
   };
 
   const updatedRecipe = await RecipeRepo.update(mergedRecipe);
-  if (!updatedRecipe) throw new BadRequestException("Update failed");
+  if (!updatedRecipe) {
+    logger.error("Failed to update recipe", {
+      context: "RecipeService",
+      recipeId,
+    });
+    throw new BadRequestException("Update failed");
+  }
 
   // Update ingredients
   let updatedIngredients: Ingredient[] = [];
@@ -177,7 +239,14 @@ export const updateRecipeService = async (
     updatedIngredients = await Promise.all(
       body.ingredients.map(async (ingredient) => {
         const created = await IngredientRepo.create(recipeId, ingredient);
-        if (!created) throw new BadRequestException("Failed to update recipe ingredient");
+        if (!created) {
+          logger.error("Failed to update recipe ingredient", {
+            context: "RecipeService",
+            recipeId,
+            ingredientName: ingredient.name,
+          });
+          throw new BadRequestException("Failed to update recipe ingredient");
+        }
         return created;
       })
     );
@@ -196,7 +265,14 @@ export const updateRecipeService = async (
     updatedSteps = await Promise.all(
       stepsWithNumbers.map(async (step) => {
         const created = await StepRepo.create(recipeId, step);
-        if (!created) throw new BadRequestException("Failed to create recipe step");
+        if (!created) {
+          logger.error("Failed to update recipe step", {
+            context: "RecipeService",
+            recipeId,
+            stepNumber: step.step_number,
+          });
+          throw new BadRequestException("Failed to create recipe step");
+        }
         return created;
       })
     );
@@ -204,11 +280,21 @@ export const updateRecipeService = async (
     updatedSteps = await StepRepo.findByRecipeId(recipeId);
   }
 
-  return toRecipeResponse({
+  const result = toRecipeResponse({
     ...updatedRecipe,
     ingredients: updatedIngredients,
     steps: updatedSteps.map((s) => s.instruction),
   });
+
+  const duration = Date.now() - startTime;
+  logger.info("Recipe updated successfully", {
+    context: "RecipeService",
+    recipeId,
+    title: result.title,
+    durationMs: duration,
+  });
+
+  return result;
 };
 
 /**
@@ -219,5 +305,16 @@ export const updateRecipeService = async (
  */
 export const deleteRecipeService = async (recipeId: string): Promise<void> => {
   const deleted = await RecipeRepo.deleteById(recipeId);
-  if (!deleted) throw new NotFoundException("Recipe not found or already deleted");
+  if (!deleted) {
+    logger.warn("Recipe not found or already deleted", {
+      context: "RecipeService",
+      recipeId,
+    });
+    throw new NotFoundException("Recipe not found or already deleted");
+  }
+
+  logger.info("Recipe deleted successfully", {
+    context: "RecipeService",
+    recipeId,
+  });
 };

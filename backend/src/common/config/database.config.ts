@@ -1,4 +1,5 @@
 import pg from "pg";
+import { logger } from "../config/logger.config";
 import { config } from "./app.config";
 import { toCamelCase } from "../../utils/case-converter";
 
@@ -34,10 +35,28 @@ export const query = async <T = any>(
  */
 const connectDatabase = async () => {
   try {
+    logger.info("Initiating database connection", {
+      context: "Database",
+      host: config.POSTGRES_HOST,
+      database: config.POSTGRES_DB,
+      port: config.POSTGRES_PORT,
+    });
+
     await pool.connect();
-    console.log("Connected to PostgreSQL Database using Pool");
+
+    logger.info("Database connection established successfully", {
+      context: "Database",
+      host: config.POSTGRES_HOST,
+      database: config.POSTGRES_DB,
+    });
   } catch (error) {
-    console.error("Error connecting to PostgreSQL Database", error);
+    logger.error("Database connection failed", {
+      context: "Database",
+      error: error instanceof Error ? error.message : error,
+      stack: error instanceof Error ? error.stack : undefined,
+      host: config.POSTGRES_HOST,
+      database: config.POSTGRES_DB,
+    });
     process.exit(1);
   }
 };

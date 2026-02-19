@@ -8,6 +8,7 @@ interface AppConfig {
   PORT: string;
   READ_ONLY: string;
   BASE_PATH: string;
+  LOG_LEVEL: "debug" | "info" | "warn" | "error";
 
   POSTGRES_USER: string;
   POSTGRES_HOST: string;
@@ -27,6 +28,11 @@ const appConfig = (): AppConfig => ({
   PORT: getEnv("PORT", "5000"),
   READ_ONLY: getEnv("READ_ONLY", "false"),
   BASE_PATH: getEnv("BASE_PATH", "/api"),
+  LOG_LEVEL: getEnv("LOG_LEVEL", "debug") as
+    | "debug"
+    | "info"
+    | "warn"
+    | "error",
 
   POSTGRES_USER: getEnv("POSTGRES_USER"),
   POSTGRES_HOST: getEnv("POSTGRES_HOST"),

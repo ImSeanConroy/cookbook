@@ -1,5 +1,6 @@
 import { RecipeEntity } from "../common/interface/recipe.interface";
 import { query } from "../common/config/database.config";
+import { logger } from "../common/config/logger.config";
 
 /**
  * Creates a new recipe in the database.
@@ -44,6 +45,15 @@ export const create = async (
       data.sodium,
     ],
   );
+
+  if (res.length === 0) {
+    logger.error("Failed to insert recipe", {
+      context: "RecipeRepository",
+      title: data.title,
+    });
+    return null as any;
+  }
+
   return res[0] as RecipeEntity;
 };
 
@@ -55,7 +65,12 @@ export const create = async (
  */
 export const findById = async (id: string): Promise<RecipeEntity | null> => {
   const res = await query("SELECT * FROM recipes WHERE id = $1", [id]);
-  return res[0] as RecipeEntity || null;
+
+  if (res.length === 0) {
+    return null;
+  }
+
+  return res[0] as RecipeEntity;
 };
 
 /**
@@ -139,7 +154,9 @@ export const getCount = async ({
   }
 
   const res = await query(baseQuery, values);
-  return parseInt(res[0].count, 10);
+  const count = parseInt(res[0].count, 10);
+
+  return count;
 };
 
 /**
@@ -255,6 +272,7 @@ export const getAll = async ({
     OFFSET $${values.length}`;
 
   const res = await query(baseQuery, values);
+
   return res as RecipeEntity[];
 };
 
@@ -284,7 +302,15 @@ export const update = async (
     values,
   );
 
-  return res[0] as RecipeEntity || null;
+  if (res.length === 0) {
+    logger.warn("Recipe not found for update", {
+      context: "RecipeRepository",
+      recipeId: data.id,
+    });
+    return null;
+  }
+
+  return res[0] as RecipeEntity;
 };
 
 /**
@@ -297,5 +323,14 @@ export const deleteById = async (id: string): Promise<RecipeEntity | null> => {
   const res = await query("DELETE FROM recipes WHERE id = $1 RETURNING *", [
     id,
   ]);
-  return res[0] as RecipeEntity || null;
+
+  if (res.length === 0) {
+    logger.warn("Recipe not found for deletion", {
+      context: "RecipeRepository",
+      recipeId: id,
+    });
+    return null;
+  }
+
+  return res[0] as RecipeEntity;
 };
