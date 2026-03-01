@@ -75,12 +75,12 @@ const RecipeCard = ({
                 </Button>
               </DropdownMenuTrigger>
 
-              <DropdownMenuContent align="end" className="w-[160px]">
+              <DropdownMenuContent align="end" className="w-40">
                 <DropdownMenuItem
                   className="cursor-pointer"
                   onClick={(e) => {
                     e.stopPropagation();
-                    onOpen("editRecipe");
+                    onOpen("editRecipe", { recipeId: id });
                   }}
                 >
                   Edit

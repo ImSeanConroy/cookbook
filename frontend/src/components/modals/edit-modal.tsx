@@ -5,9 +5,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Separator } from "@/components/ui/separator";
 
 import { useModal } from "@/context/modal-context";
+import CreateRecipeForm from "@/components/forms/create-recipe-form";
+
 
 const EditRecipeModal = () => {
   const { isOpen, onClose, type } = useModal();
@@ -15,8 +16,8 @@ const EditRecipeModal = () => {
 
   return (
     <Dialog open={isModelOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[450px] max-h-[90%] overflow-scroll">
-        <div className="space-y-5">
+      <DialogContent className="sm:max-w-162.5 h-[80vh] flex flex-col overflow-hidden">
+        <div className="h-full min-h-0 space-y-5 flex flex-col">
           <DialogHeader>
             <DialogTitle>Edit Recipe</DialogTitle>
             <DialogDescription>
@@ -24,7 +25,7 @@ const EditRecipeModal = () => {
               finished.
             </DialogDescription>
           </DialogHeader>
-          <Separator />
+         <CreateRecipeForm mode="update" />
         </div>
       </DialogContent>
     </Dialog>

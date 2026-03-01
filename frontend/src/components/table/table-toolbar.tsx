@@ -99,7 +99,7 @@ export function TableToolbar() {
           placeholder="Search recipes..."
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
-          className="h-8 w-[250px]"
+          className="h-8 w-62.5"
         />
         <ThemeToggle />
         {config.READ_ONLY == false && (
