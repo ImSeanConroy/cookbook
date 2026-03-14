@@ -2,7 +2,7 @@ import * as z from "zod";
 
 export const ingredientSchema = z.object({
   name: z.string().trim().min(1, "Ingredient name is required"),
-  quantity: z.number().positive("Quantity must be greater than 0"),
+  quantity: z.number().min(0, "Quantity must be 0 or greater"),
   unit: z.string().trim().min(1, "Unit is required"),
 });
 
@@ -23,9 +23,7 @@ export const recipeFormSchema = z.object({
   mealTypes: z
     .array(z.string().trim().min(1))
     .min(1, "At least one meal type is required"),
-  dietaryPreferences: z
-    .array(z.string().trim().min(1))
-    .min(1, "At least one dietary preference is required"),
+  dietaryPreferences: z.array(z.string().trim()).optional(),
 
   cuisine: z.string().trim().min(2, "Cuisine is required"),
 

@@ -32,7 +32,7 @@ type MetaTabProps = {
 const MetaTab = ({ form, isLoading }: MetaTabProps) => {
   return (
     <TabsContent value="meta" className="flex-1 min-h-0 overflow-y-auto">
-      <div className="space-y-4 py-6">
+      <div className="space-y-4 py-3">
         <div className="grid md:grid-cols-2 gap-4">
           <FormField
             control={form.control}
@@ -133,7 +133,7 @@ const MetaTab = ({ form, isLoading }: MetaTabProps) => {
                 <FormLabel>Dietary Preferences</FormLabel>
                 <FormControl>
                   <MultiSelectCommand
-                    value={field.value}
+                    value={field.value ?? []}
                     onChange={field.onChange}
                     options={dietaryPreferences}
                     placeholder="Select dietary preferences"

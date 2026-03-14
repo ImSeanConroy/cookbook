@@ -19,7 +19,13 @@ export const ingredientUnits = [
   { label: "Teaspoon (tsp)", value: "tsp" },
   { label: "Tablespoon (tbsp)", value: "tbsp" },
   { label: "Cup", value: "cup" },
+  { label: "Bunch", value: "bunch" },
+  { label: "Pack", value: "pack" },
+  { label: "Sachet", value: "sachet" },
+  { label: "Nest", value: "nest" },
+  { label: "Slice", value: "slice" },
   { label: "Piece", value: "piece" },
+  { label: "Unit", value: "unit" },
   { label: "Pinch", value: "pinch" },
   { label: "To taste", value: "to taste" },
 ];

@@ -1,10 +1,9 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useCallback } from "react";
 import type { ReactNode } from "react";
 import { config } from "@/config";
 import type { RecipeSummaryType } from "@/types/recipe";
-import axios from "axios";
 
 type Filters = {
   page: number;
@@ -25,12 +24,8 @@ type RecipesContextType = {
   setFilters: React.Dispatch<React.SetStateAction<Filters>>;
   totalPages: number;
   totalCount: number;
-  deleteRecipe: (recipeId: string) => void;
+  refreshRecipes: () => Promise<void>;
 };
-
-const baseURL = "http://localhost:8000/api";
-axios.defaults.withCredentials = true;
-axios.defaults.baseURL = baseURL;
 
 const RecipesContext = createContext<RecipesContextType | undefined>(undefined);
 
@@ -46,17 +41,10 @@ export const RecipesProvider = ({ children }: { children: ReactNode }) => {
     limit: 12,
   });
 
-  useEffect(() => {
-    fetchRecipes();
-    return () => controller.abort();
-  }, [filters]);
-
-  const controller = new AbortController();
-
   /**
    * Fetch all recipe
    */
-  const fetchRecipes = async () => {
+  const fetchRecipes = useCallback(async (signal?: AbortSignal) => {
     setIsLoading(true);
 
     try {
@@ -76,7 +64,7 @@ export const RecipesProvider = ({ children }: { children: ReactNode }) => {
 
       const res = await fetch(
         `${config.BASE_URL}/api/recipe?${params.toString()}`,
-        { signal: controller.signal },
+        signal ? { signal } : undefined,
       );
 
       if (!res.ok) throw new Error("Failed to fetch recipes");
@@ -87,34 +75,27 @@ export const RecipesProvider = ({ children }: { children: ReactNode }) => {
       setTotalPages(json.meta.totalPages || 1);
       setTotalCount(json.meta.totalItems || 0);
       setError(null);
-    } catch (err: any) {
-      if (err.name !== "AbortError") {
-        setError(err.message || "Something went wrong.");
+    } catch (err: unknown) {
+      const isAbortError = err instanceof Error && err.name === "AbortError";
+      if (!isAbortError) {
+        const message = err instanceof Error ? err.message : "Something went wrong.";
+        setError(message);
         setRecipes([]);
       }
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [filters]);
 
-  /**
-   * Delete a recipe
-   */
-  const deleteRecipe = async (recipeId: string) => {
-    setIsLoading(true);
-    setError(null);
+  useEffect(() => {
+    const controller = new AbortController();
+    void fetchRecipes(controller.signal);
+    return () => controller.abort();
+  }, [fetchRecipes]);
 
-    try {
-      await axios.delete(`/recipe/${recipeId}`);
-      await fetchRecipes();
-    } catch (err: any) {
-      setError(err);
-      console.log(err);
-      throw err;
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const refreshRecipes = useCallback(async () => {
+    await fetchRecipes();
+  }, [fetchRecipes]);
 
   return (
     <RecipesContext.Provider
@@ -126,7 +107,7 @@ export const RecipesProvider = ({ children }: { children: ReactNode }) => {
         setFilters,
         totalPages,
         totalCount,
-        deleteRecipe,
+        refreshRecipes,
       }}
     >
       {children}

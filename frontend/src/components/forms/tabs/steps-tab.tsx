@@ -22,7 +22,7 @@ const StepsTab = ({
 }: StepsTabProps) => {
   return (
     <TabsContent value="steps" className="flex-1 min-h-0 overflow-y-auto">
-      <div className="space-y-4 py-6">
+      <div className="space-y-4 py-3">
         <div className="flex flex-row justify-between">
           <Button size="sm" type="button" onClick={onAddStep}>
             Add Step
@@ -30,24 +30,20 @@ const StepsTab = ({
         </div>
         {steps.map((_, index) => (
           <div key={index} className="space-y-2 rounded-md border p-3">
-            <div className="flex items-center justify-between">
-              <p className="text-sm font-medium">Step {index + 1}</p>
-              <Button
-                type="button"
-                variant="destructive"
-                size="sm"
-                disabled={isLoading || steps.length <= 1}
-                onClick={() => onRemoveStep(index)}
-              >
-                <X size={16} />
-              </Button>
-            </div>
-            <div>
+            <div className="flex gap-3">
               <Textarea
                 placeholder={`Describe step ${index + 1}`}
                 disabled={isLoading}
                 {...form.register(`steps.${index}`)}
               />
+              <Button
+                type="button"
+                variant="destructive"
+                disabled={isLoading || steps.length <= 1}
+                onClick={() => onRemoveStep(index)}
+              >
+                <X size={16} />
+              </Button>
             </div>
           </div>
         ))}

@@ -19,7 +19,7 @@ type BasicTabProps = {
 const BasicTab = ({ form, isLoading }: BasicTabProps) => {
   return (
     <TabsContent value="basic" className="flex-1 min-h-0 overflow-y-auto">
-      <div className="space-y-4 py-6">
+      <div className="space-y-4 py-3">
         <FormField
           control={form.control}
           name="title"

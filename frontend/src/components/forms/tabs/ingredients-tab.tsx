@@ -30,7 +30,7 @@ const IngredientsTab = ({
 }: IngredientsTabProps) => {
   return (
     <TabsContent value="ingredients" className="flex-1 min-h-0 overflow-y-auto">
-      <div className="space-y-4 py-6">
+      <div className="space-y-4 py-3">
         <div className="flex flex-row justify-between">
           <Button type="button" size="sm" onClick={onAddIngredient}>
             Add Ingredient
@@ -42,15 +42,15 @@ const IngredientsTab = ({
             <div className="flex gap-3">
               <Input
                 placeholder="Name"
-                className="flex-3"
+                className="flex-2"
                 disabled={isLoading}
                 {...form.register(`ingredients.${index}.name`)}
               />
               <Input
                 type="number"
-                min={0.1}
-                step="0.1"
-                placeholder="Qty"
+                min={0}
+                step="0.01"
+                placeholder="Amount (0 for to taste)"
                 className="flex-1"
                 disabled={isLoading}
                 {...form.register(`ingredients.${index}.quantity`, {
@@ -68,7 +68,7 @@ const IngredientsTab = ({
                 }
                 disabled={isLoading}
               >
-                <SelectTrigger className="flex-1 w-full">
+                <SelectTrigger className="flex-2 w-full">
                   <SelectValue placeholder="Select unit" />
                 </SelectTrigger>
                 <SelectContent>

@@ -23,7 +23,7 @@ type NutritionTabProps = {
 const NutritionTab = ({ form, isLoading }: NutritionTabProps) => {
   return (
     <TabsContent value="nutrition" className="flex-1 min-h-0 overflow-y-auto">
-      <div className="space-y-4 py-6">
+      <div className="space-y-4 py-3">
         <div className="grid md:grid-cols-2 gap-4">
           {nutritionFields.map((fieldName) => (
             <FormField

@@ -11,11 +11,11 @@ import {
 import { Spinner } from "@/components/ui/spinner";
 
 import { useModal } from "@/context/modal-context";
-import { useRecipes } from "@/context/recipe-context";
+import { useRecipeMutations } from "@/context/use-recipe-mutations";
 
 const DeleteRecipeModal = () => {
   const { isOpen, onClose, type, data } = useModal();
-  const { deleteRecipe, isLoading } = useRecipes();
+  const { deleteRecipe, isMutating } = useRecipeMutations();
   const isModelOpen = isOpen && type === "deleteRecipe";
 
   const recipe = data?.recipeId;
@@ -45,7 +45,7 @@ const DeleteRecipeModal = () => {
           <DialogClose asChild>
             <Button
               variant="outline"
-              disabled={isLoading}
+              disabled={isMutating}
               className="cursor-pointer"
             >
               Cancel
@@ -54,10 +54,10 @@ const DeleteRecipeModal = () => {
           <Button
             onClick={handleSubmit}
             variant="destructive"
-            disabled={isLoading}
+            disabled={isMutating}
             className="cursor-pointer"
           >
-            {isLoading ? (
+            {isMutating ? (
               <>
                 <Spinner className="mr-2 h-4 w-4" />
                 Deleting...

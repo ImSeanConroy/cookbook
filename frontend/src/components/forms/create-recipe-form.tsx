@@ -8,6 +8,10 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { useModal } from "@/context/modal-context";
+import {
+  useRecipeMutations,
+  type RecipeMutationInput,
+} from "@/context/use-recipe-mutations";
 import BasicTab from "./tabs/basic-tab";
 import IngredientsTab from "./tabs/ingredients-tab";
 import MetaTab from "./tabs/meta-tab";
@@ -50,8 +54,8 @@ const CreateRecipeForm = ({
   mode = "create",
   initialValues,
 }: CreateRecipeFormProps) => {
-  const isLoading = false;
-  const { onClose } = useModal();
+  const { onClose, data } = useModal();
+  const { createRecipe, updateRecipe, isMutating } = useRecipeMutations();
 
   const form = useForm<RecipeFormValues>({
     resolver: zodResolver(recipeFormSchema),
@@ -75,11 +79,20 @@ const CreateRecipeForm = ({
   });
 
   const onSubmit = async (values: RecipeFormValues) => {
+    const payload: RecipeMutationInput = {
+      ...values,
+      dietaryPreferences: values.dietaryPreferences ?? [],
+    };
+
     try {
       if (mode === "update") {
-        console.log("update", values);
+        if (!data?.recipeId) {
+          throw new Error("Missing recipe id for update");
+        }
+
+        await updateRecipe(data.recipeId, payload);
       } else {
-        console.log("create", values);
+        await createRecipe(payload);
       }
       onClose();
     } catch (error) {
@@ -137,19 +150,19 @@ const CreateRecipeForm = ({
             <TabsTrigger value="steps">Steps</TabsTrigger>
           </TabsList>
 
-          <BasicTab form={form} isLoading={isLoading} />
-          <MetaTab form={form} isLoading={isLoading} />
-          <NutritionTab form={form} isLoading={isLoading} />
+          <BasicTab form={form} isLoading={isMutating} />
+          <MetaTab form={form} isLoading={isMutating} />
+          <NutritionTab form={form} isLoading={isMutating} />
           <IngredientsTab
             form={form}
-            isLoading={isLoading}
+            isLoading={isMutating}
             ingredientFields={ingredientsArray.fields}
             onAddIngredient={addIngredient}
             onRemoveIngredient={removeIngredient}
           />
           <StepsTab
             form={form}
-            isLoading={isLoading}
+            isLoading={isMutating}
             steps={steps}
             onAddStep={addStep}
             onRemoveStep={removeStep}
@@ -159,15 +172,15 @@ const CreateRecipeForm = ({
         <div className="flex justify-end gap-4 mt-auto shrink-0 pt-2">
           <Button
             type="button"
-            disabled={isLoading}
+            disabled={isMutating}
             variant="outline"
             onClick={onClose}
           >
-            {isLoading && <Spinner />}
+            {isMutating && <Spinner />}
             Close
           </Button>
-          <Button type="submit" disabled={isLoading}>
-            {isLoading && <Spinner />}
+          <Button type="submit" disabled={isMutating}>
+            {isMutating && <Spinner />}
             {mode === "update" ? "Update Recipe" : "Create Recipe"}
           </Button>
         </div>

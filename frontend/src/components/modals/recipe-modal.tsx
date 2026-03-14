@@ -23,6 +23,16 @@ import type { RecipeType } from "@/types/recipe";
 import { useModal } from "@/context/modal-context";
 import InfoState from "@/components/other/info-state";
 
+const formatIngredientAmount = (quantity: number, unit: string) => {
+  const normalizedUnit = unit.trim();
+
+  if (quantity <= 0) {
+    return normalizedUnit;
+  }
+
+  return normalizedUnit ? `${quantity} ${normalizedUnit}` : `${quantity}`;
+};
+
 const RecipeModel = () => {
   const [recipeData, setRecipeData] = useState<RecipeType | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -159,13 +169,7 @@ const RecipeModel = () => {
                         <span className="text-muted-foreground">
                           {ingredient.name}
                         </span>
-                        <span>
-                          {ingredient.quantity &&
-                            ingredient.quantity > 0 &&
-                            ingredient.quantity}
-                          {ingredient.unit != "g" && " "}
-                          {ingredient.unit}
-                        </span>
+                        <span>{formatIngredientAmount(ingredient.quantity, ingredient.unit)}</span>
                       </li>
                     ))}
                   </ul>
