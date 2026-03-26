@@ -165,9 +165,56 @@ export const recipes: RecipeInput[] = [
       saturatedFat: 0,
       sodium: 8,
     },
-    ingredients: [],
+    ingredients: [
+    ],
     steps: [],
   },
+  {
+    title: "Traditional French Boule",
+    subtitle: "with Overnight Preferment for Deep Flavor",
+    description: "A traditional French-style bread made with a slow overnight preferment, resulting in a light, airy crumb and a crisp golden crust. Perfect for sandwiches or serving alongside soups.",
+    meta: {
+      cookTime: 40,
+      servings: 1,
+      difficulty: "intermediate",
+      cuisine: "French",
+      mealTypes: ["snack", "lunch", "dinner"],
+      dietaryPreferences: ["vegetarian"],
+    },
+    media: {
+      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/traditional-french-boule.png"
+    },
+    nutrition: {
+      calories: 1560,
+      protein: 51,
+      carbs: 318,
+      fat: 7,
+      fiber: 13,
+      sugars: 5,
+      saturatedFat: 1,
+      sodium: 2940
+    },
+    ingredients: [
+      { name: "All Purpose Flour (Preferment)", quantity: 111, unit: "g" },
+      { name: "Instant Yeast (Preferment)", quantity: 0.45, unit: "g" },
+      { name: "Water (55°F to 60°F, Preferment)", quantity: 111, unit: "g" },
+      { name: "Water (110°F)", quantity: 150, unit: "g" },
+      { name: "All Purpose Flour", quantity: 259.5, unit: "g" },
+      { name: "Table Salt", quantity: 7.5, unit: "g" },
+      { name: "Instant Yeast", quantity: 0.7, unit: "g" }
+    ],
+    "steps": [
+      "In a medium bowl, mix the flour, yeast, and cold water for the preferment until no dry flour remains. Cover and rest overnight (12–16 hours) at room temperature.",
+      "Add warm water to the preferment and break it up until it resembles foamy milk. Add sieved flour, salt, and yeast. Mix until tacky, then cover and rest for 20 minutes.",
+      "Perform stretch-and-folds: gently lift one side of the dough, stretch it upward, and fold it over itself. Repeat 8–12 times. Cover and rest for 20 minutes.",
+      "Repeat the stretch-and-folds. Cover and rest for another 20 minutes.",
+      "Perform a coil fold: slide both hands under the center of the dough, lift it up, and allow the ends to fold underneath. Rotate the bowl and repeat once more. Cover and rest for 1 hour, until puffy and marshmallow-like.",
+      "Turn the dough onto a lightly floured surface. Pre-shape by lifting edges toward the center. Cover and rest for 15 minutes.",
+      "Shape into a Boule. Place seam-side up in floured proofing baskets. Cover and proof for 45–60 minutes, until soft and springy.",
+      "Toward the end of the rise, preheat the oven to 210°C and place a Dutch oven on the middle rack.",
+      "Invert dough into parchment paper, score the top, and place into the Dutch oven. Cover with the lid and bake for 20 minutes, then remove lid and bake until golden brown and crusty."
+  ]
+    },
   {
     title: "Everyday Sandwich Bread",
     subtitle: "with a Light, Golden Crust for Perfect Slices.",
@@ -2093,14 +2140,14 @@ export const recipes: RecipeInput[] = [
       sodium: 1300,
     },
     ingredients: [
-      { name: "All-Purpose Flour", quantity: 120, unit: "g" },
-      { name: "Table Salt", quantity: 3.3, unit: "g" },
-      { name: "Granulated Sugar", quantity: 1.6, unit: "g" },
-      { name: "Instant Yeast", quantity: 1, unit: "g" },
-      { name: "Warm Water (90–110°F)", quantity: 94.6, unit: "g" },
-      { name: "Extra-Virgin Olive Oil", quantity: 6, unit: "g" },
-      { name: "Olive Oil for Pan", quantity: 5, unit: "g" },
-      { name: "Olive Oil for Top", quantity: 5, unit: "g" },
+      { name: "All-Purpose Flour", quantity: 240, unit: "g" },
+      { name: "Table Salt", quantity: 6.6, unit: "g" },
+      { name: "Granulated Sugar", quantity: 3.2, unit: "g" },
+      { name: "Instant Yeast", quantity: 2, unit: "g" },
+      { name: "Warm Water (90–110°F)", quantity: 189, unit: "g" },
+      { name: "Extra-Virgin Olive Oil", quantity: 12, unit: "g" },
+      { name: "Olive Oil for Pan", quantity: 10, unit: "g" },
+      { name: "Olive Oil for Top", quantity: 10, unit: "g" },
       { name: "Flaky Salt", quantity: 0, unit: "to taste" },
     ],
     steps: [
@@ -2109,7 +2156,7 @@ export const recipes: RecipeInput[] = [
       "Perform a coil fold: slide both hands under the center of the dough, lift it up, and allow the ends to fold underneath. Rotate the bowl and repeat once more. Cover and rest for 15 minutes.",
       "Repeat the coil fold three more times at 15-minute intervals.",
       "After the final fold, cover and let the dough rest for 1 hour, or until puffy and slightly risen.",
-      "Lightly grease a baking pan and place a strip of parchment across the center, leaving overhang for lifting. Drizzle olive oil into the pan and spread evenly. Gently transfer the dough to the pan and flip once to coat both sides in oil. Cover and let rise for 2 hours, or until very airy and spread toward the edges.",
+      "Place parchment in a pan to completely cover and lightly grease with oil. Drizzle olive oil into the pan and spread evenly. Gently transfer the dough to the pan and flip once to coat both sides in oil. Cover and let rise for 2 hours, or until very airy and spread toward the edges.",
       "Toward the end of the rise, preheat the oven to 210°C.",
       "Once fully risen, coat your fingers with olive oil and press deep dimples across the dough. Drizzle additional olive oil over the top and sprinkle evenly with flaky salt.",
       "Bake on the lower rack for 15–18 minutes, until golden brown on top and lightly crisp at the edges.",

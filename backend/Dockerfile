@@ -1,22 +1,27 @@
-FROM node:20 AS base
+# ---- DEPENDENCIES ----
+FROM node:24-alpine AS deps
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
+RUN npm ci
 
-# ---- DEV ----
-FROM base AS dev
+# ---- DEVELOPMENT ----
+FROM deps AS development
+WORKDIR /app
 COPY . .
 CMD ["npm", "run", "dev"]
 
 # ---- BUILD ----
-FROM base AS build
+FROM deps AS build
+WORKDIR /app
 COPY . .
 RUN npm run build
 
-# ---- PROD ----
-FROM node:20 AS prod
+# ---- PRODUCTION ----
+FROM node:24-alpine AS production
 WORKDIR /app
+ENV NODE_ENV=production
 COPY --from=build /app/dist ./dist
-COPY package*.json ./
-RUN npm install --omit=dev
-CMD ["node", "dist/index.js"]
+COPY --from=build /app/package*.json ./
+RUN npm ci --omit=dev
+EXPOSE 5000
+CMD ["node", "dist/src/index.js"]

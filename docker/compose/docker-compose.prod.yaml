@@ -2,7 +2,7 @@ services:
   postgres:
     image: postgres:15
     container_name: cookbook_postgres
-    restart: unless-stopped
+    restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -11,15 +11,15 @@ services:
       - "${POSTGRES_PORT}:5433"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - cookbook_network
 
   backend:
+    image: imseanconroy/cookbook-backend:0.0.1
     container_name: cookbook_backend
-    build:
-      context: ../../backend
-      target: development
-    restart: unless-stopped
+    restart: always
     environment:
-      NODE_ENV: development
+      NODE_ENV: production
       PORT: 5000
       READ_ONLY: ${READ_ONLY}
       LOG_LEVEL: ${LOG_LEVEL}
@@ -28,44 +28,30 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_HOST: ${POSTGRES_HOST}
       POSTGRES_PORT: ${POSTGRES_PORT}
-      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
       FRONTEND_ORIGIN: ${FRONTEND_ORIGIN}
     ports:
       - "${BACKEND_PORT}:5000"
-    volumes:
-      - ../../backend:/app
-      - /app/node_modules
     depends_on:
       - postgres
+    networks:
+      - cookbook_network
 
   frontend:
+    image: imseanconroy/cookbook-frontend:0.0.1
     container_name: cookbook_frontend
-    build:
-      context: ../../frontend
-      target: development
-    restart: unless-stopped
+    restart: always
     environment:
       VITE_BASE_URL: ${BACKEND_URL}
       VITE_READ_ONLY: ${READ_ONLY}
     ports:
-      - "${FRONTEND_PORT}:5173"
-    volumes:
-      - ../../frontend:/app
-      - /app/node_modules
+      - "${FRONTEND_PORT}:80"
     depends_on:
       - backend
+    networks:
+      - cookbook_network
 
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: cookbook_pgadmin
-    restart: unless-stopped
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
-    ports:
-      - "${PGADMIN_PORT}:80"
-    depends_on:
-      - postgres
+networks:
+  cookbook_network:
 
 volumes:
   postgres_data:

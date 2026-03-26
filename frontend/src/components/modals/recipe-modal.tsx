@@ -77,6 +77,7 @@ const RecipeModel = () => {
             title="Loading recipe..."
             description="Please wait while we fetch the recipe."
             Icon={Loader2}
+            spinner={true}
           />
         )}
 

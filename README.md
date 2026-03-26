@@ -7,7 +7,6 @@ Save, organize, and discover recipes all in one place — built for food lovers 
 
 ## Table of Contents
 
-- [Table of Contents](#table-of-contents)
 - [About the Project](#about-the-project)
 - [Features](#features)
 - [Getting Started](#getting-started)
@@ -15,6 +14,7 @@ Save, organize, and discover recipes all in one place — built for food lovers 
   - [Option 1 — Run with Docker (Recommended)](#option-1--run-with-docker-recommended)
   - [Option 2 — Run Manually (Without Docker)](#option-2--run-manually-without-docker)
 - [Development and Testing](#development-and-testing)
+- [Production Deployment](#production-deployment)
 - [Development Plan and Improvements](#development-plan-and-improvements)
 - [Project Structure](#project-structure)
 - [Contributing](#contributing)
@@ -73,10 +73,15 @@ docker compose --env-file docker/env/.env.dev -f docker/compose/docker-compose.d
 5. **Access the application:**
  
 - Frontend (React App) - http://localhost:5173
-- Backend API - http://localhost:8000
-- PGAdmin (Database GUI) - http://localhost:5050
+- Backend API - http://localhost:9001
+- PGAdmin (Database GUI) - http://localhost:5051
 
-6. **To stop the application:**
+6. **To get application logs:**
+```bash
+docker compose --env-file docker/env/.env.dev -f docker/compose/docker-compose.dev.yaml logs backend
+```
+
+7. **To stop the application:**
 ```bash
 docker compose --env-file docker/env/.env.dev -f docker/compose/docker-compose.dev.yaml down -v
 ```
@@ -100,17 +105,28 @@ npm install
 
 3. **Configure backend environment variables**:
 ```env
-PORT=8000
+# -------------------------
+# APP (internal)
+# -------------------------
 NODE_ENV=development
+PORT=5000
 READ_ONLY=false
+LOG_LEVEL=debug
 
-FRONTEND_ORIGIN=http://localhost:5173
-
-POSTGRES_PASSWORD=<database_password>
-POSTGRES_USER=<database_user>
-POSTGRES_DB=<database_name>
-POSTGRES_PORT=5432
+# -------------------------
+# DATABASE
+# -------------------------
+POSTGRES_USER=admin
+POSTGRES_PASSWORD=root
+POSTGRES_DB=cookbook
 POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+DATABASE_URL=postgres://admin:root@localhost:5432/cookbook
+
+# -------------------------
+# URLS
+# -------------------------
+FRONTEND_ORIGIN=http://localhost:5173
 ```
 
 4. **Create the database tables and seed the database**:
@@ -131,7 +147,11 @@ npm install
 
 7. **Configure frontend environment variables:** 
 ```env
-VITE_API_BASE_URL=http://localhost:8000
+# -------------------------
+# FRONTEND (VITE)
+# -------------------------
+VITE_BASE_URL=http://localhost:9001
+VITE_READ_ONLY=false
 ```
 
 8. **Start the frontend react application:**
@@ -145,6 +165,41 @@ Run all backend tests with the following command:
 ```bash
 cd backend
 npm run test
+```
+
+## Production Deployment
+
+1. **Clone the repository:**
+```bash
+git clone https://github.com/imseanconroy/cookbook.git
+cd cookbook
+```
+
+2. **Start the production environment:**
+```bash
+docker compose --env-file docker/env/.env.prod -f docker/compose/docker-compose.prod.yaml up -d
+```
+
+3. **Run database migrations and seed (one-off container):**
+```bash
+docker run --rm \
+  --env-file docker/env/.env.prod \
+  --network compose_cookbook_network \
+  -v $(pwd)/backend:/app \
+  -w /app \
+  node:24-alpine sh -c "
+    npm install &&
+    npm install node-pg-migrate ts-node typescript &&
+    DATABASE_URL=postgres://admin:root@postgres:5432/cookbook npm run migrate:up && npm run seed
+  "
+```
+
+4. **Updating the frontend or backend after making changes:**
+
+```bash
+docker compose --env-file docker/env/.env.prod -f docker/compose/docker-compose.prod.yaml pull
+docker compose --env-file docker/env/.env.prod -f docker/compose/docker-compose.prod.yaml up -d
+Migrations/seed scripts should not be re-run unless the database schema changes.
 ```
 
 ## Development Plan and Improvements
