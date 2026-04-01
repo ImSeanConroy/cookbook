@@ -1,0 +1,4 @@
+window.__ENV__ = {
+  VITE_BASE_URL: "$VITE_BASE_URL",
+  VITE_READ_ONLY: "$VITE_READ_ONLY"
+};

@@ -13,9 +13,13 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - cookbook_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 5s
+      retries: 5
 
   backend:
-    image: imseanconroy/cookbook-backend:0.0.1
+    image: imseanconroy/cookbook-backend:latest
     container_name: cookbook_backend
     restart: always
     environment:
@@ -37,12 +41,12 @@ services:
       - cookbook_network
 
   frontend:
-    image: imseanconroy/cookbook-frontend:0.0.1
+    image: imseanconroy/cookbook-frontend:latest
     container_name: cookbook_frontend
     restart: always
     environment:
-      VITE_BASE_URL: ${BACKEND_URL}
-      VITE_READ_ONLY: ${READ_ONLY}
+      VITE_BASE_URL: ${VITE_BASE_URL}
+      VITE_READ_ONLY: ${VITE_READ_ONLY}
     ports:
       - "${FRONTEND_PORT}:80"
     depends_on:

@@ -165,41 +165,88 @@ Run all backend tests with the following command:
 ```bash
 cd backend
 npm run test
-```
+``` 
 
 ## Production Deployment
 
-1. **Clone the repository:**
+The pre-built Docker images on Docker Hub use **runtime environment injection** for the frontend — environment variables are substituted into the served `env.js` file each time the container starts, so a single image works with any configuration.
+
+### Prerequisites
+
+- An EC2 instance (Ubuntu recommended) with Docker and Docker Compose installed.
+- Ports **80** (or your chosen `FRONTEND_PORT`) and **5000** (or `BACKEND_PORT`) open in the EC2 security group.
+- A domain name pointed at the EC2 public IP *(optional but recommended for HTTPS)*.
+
+### Step 1 — Clone the repository
+
 ```bash
 git clone https://github.com/imseanconroy/cookbook.git
 cd cookbook
 ```
 
-2. **Start the production environment:**
+### Step 2 — Configure environment variables
+
+Copy the example prod env file and fill in your values:
+
 ```bash
-docker compose --env-file docker/env/.env.prod -f docker/compose/docker-compose.prod.yaml up -d
+cp docker/env/.env.prod.example docker/env/.env.prod
+nano docker/env/.env.prod
 ```
 
-3. **Run database migrations and seed (one-off container):**
+Key values to update:
+
+| Variable | Description |
+|---|---|
+| `POSTGRES_PASSWORD` | A strong database password |
+| `FRONTEND_ORIGIN` | Public URL of the frontend (e.g. `https://your-domain.com`) |
+| `VITE_BASE_URL` | URL the **browser** uses to reach the API — see note below |
+
+> **`VITE_BASE_URL` note:** The frontend nginx image includes an `/api` proxy to the backend container. If you expose only port 80, set `VITE_BASE_URL=https://your-domain.com/api`. If you expose the backend port directly (e.g. 5000), set `VITE_BASE_URL=http://your-ec2-ip:5000`.
+
+### Step 3 — Pull and start the containers
+
 ```bash
-docker run --rm \
-  --env-file docker/env/.env.prod \
-  --network compose_cookbook_network \
-  -v $(pwd)/backend:/app \
-  -w /app \
-  node:24-alpine sh -c "
-    npm install &&
-    npm install node-pg-migrate ts-node typescript &&
-    DATABASE_URL=postgres://admin:root@postgres:5432/cookbook npm run migrate:up && npm run seed
-  "
+docker compose -p cookbook --env-file docker/env/.env.prod -f docker/compose/docker-compose.prod.yaml pull
+docker compose -p cookbook --env-file docker/env/.env.prod -f docker/compose/docker-compose.prod.yaml up -d
 ```
 
-4. **Updating the frontend or backend after making changes:**
+### Step 4 — Run database migrations
+
+Run this once on first deploy (and again after any schema-changing release):
 
 ```bash
-docker compose --env-file docker/env/.env.prod -f docker/compose/docker-compose.prod.yaml pull
-docker compose --env-file docker/env/.env.prod -f docker/compose/docker-compose.prod.yaml up -d
-Migrations/seed scripts should not be re-run unless the database schema changes.
+docker compose -p cookbook --env-file docker/env/.env.prod -f docker/compose/docker-compose.prod.yaml exec backend npm run migrate:up
+```
+
+### Step 5 — Seed the database *(optional)*
+
+```bash
+docker compose -p cookbook --env-file docker/env/.env.prod -f docker/compose/docker-compose.prod.yaml exec backend npm run seed
+```
+
+### Step 6 — Verify the deployment
+
+```bash
+# Check all containers are running
+docker compose -p cookbook --env-file docker/env/.env.prod -f docker/compose/docker-compose.prod.yaml ps
+
+# Tail logs
+docker compose -p cookbook --env-file docker/env/.env.prod -f docker/compose/docker-compose.prod.yaml logs -f
+```
+
+### Updating to a new release
+
+```bash
+docker compose -p cookbook --env-file docker/env/.env.prod -f docker/compose/docker-compose.prod.yaml pull
+docker compose -p cookbook --env-file docker/env/.env.prod -f docker/compose/docker-compose.prod.yaml up -d
+```
+
+Run migrations after any release that contains schema changes.
+
+### Stopping the application
+
+```bash
+docker compose -p cookbook --env-file docker/env/.env.prod -f docker/compose/docker-compose.prod.yaml down
 ```
 
 ## Development Plan and Improvements

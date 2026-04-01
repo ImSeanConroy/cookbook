@@ -27,6 +27,8 @@ const customLevels = {
 
 winston.addColors(customLevels.colors);
 
+const isTestEnv = config.NODE_ENV === "test";
+
 /**
  * Centralized logger used for structured logging (trace, debug, info, warn, error, fatal).
  * Provides both console and file outputs with appropriate levels and formatting.
@@ -34,6 +36,7 @@ winston.addColors(customLevels.colors);
 export const logger = winston.createLogger({
   levels: customLevels.levels,
   level: config.LOG_LEVEL || "info",
+  silent: isTestEnv,
   format: winston.format.combine(
     winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss.SSS" }),
     winston.format.errors({ stack: true }),
