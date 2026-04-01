@@ -3,7 +3,12 @@ import * as RecipeRepo from "../../src/repositories/recipe.repository";
 import * as IngredientRepo from "../../src/repositories/ingredient.repository";
 import * as StepRepo from "../../src/repositories/step.repository";
 import { vi, describe, it, expect, beforeEach } from "vitest";
-import { DifficultyLevel } from "../../src/common/interface/recipe.interface";
+import {
+  DifficultyLevel,
+  RecipeEntity,
+  RecipeInput,
+  UpdateRecipeInput,
+} from "../../src/common/interface/recipe.interface";
 
 vi.mock("../../src/repositories/recipe.repository");
 vi.mock("../../src/repositories/ingredient.repository");
@@ -14,7 +19,7 @@ const mockedIngredientRepo = vi.mocked(IngredientRepo);
 const mockedStepRepo = vi.mocked(StepRepo);
 
 describe("Recipe Service", () => {
-  const sampleRecipeInput = {
+  const sampleRecipeInput: RecipeInput = {
     title: "Pasta",
     subtitle: "Yummy Pasta",
     description: "Delicious",
@@ -45,7 +50,7 @@ describe("Recipe Service", () => {
     steps: ["Boil water", "Cook pasta"],
   };
 
-  const sampleRecipeEntity = {
+  const sampleRecipeEntity: RecipeEntity = {
     id: "1",
     title: "Pasta",
     subtitle: "Yummy Pasta",
@@ -105,7 +110,7 @@ describe("Recipe Service", () => {
     });
 
     it("throws if recipe creation fails", async () => {
-      mockedRecipeRepo.create.mockResolvedValue(null as any);
+      mockedRecipeRepo.create.mockResolvedValue(null);
 
       await expect(
         RecipeService.createRecipeService(sampleRecipeInput),
@@ -140,7 +145,7 @@ describe("Recipe Service", () => {
     });
 
     it("throws if recipe not found", async () => {
-      mockedRecipeRepo.findById.mockResolvedValue(null as any);
+      mockedRecipeRepo.findById.mockResolvedValue(null);
 
       await expect(
         RecipeService.getRecipeByIdService("999"),
@@ -150,7 +155,7 @@ describe("Recipe Service", () => {
 
   describe("updateRecipeService", () => {
     it("updates a recipe and its ingredients/steps", async () => {
-      const updatedInput = {
+      const updatedInput: UpdateRecipeInput = {
         title: "Updated Pasta",
         ingredients: sampleRecipeInput.ingredients,
         steps: ["Step 1"],
@@ -183,7 +188,7 @@ describe("Recipe Service", () => {
       const result =
         await RecipeService.updateRecipeService(
           "1",
-          updatedInput as any,
+          updatedInput,
         );
 
       expect(result.title).toBe("Updated Pasta");
@@ -194,7 +199,7 @@ describe("Recipe Service", () => {
     });
 
     it("throws if recipe not found", async () => {
-      mockedRecipeRepo.findById.mockResolvedValue(null as any);
+      mockedRecipeRepo.findById.mockResolvedValue(null);
 
       await expect(
         RecipeService.updateRecipeService("999", {}),
@@ -214,7 +219,7 @@ describe("Recipe Service", () => {
     });
 
     it("throws if recipe not found", async () => {
-      mockedRecipeRepo.deleteById.mockResolvedValue(null as any);
+      mockedRecipeRepo.deleteById.mockResolvedValue(null);
 
       await expect(
         RecipeService.deleteRecipeService("999"),

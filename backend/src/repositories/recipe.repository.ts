@@ -153,7 +153,12 @@ export const getCount = async ({
     baseQuery += " WHERE " + whereClauses.join(" AND ");
   }
 
-  const res = await query(baseQuery, values);
+  const res = await query<{ count: string }>(baseQuery, values);
+
+  if (res.length === 0) {
+    return 0;
+  }
+
   const count = parseInt(res[0].count, 10);
 
   return count;

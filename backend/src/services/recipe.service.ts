@@ -241,7 +241,7 @@ export const updateRecipeService = async (
     ? await (async () => {
         await IngredientRepo.deleteByRecipeId(recipeId);
         return Promise.all(
-          body.ingredients.map(async (ingredient) => {
+          body.ingredients!.map(async (ingredient) => {
             const created = await IngredientRepo.create(recipeId, ingredient);
             if (!created) {
               logger.error("Failed to update recipe ingredient", {
@@ -263,7 +263,7 @@ export const updateRecipeService = async (
   const updatedSteps: Step[] = body.steps
     ? await (async () => {
         await StepRepo.deleteByRecipeId(recipeId);
-        const stepsWithNumbers: Step[] = body.steps.map((instruction, index) => ({
+        const stepsWithNumbers: Step[] = body.steps!.map((instruction, index) => ({
           step_number: index + 1,
           instruction,
         }));
