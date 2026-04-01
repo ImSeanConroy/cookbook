@@ -9,7 +9,7 @@ import { Step } from "../common/interface/recipe.interface";
  * @returns The created step object
  */
 export const create = async (recipe_id: string, data: Step): Promise<Step> => {
-  const res = await query(
+  const res = await query<Step>(
     `INSERT INTO steps (recipe_id, step_number, instruction) VALUES ($1, $2, $3) RETURNING step_number, instruction`,
     [recipe_id, data.step_number, data.instruction]
   );
@@ -24,12 +24,12 @@ export const create = async (recipe_id: string, data: Step): Promise<Step> => {
  * @returns An array of step objects
  */
 export const findByRecipeId = async (recipe_id: string): Promise<Step[]> => {
-  const res = await query(
+  const res = await query<Step>(
     `SELECT step_number, instruction FROM steps WHERE recipe_id = $1 ORDER BY step_number ASC`,
     [recipe_id]
   );
 
-  return res || null;
+  return res;
 };
 
 /**
@@ -39,9 +39,7 @@ export const findByRecipeId = async (recipe_id: string): Promise<Step[]> => {
  * @returns void
  */
 export const deleteByRecipeId = async (recipe_id: string): Promise<void> => {
-  const res = await query(`DELETE FROM steps WHERE recipe_id = $1`, [
+  await query(`DELETE FROM steps WHERE recipe_id = $1`, [
     recipe_id,
   ]);
-
-  return res[0] || null;
 };

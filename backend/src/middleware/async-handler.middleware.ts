@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 
 /**
  * Type definition for an async Express controller function.
@@ -6,7 +6,7 @@ import { NextFunction, Request, Response } from "express";
 export type AsyncControllerType = (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => Promise<unknown>;
 
 /**
@@ -23,7 +23,7 @@ export type AsyncControllerType = (
  * }));
  */
 export const asyncHandler =
-  (controller: AsyncControllerType): AsyncControllerType =>
+  (controller: AsyncControllerType): RequestHandler =>
   async (req, res, next) => {
     try {
       await controller(req, res, next);

@@ -1,8 +1,8 @@
 # ---- DEPENDENCIES ----
-FROM node:24-alpine AS deps
+FROM node:20-alpine AS deps
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci
+RUN npm ci --include=optional
 
 # ---- DEVELOPMENT ----
 FROM deps AS development

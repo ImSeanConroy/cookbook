@@ -1,9 +1,9 @@
-# Cookbook: all your recipes in one place
+# Cookbook: All Your Recipes in One Place
 
 A full-stack recipe management app built with the **PERN stack (PostgreSQL, Express, React, Node.js)**.  
 Save, organize, and discover recipes all in one place — built for food lovers and home cooks.
 
- ![Project Colors Demo](.github/imgs/repo-img.png) 
+![Project Colors Demo](.github/imgs/repo-img.png) 
 
 ## Table of Contents
 
@@ -13,8 +13,12 @@ Save, organize, and discover recipes all in one place — built for food lovers 
   - [Prerequisites](#prerequisites)
   - [Option 1 — Run with Docker (Recommended)](#option-1--run-with-docker-recommended)
   - [Option 2 — Run Manually (Without Docker)](#option-2--run-manually-without-docker)
-- [Development and Testing](#development-and-testing)
+- [Development, Testing and Linting](#development-testing-and-linting)
 - [Production Deployment](#production-deployment)
+  - [Prerequisites](#prerequisites-1)
+  - [Deploy to AWS EC2 with Docker](#deploy-to-aws-ec2-with-docker)
+  - [Updating to a new release](#updating-to-a-new-release)
+  - [Stopping the application](#stopping-the-application)
 - [Development Plan and Improvements](#development-plan-and-improvements)
 - [Project Structure](#project-structure)
 - [Contributing](#contributing)
@@ -30,10 +34,10 @@ Whether you’re tracking your family’s secret recipes or exploring new cuisin
 
 ## Features
 
-- Create, edit, and delete recipes (Under Development).
+- Create, edit, and delete recipes.
 - Search recipes by name and subtitle.
-- Filter recipes by cuisine, cooktime, difficulty, meal type and dietary requirements.
-- Simple, responsive UI built with React, Tailwind and Shadcn.
+- Filter recipes by cuisine, cook time, difficulty, meal type, and dietary requirements.
+- Simple, responsive UI built with React, Tailwind, and shadcn/ui.
 - Dockerized backend and database setup for easy development.
 
 ## Getting Started
@@ -41,6 +45,7 @@ Whether you’re tracking your family’s secret recipes or exploring new cuisin
 ### Prerequisites
 
 Before getting started, ensure you have the following installed:
+
 - [Node.js (>=18)](https://nodejs.org/)
 - [npm](https://www.npmjs.com/)
 - [Docker](https://www.docker.com/)
@@ -50,45 +55,57 @@ Before getting started, ensure you have the following installed:
 This runs PostgreSQL, Backend, Frontend, and PGAdmin in containers:
 
 1. **Clone the repository:**
+
 ```bash
 git clone https://github.com/imseanconroy/cookbook.git
 cd cookbook
 ```
 
 2. **Start the development environment:**
+
 ```bash
-docker compose --env-file docker/env/.env.dev -f docker/compose/docker-compose.dev.yaml up --build -d
+docker compose -p cookbook --env-file docker/env/.env.dev -f docker/compose/docker-compose.dev.yaml up --build -d
 ```
 
 3. **Run database migrations:**
+
 ```bash
-docker compose --env-file docker/env/.env.dev -f docker/compose/docker-compose.dev.yaml exec backend npm run migrate:up
+docker compose -p cookbook --env-file docker/env/.env.dev -f docker/compose/docker-compose.dev.yaml exec backend npm run migrate:up
 ```
 
 4. **Seed the database (Optional):**
+
 ```bash
-docker compose --env-file docker/env/.env.dev -f docker/compose/docker-compose.dev.yaml exec backend npm run seed
+docker compose -p cookbook --env-file docker/env/.env.dev -f docker/compose/docker-compose.dev.yaml exec backend npm run seed
 ```
 
-5. **Access the application:**
+5. **Verify the application is running:**
+
+```bash
+# Check all containers are running
+docker compose -p cookbook --env-file docker/env/.env.dev -f docker/compose/docker-compose.dev.yaml ps
+
+# Tail logs
+docker compose -p cookbook --env-file docker/env/.env.dev -f docker/compose/docker-compose.dev.yaml logs -f
+```
+
+6. **Access the application:**
  
-- Frontend (React App) - http://localhost:5173
+- Frontend (React App) - http://localhost:5321
 - Backend API - http://localhost:9001
 - PGAdmin (Database GUI) - http://localhost:5051
 
-6. **To get application logs:**
-```bash
-docker compose --env-file docker/env/.env.dev -f docker/compose/docker-compose.dev.yaml logs backend
-```
+
 
 7. **To stop the application:**
+
 ```bash
-docker compose --env-file docker/env/.env.dev -f docker/compose/docker-compose.dev.yaml down -v
+docker compose -p cookbook --env-file docker/env/.env.dev -f docker/compose/docker-compose.dev.yaml down
 ```
 
 ### Option 2 — Run Manually (Without Docker)
 
-This runs PostgreSQL, Backend, Frontend, and PGAdmin in containers:
+This runs PostgreSQL, backend, and frontend directly on your machine (without Docker):
 
 1. **Clone the repository:**
 
@@ -98,133 +115,133 @@ cd cookbook
 ```
 
 2. **Install backend dependencies**:
+
 ```bash
 cd backend
 npm install
 ```
 
-3. **Configure backend environment variables**:
-```env
-# -------------------------
-# APP (internal)
-# -------------------------
-NODE_ENV=development
-PORT=5000
-READ_ONLY=false
-LOG_LEVEL=debug
+1. **Configure backend environment variables**: Copy the example env file and fill in your values:
 
-# -------------------------
-# DATABASE
-# -------------------------
-POSTGRES_USER=admin
-POSTGRES_PASSWORD=root
-POSTGRES_DB=cookbook
-POSTGRES_HOST=localhost
-POSTGRES_PORT=5432
-DATABASE_URL=postgres://admin:root@localhost:5432/cookbook
-
-# -------------------------
-# URLS
-# -------------------------
-FRONTEND_ORIGIN=http://localhost:5173
+```bash
+cp .env.example .env
+nano .env
 ```
 
 4. **Create the database tables and seed the database**:
-```
+
+```bash
 DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB} npm run migrate:up && npm run seed
 ```
 
-5. **Start backend express server**: 
+5. **Start backend express server**:
+
 ```bash
 npm run dev
 ```
 
 6. **Install frontend dependencies:**
+
 ```bash
 cd frontend
 npm install
 ```
 
-7. **Configure frontend environment variables:** 
-```env
-# -------------------------
-# FRONTEND (VITE)
-# -------------------------
-VITE_BASE_URL=http://localhost:9001
-VITE_READ_ONLY=false
-```
+7. **Configure frontend environment variables**: Copy the example env file and fill in your values:
 
+```bash
+cp .env.example .env
+nano .env
+```
 8. **Start the frontend react application:**
+
 ```bash
 npm run dev
 ```
 
-## Development and Testing
+## Development, Testing and Linting
 
-Run all backend tests with the following command:
+Use these commands during development to keep local quality checks aligned with CI:
+
+1. **Run backend linting:**
+
+```bash
+cd backend
+npm run lint
+```
+
+2. **Run backend tests:**
+
 ```bash
 cd backend
 npm run test
-``` 
+```
+
+3. **Run frontend linting:**
+
+```bash
+cd frontend
+npm run lint
+```
+
+4. **Run frontend production build check (recommended before pushing):**
+
+```bash
+cd frontend
+npm run build
+```
 
 ## Production Deployment
 
-The pre-built Docker images on Docker Hub use **runtime environment injection** for the frontend — environment variables are substituted into the served `env.js` file each time the container starts, so a single image works with any configuration.
+The pre-built Docker images on Docker Hub use **runtime environment injection** for the frontend, meaning the image will work with any configuration.
 
 ### Prerequisites
 
-- An EC2 instance (Ubuntu recommended) with Docker and Docker Compose installed.
+Before getting started, ensure you have the following:
+
+- An EC2 instance (AWS Linux recommended) with Git, Docker and Docker Compose installed.
 - Ports **80** (or your chosen `FRONTEND_PORT`) and **5000** (or `BACKEND_PORT`) open in the EC2 security group.
 - A domain name pointed at the EC2 public IP *(optional but recommended for HTTPS)*.
 
-### Step 1 — Clone the repository
+### Deploy to AWS EC2 with Docker
+
+1. **Clone the repository:**
 
 ```bash
 git clone https://github.com/imseanconroy/cookbook.git
 cd cookbook
 ```
 
-### Step 2 — Configure environment variables
-
-Copy the example prod env file and fill in your values:
+2. **Configure environment variables:** Copy the example prod env file and fill in your values:
 
 ```bash
 cp docker/env/.env.prod.example docker/env/.env.prod
 nano docker/env/.env.prod
 ```
 
-Key values to update:
-
-| Variable | Description |
-|---|---|
-| `POSTGRES_PASSWORD` | A strong database password |
-| `FRONTEND_ORIGIN` | Public URL of the frontend (e.g. `https://your-domain.com`) |
-| `VITE_BASE_URL` | URL the **browser** uses to reach the API — see note below |
-
-> **`VITE_BASE_URL` note:** The frontend nginx image includes an `/api` proxy to the backend container. If you expose only port 80, set `VITE_BASE_URL=https://your-domain.com/api`. If you expose the backend port directly (e.g. 5000), set `VITE_BASE_URL=http://your-ec2-ip:5000`.
-
-### Step 3 — Pull and start the containers
+3. **Pull and start the containers:**
 
 ```bash
 docker compose -p cookbook --env-file docker/env/.env.prod -f docker/compose/docker-compose.prod.yaml pull
 docker compose -p cookbook --env-file docker/env/.env.prod -f docker/compose/docker-compose.prod.yaml up -d
 ```
 
-### Step 4 — Run database migrations
-
-Run this once on first deploy (and again after any schema-changing release):
+4. **Run database migrations and seed (one-off container):** Run this once on first deploy (and again after any schema-changing release):
 
 ```bash
-docker compose -p cookbook --env-file docker/env/.env.prod -f docker/compose/docker-compose.prod.yaml exec backend npm run migrate:up
+docker run --rm \
+   --env-file docker/env/.env.prod \
+   --network cookbook_cookbook_network \
+   -v $(pwd)/backend:/app \
+   -w /app \
+   node:24-alpine sh -c "
+      npm install &&
+      npm install node-pg-migrate ts-node typescript &&
+      DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB} npm run migrate:up && npm run seed
+   "
 ```
 
-### Step 5 — Seed the database *(optional)*
-
-```bash
-docker compose -p cookbook --env-file docker/env/.env.prod -f docker/compose/docker-compose.prod.yaml exec backend npm run seed
-```
-
-### Step 6 — Verify the deployment
+5. **Verify the deployment:**
 
 ```bash
 # Check all containers are running
@@ -254,7 +271,8 @@ docker compose -p cookbook --env-file docker/env/.env.prod -f docker/compose/doc
 This section outlines upcoming features and improvements:
 
 1. **User Features:**
-   - Add ability to create, update and delete recipes from the fronted.
+   - Add PDF recipe generation.
+   - Add automatic image generation.
    - Add local bookmarking and “favorites” functionality.
 
 2. **Testing and Quality Assurance:**

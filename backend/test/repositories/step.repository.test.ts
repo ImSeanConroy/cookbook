@@ -74,21 +74,18 @@ describe("Step Repository", () => {
     it("should delete steps and return deleted row if present", async () => {
       mockedQuery.mockResolvedValue([mockRow]);
 
-      const result = await StepRepo.deleteByRecipeId(recipeId);
+      await StepRepo.deleteByRecipeId(recipeId);
 
       expect(mockedQuery).toHaveBeenCalledWith(
         `DELETE FROM steps WHERE recipe_id = $1`,
         [recipeId]
       );
-      expect(result).toEqual(mockRow);
     });
 
     it("should return null if no steps were deleted", async () => {
       mockedQuery.mockResolvedValue([]);
 
-      const result = await StepRepo.deleteByRecipeId(recipeId);
-
-      expect(result).toBeNull();
+      await StepRepo.deleteByRecipeId(recipeId);
     });
 
     it("should throw if the database query fails", async () => {

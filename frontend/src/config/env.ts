@@ -10,10 +10,15 @@ declare global {
 }
 
 const runtimeEnv: RawEnv = window.__ENV__ || {};
-const buildEnv = import.meta.env;
+const buildEnv: RawEnv = {
+  VITE_BASE_URL: import.meta.env.VITE_BASE_URL,
+  VITE_READ_ONLY: import.meta.env.VITE_READ_ONLY,
+};
+
+const preferredEnv: RawEnv = import.meta.env.PROD ? runtimeEnv : buildEnv;
 
 export const getEnv = (key: keyof RawEnv): string | undefined => {
-  return runtimeEnv[key] ?? buildEnv[key];
+  return preferredEnv[key] ?? buildEnv[key];
 };
 
 export const getAllEnv = (): RawEnv => ({

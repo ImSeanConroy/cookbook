@@ -88,16 +88,15 @@ describe("Ingredient Repository", () => {
   });
 
   describe("deleteByRecipeId", () => {
-    it("deletes ingredients and returns null", async () => {
+    it("deletes ingredients", async () => {
       mockedQuery.mockResolvedValue([]);
 
-      const result = await IngredientRepo.deleteByRecipeId(recipeId);
+      await IngredientRepo.deleteByRecipeId(recipeId);
 
       expect(mockedQuery).toHaveBeenCalledWith(
         `DELETE FROM ingredients WHERE recipe_id = $1`,
         [recipeId],
       );
-      expect(result).toBeNull();
     });
 
     it("throws if DB query fails", async () => {

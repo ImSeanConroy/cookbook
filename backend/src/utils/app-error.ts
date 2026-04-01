@@ -35,7 +35,7 @@ export class AppError extends Error {
 export class HttpException extends AppError {
   constructor(
     message = "Http Exception Error",
-    statusCode: HttpStatusCodeType,
+    statusCode: HttpStatusCodeType = HTTPSTATUS.INTERNAL_SERVER_ERROR,
     errorCode?: ErrorCodeEnumType
   ) {
     super(message, statusCode, errorCode);
