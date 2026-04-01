@@ -229,16 +229,7 @@ docker compose -p cookbook --env-file docker/env/.env.prod -f docker/compose/doc
 4. **Run database migrations and seed (one-off container):** Run this once on first deploy (and again after any schema-changing release):
 
 ```bash
-docker run --rm \
-   --env-file docker/env/.env.prod \
-   --network cookbook_cookbook_network \
-   -v $(pwd)/backend:/app \
-   -w /app \
-   node:24-alpine sh -c "
-      npm install &&
-      npm install node-pg-migrate ts-node typescript &&
-      DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB} npm run migrate:up && npm run seed
-   "
+docker run --rm --env-file docker/env/.env.prod --network cookbook_cookbook_network -v $(pwd)/backend:/app -w /app node:24-alpine sh -c "npm install && npm install node-pg-migrate ts-node typescript && DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB} npm run migrate:up && npm run seed"
 ```
 
 5. **Verify the deployment:**
