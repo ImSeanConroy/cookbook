@@ -21,7 +21,7 @@ const pool = new pg.Pool({
  * @param params Optional array of parameters for parameterized queries
  * @returns Promise resolving to Promise<T[]>
  */
-export const query = async <T = any>(
+export const query = async <T = unknown>(
   text: string,
   params?: unknown[]
 ): Promise<T[]> => {

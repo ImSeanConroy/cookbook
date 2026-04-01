@@ -1,9 +1,9 @@
 const toCamel = (str: string): string =>
   str.replace(/[-_]+(.)/g, (_, char: string) => char.toUpperCase());
 
-export const toCamelCase = (input: any): any => {
+export const toCamelCase = <T>(input: T): T => {
   if (Array.isArray(input)) {
-    return input.map(toCamelCase);
+    return input.map((item) => toCamelCase(item)) as T;
   }
 
   if (input instanceof Date) {
@@ -13,9 +13,10 @@ export const toCamelCase = (input: any): any => {
   if (input !== null && typeof input === "object") {
     return Object.keys(input).reduce((acc, key) => {
       const camelKey = toCamel(key);
-      acc[camelKey] = toCamelCase(input[key]);
+      const source = input as Record<string, unknown>;
+      acc[camelKey] = toCamelCase(source[key]);
       return acc;
-    }, {} as Record<string, any>);
+    }, {} as Record<string, unknown>) as T;
   }
 
   return input;

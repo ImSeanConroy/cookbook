@@ -1,5 +1,5 @@
 import isReadOnly from "../../src/middleware/read-only.middleware";
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import { config } from "../../src/common/config/app.config";
 import { UnauthorizedException } from "../../src/utils/app-error";
 

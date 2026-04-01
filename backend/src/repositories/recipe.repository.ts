@@ -13,7 +13,7 @@ export const create = async (
     RecipeEntity,
     "id" | "ingredients" | "steps" | "createdAt" | "updatedAt"
   >
-): Promise<RecipeEntity> => {
+  ): Promise<RecipeEntity | null> => {
   const res = await query(
     `INSERT INTO recipes (
       title, subtitle, description, cook_time, servings, difficulty,
@@ -51,7 +51,7 @@ export const create = async (
       context: "RecipeRepository",
       title: data.title,
     });
-    return null as any;
+    return null;
   }
 
   return res[0] as RecipeEntity;
@@ -95,7 +95,7 @@ export const getCount = async ({
   cookTime?: string[];
 }): Promise<number> => {
   let baseQuery = "SELECT COUNT(*) FROM recipes";
-  const values: any[] = [];
+  const values: unknown[] = [];
   const whereClauses: string[] = [];
 
   if (queryText) {
@@ -186,7 +186,7 @@ export const getAll = async ({
   cookTime?: string[];
   sortBy?: string;
 }): Promise<RecipeEntity[]> => {
-  const values: any[] = [];
+  const values: unknown[] = [];
   let baseQuery = `
     SELECT id, title, subtitle, cook_time,
     difficulty, cuisine, calories, image_url,
@@ -286,7 +286,7 @@ export const update = async (
   data: Partial<Omit<RecipeEntity, "createdAt" | "updatedAt">>,
 ): Promise<RecipeEntity | null> => {
   const fields = [];
-  const values = [];
+  const values: unknown[] = [];
   let i = 1;
 
   for (const [key, val] of Object.entries(data)) {

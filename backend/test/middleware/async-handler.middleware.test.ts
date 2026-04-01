@@ -1,5 +1,5 @@
 import { asyncHandler } from "../../src/middleware/async-handler.middleware";
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 
 describe("asyncHandler Middleware", () => {
   const mockReq = {} as Request;

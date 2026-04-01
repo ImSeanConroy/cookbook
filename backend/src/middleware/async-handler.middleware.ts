@@ -7,7 +7,7 @@ export type AsyncControllerType = (
   req: Request,
   res: Response,
   next: NextFunction
-) => Promise<any>;
+) => Promise<unknown>;
 
 /**
  * Wraps an async Express controller to automatically catch errors

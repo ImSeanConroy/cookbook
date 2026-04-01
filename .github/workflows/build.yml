@@ -1,4 +1,4 @@
-name: Build and Release Docker Image
+name: Release - Build and Publish
 
 on:
   push:
@@ -13,12 +13,66 @@ env:
   BACKEND_IMAGE_NAME: imseanconroy/cookbook-backend
 
 jobs:
+  frontend-checks:
+    name: Frontend - Lint
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+
+      - name: Set Up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+  backend-checks:
+    name: Backend - Lint and Test
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+
+      - name: Set Up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Run Tests (Coverage)
+        run: npm run test -- --coverage
+
   build-and-push-docker:
-    name: Build and Push Docker Image
+    name: Docker - Build and Push Images
+    needs: [frontend-checks, backend-checks]
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout Code
         uses: actions/checkout@v6
 
       - name: Log in to Docker Hub
@@ -33,7 +87,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
-      - name: Build and Push Frontend Docker Image
+      - name: Build and Push Frontend Image
         uses: docker/build-push-action@v7
         with:
           context: ./frontend
@@ -43,7 +97,7 @@ jobs:
             ${{ env.FRONTEND_IMAGE_NAME }}:latest
             ${{ env.FRONTEND_IMAGE_NAME }}:${{ github.ref_name }}
 
-      - name: Build and Push Backend Docker Image
+      - name: Build and Push Backend Image
         uses: docker/build-push-action@v7
         with:
           context: ./backend
@@ -54,12 +108,12 @@ jobs:
             ${{ env.BACKEND_IMAGE_NAME }}:${{ github.ref_name }}
 
   create-github-release:
-    name: Create GitHub Release
+    name: GitHub - Create Release
     needs: build-and-push-docker
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout Code
         uses: actions/checkout@v6
 
       - name: Install GitHub CLI

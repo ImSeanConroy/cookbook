@@ -38,11 +38,14 @@ async function seedRecipes(): Promise<void> {
       totalSeeded: recipes.length,
     });
     process.exit(0);
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    const stack = error instanceof Error ? error.stack : undefined;
+
     logger.error("Error seeding recipes", {
       context: "RecipeSeeder",
-      error: error.message ?? error,
-      stack: error.stack,
+      error: message,
+      stack,
     });
     process.exit(1);
   }

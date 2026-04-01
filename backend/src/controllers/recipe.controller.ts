@@ -14,7 +14,6 @@ import {
   updateRecipeService,
 } from "../services/recipe.service";
 import { HTTPSTATUS } from "../common/config/http.config";
-import { logger } from "../common/config/logger.config";
 
 /**
  * Controller to create a new recipe.

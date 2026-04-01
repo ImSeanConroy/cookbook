@@ -12,7 +12,7 @@ import { logger } from "../common/config/logger.config";
  * @param error - ZodError instance
  * @returns Express JSON response with validation errors
  */
-const formatZodError = (res: Response, error: ZodError, req: Request) => {
+const formatZodError = (res: Response, error: ZodError, req: Request): void => {
   const errors = error.issues.map((issue) => ({
     field: issue.path.join("."),
     message: issue.message,
@@ -25,7 +25,7 @@ const formatZodError = (res: Response, error: ZodError, req: Request) => {
     errors,
   });
 
-  return res.status(HTTPSTATUS.BAD_REQUEST).json({
+  res.status(HTTPSTATUS.BAD_REQUEST).json({
     message: "Validation failed",
     errors,
     errorCode: ErrorCodeEnum.VALIDATION_ERROR,
@@ -51,8 +51,8 @@ export const errorHandler: ErrorRequestHandler = (
   error,
   req: Request,
   res: Response,
-  next: NextFunction
-): any => {
+  _next: NextFunction
+): void => {
   // Handle malformed JSON
   if (error instanceof SyntaxError && "body" in error) {
     logger.warn("Malformed JSON in request body", {
@@ -62,15 +62,17 @@ export const errorHandler: ErrorRequestHandler = (
       error: error.message,
     });
 
-    return res.status(HTTPSTATUS.BAD_REQUEST).json({
+    res.status(HTTPSTATUS.BAD_REQUEST).json({
       message: "Invalid JSON format. Please check your request body.",
       errorCode: ErrorCodeEnum.VALIDATION_ERROR,
     });
+    return;
   }
 
   // Handle Zod validation errors
   if (error instanceof ZodError) {
-    return formatZodError(res, error, req);
+    formatZodError(res, error, req);
+    return;
   }
 
   // Handle known application errors
@@ -84,10 +86,11 @@ export const errorHandler: ErrorRequestHandler = (
       message: error.message,
     });
 
-    return res.status(error.statusCode).json({
+    res.status(error.statusCode).json({
       message: error.message,
       errorCode: error.errorCode,
     });
+    return;
   }
 
   // Fallback: unhandled errors
@@ -99,7 +102,7 @@ export const errorHandler: ErrorRequestHandler = (
     stack: error instanceof Error ? error.stack : undefined,
   });
 
-  return res.status(HTTPSTATUS.INTERNAL_SERVER_ERROR).json({
+  res.status(HTTPSTATUS.INTERNAL_SERVER_ERROR).json({
     message: "Internal Server Error",
     error: error?.message ?? "Unknown error occurred",
   });
