@@ -10,7 +10,7 @@ services:
     ports:
       - "${POSTGRES_PORT}:5433"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - cookbook_data:/var/lib/postgresql/data
 
   backend:
     container_name: cookbook_backend
@@ -68,4 +68,4 @@ services:
       - postgres
 
 volumes:
-  postgres_data:
+  cookbook_data:
