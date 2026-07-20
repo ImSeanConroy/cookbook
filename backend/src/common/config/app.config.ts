@@ -34,7 +34,7 @@ const appConfig = (): AppConfig => ({
     | "warn"
     | "error",
 
-    POSTGRES_USER: getEnv("POSTGRES_USER"),
+  POSTGRES_USER: getEnv("POSTGRES_USER"),
   POSTGRES_PASSWORD: getEnv("POSTGRES_PASSWORD"),
   POSTGRES_DB: getEnv("POSTGRES_DB"),
   POSTGRES_HOST: getEnv("POSTGRES_HOST"),

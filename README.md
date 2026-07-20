@@ -97,6 +97,22 @@ docker compose -p cookbook --env-file docker/env/.env.dev -f docker/compose/dock
 
 
 
+6. **Access the application:**
+
+- Frontend (React App) - http://localhost:5321
+- Backend API - http://localhost:9001
+- PGAdmin (Database GUI) - http://localhost:5051
+
+### API Documentation (Swagger UI)
+
+When running in development, interactive API docs are available at:
+
+- Swagger UI - http://localhost:9002/api/docs
+
+> **Note:** For security, Swagger UI is only served in non-production environments by default.
+
+---
+
 7. **To stop the application:**
 
 ```bash

@@ -1,5 +1,244 @@
 import { z } from "zod";
 
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     StatusResponse:
+ *       type: object
+ *       required:
+ *         - status
+ *       properties:
+ *         status:
+ *           type: string
+ *           example: ok
+ *     Ingredient:
+ *       type: object
+ *       required:
+ *         - name
+ *         - quantity
+ *         - unit
+ *       properties:
+ *         name:
+ *           type: string
+ *         quantity:
+ *           type: number
+ *         unit:
+ *           type: string
+ *         optional:
+ *           type: boolean
+ *           default: false
+ *     RecipeMeta:
+ *       type: object
+ *       required:
+ *         - cookTime
+ *         - servings
+ *         - difficulty
+ *         - mealTypes
+ *         - dietaryPreferences
+ *         - cuisine
+ *       properties:
+ *         cookTime:
+ *           type: integer
+ *           minimum: 0
+ *         servings:
+ *           type: integer
+ *           minimum: 1
+ *         difficulty:
+ *           type: string
+ *           enum: [beginner, intermediate, advanced]
+ *         mealTypes:
+ *           type: array
+ *           items:
+ *             type: string
+ *             enum: [breakfast, brunch, lunch, dinner, snack, dessert, appetizer]
+ *         dietaryPreferences:
+ *           type: array
+ *           items:
+ *             type: string
+ *             enum: [vegetarian, vegan, gluten-free, keto, pescatarian, paleo, low-carb, dairy-free]
+ *         cuisine:
+ *           type: string
+ *           enum: [American, African, Asian, British, Caribbean, European, French, Italian, Latin American, Middle Eastern]
+ *     RecipeNutrition:
+ *       type: object
+ *       required:
+ *         - calories
+ *         - protein
+ *         - carbs
+ *         - fat
+ *         - sugars
+ *         - fiber
+ *         - saturatedFat
+ *         - sodium
+ *       properties:
+ *         calories:
+ *           type: integer
+ *           nullable: true
+ *         protein:
+ *           type: number
+ *           nullable: true
+ *         carbs:
+ *           type: number
+ *           nullable: true
+ *         fat:
+ *           type: number
+ *           nullable: true
+ *         sugars:
+ *           type: number
+ *           nullable: true
+ *         fiber:
+ *           type: number
+ *           nullable: true
+ *         saturatedFat:
+ *           type: number
+ *           nullable: true
+ *         sodium:
+ *           type: integer
+ *           nullable: true
+ *     RecipeMedia:
+ *       type: object
+ *       required:
+ *         - imageUrl
+ *       properties:
+ *         imageUrl:
+ *           type: string
+ *           format: uri
+ *     RecipeInput:
+ *       type: object
+ *       required:
+ *         - title
+ *         - subtitle
+ *         - description
+ *         - meta
+ *         - nutrition
+ *         - media
+ *         - ingredients
+ *         - steps
+ *       properties:
+ *         title:
+ *           type: string
+ *         subtitle:
+ *           type: string
+ *         description:
+ *           type: string
+ *         meta:
+ *           $ref: '#/components/schemas/RecipeMeta'
+ *         nutrition:
+ *           $ref: '#/components/schemas/RecipeNutrition'
+ *         media:
+ *           $ref: '#/components/schemas/RecipeMedia'
+ *         ingredients:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/Ingredient'
+ *         steps:
+ *           type: array
+ *           items:
+ *             type: string
+ *     UpdateRecipe:
+ *       allOf:
+ *         - $ref: '#/components/schemas/RecipeInput'
+ *     RecipeResponse:
+ *       allOf:
+ *         - $ref: '#/components/schemas/RecipeInput'
+ *         - type: object
+ *           required:
+ *             - id
+ *             - timestamps
+ *           properties:
+ *             id:
+ *               type: string
+ *             timestamps:
+ *               type: object
+ *               required:
+ *                 - createdAt
+ *                 - updatedAt
+ *               properties:
+ *                 createdAt:
+ *                   type: string
+ *                   format: date-time
+ *                 updatedAt:
+ *                   type: string
+ *                   format: date-time
+ *     RecipeMutationResponse:
+ *       type: object
+ *       required:
+ *         - message
+ *         - recipe
+ *       properties:
+ *         message:
+ *           type: string
+ *         recipe:
+ *           $ref: '#/components/schemas/RecipeResponse'
+ *     RecipeListMeta:
+ *       type: object
+ *       required:
+ *         - totalItems
+ *         - currentPage
+ *         - totalPages
+ *         - pageSize
+ *       properties:
+ *         totalItems:
+ *           type: integer
+ *         currentPage:
+ *           type: integer
+ *         totalPages:
+ *           type: integer
+ *         pageSize:
+ *           type: integer
+ *     RecipeFilters:
+ *       type: object
+ *       properties:
+ *         difficulty:
+ *           type: array
+ *           items:
+ *             type: string
+ *         cuisine:
+ *           type: array
+ *           items:
+ *             type: string
+ *         mealTypes:
+ *           type: array
+ *           items:
+ *             type: string
+ *         dietaryPreferences:
+ *           type: array
+ *           items:
+ *             type: string
+ *         cookTime:
+ *           type: array
+ *           items:
+ *             type: string
+ *         sortBy:
+ *           type: string
+ *     RecipeListResponse:
+ *       type: object
+ *       required:
+ *         - message
+ *         - recipes
+ *         - meta
+ *         - filters
+ *       properties:
+ *         message:
+ *           type: string
+ *         recipes:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/RecipeResponse'
+ *         meta:
+ *           $ref: '#/components/schemas/RecipeListMeta'
+ *         filters:
+ *           $ref: '#/components/schemas/RecipeFilters'
+ *     DeleteResponse:
+ *       type: object
+ *       required:
+ *         - message
+ *       properties:
+ *         message:
+ *           type: string
+ */
+
 // --------------------
 // Enums / constants
 // --------------------
