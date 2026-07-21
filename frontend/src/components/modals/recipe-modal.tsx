@@ -50,20 +50,20 @@ const RecipeModel = () => {
       setIsLoading(true);
       setError(null);
       fetch(`${config.BASE_URL}/api/recipe/${recipe}`)
-        .then((res) => {
-          if (!res.ok)
-            throw new Error("We couldn’t load this recipe. Please try again.");
-          return res.json();
-        })
-        .then((json) => {
-          setRecipeData(json.recipe);
-          setError(null);
-        })
-        .catch((err) => {
-          setError(err.message || "Something went wrong. Please try again.");
-          setRecipeData(null);
-        })
-        .finally(() => setIsLoading(false));
+      .then((res) => {
+        if (!res.ok)
+          throw new Error("We couldn’t load this recipe. Please try again.");
+        return res.json();
+      })
+      .then((json) => {
+        setRecipeData(json.recipe);
+        setError(null);
+      })
+      .catch((err) => {
+        setError(err.message || "Something went wrong. Please try again.");
+        setRecipeData(null);
+      })
+      .finally(() => setIsLoading(false));
     };
 
     fetchRecipe();
@@ -95,40 +95,38 @@ const RecipeModel = () => {
               <img
                 src={recipeData.media.imageUrl}
                 alt={recipeData.title}
-                className="w-full h-[300px] md:h-[300px] object-cover object-center rounded-t-lg bg-foreground"
+                className="w-full h-[300px] object-cover rounded-t-lg"
               />
             </div>
 
-            <DialogHeader className="mb-6 mx-4">
-              <div className="flex flex-row justify-between items-start">
-                <div>
-                  <DialogTitle className="text-3xl font-bold text-accent-foreground">
+            <DialogHeader className="sm:mb-6 sm:mx-4">
+              <div className="flex flex-col gap-4 xl:flex-row xl:justify-between xl:items-start">
+                <div className="min-w-0 flex-1">
+                  <DialogTitle className="text-3xl font-bold break-words mb-1">
                     {recipeData.title}
                   </DialogTitle>
-                  <p className="text-xl text-muted-foreground">
+                  <p className="text-xl text-muted-foreground break-words">
                     {recipeData.subtitle}
                   </p>
                 </div>
 
-                <div className="mt-1 hidden xl:flex items-center gap-4 text-md text-muted-foreground">
+                <div className="hidden xl:flex flex-wrap items-center gap-4 text-md text-muted-foreground">
                   <Button variant="outline" size="sm">
                     <LucideUtensils className="h-5 w-5" />
-                    <span>{recipeData.meta.cuisine}</span>
+                    {recipeData.meta.cuisine}
                   </Button>
                   <Button variant="outline" size="sm">
                     <User className="h-5 w-5" />
-                    <span>{recipeData.meta.servings} servings</span>
+                    {recipeData.meta.servings} servings
                   </Button>
                   <Button variant="outline" size="sm">
                     <LucideClock className="h-5 w-5" />
-                    <span>{recipeData.meta.cookTime} minutes</span>
+                    {recipeData.meta.cookTime} minutes
                   </Button>
                   <Button variant="outline" size="sm">
                     <LucideFlame className="h-5 w-5" />
-                    <span>
-                      {recipeData.meta.difficulty.charAt(0).toUpperCase() +
-                        recipeData.meta.difficulty.slice(1)}
-                    </span>
+                    {recipeData.meta.difficulty.charAt(0).toUpperCase() +
+                      recipeData.meta.difficulty.slice(1)}
                   </Button>
                 </div>
               </div>
@@ -137,40 +135,43 @@ const RecipeModel = () => {
                 {recipeData.description}
               </DialogDescription>
 
-              <div className="mt-4 xl:hidden flex items-center gap-4 text-md text-muted-foreground">
+              <div className="mt-4 xl:hidden flex flex-wrap items-center gap-2 text-md text-muted-foreground">
                 <Button variant="outline" size="sm">
                   <LucideUtensils className="h-5 w-5" />
-                  <span>{recipeData.meta.cuisine}</span>
+                  {recipeData.meta.cuisine}
                 </Button>
                 <Button variant="outline" size="sm">
                   <User className="h-5 w-5" />
-                  <span>{recipeData.meta.servings} servings</span>
+                  {recipeData.meta.servings} servings
                 </Button>
                 <Button variant="outline" size="sm">
                   <LucideClock className="h-5 w-5" />
-                  <span>{recipeData.meta.cookTime} minutes</span>
+                  {recipeData.meta.cookTime} minutes
                 </Button>
                 <Button variant="outline" size="sm">
                   <LucideFlame className="h-5 w-5" />
-                  <span>
-                    {recipeData.meta.difficulty.charAt(0).toUpperCase() +
-                      recipeData.meta.difficulty.slice(1)}
-                  </span>
+                  {recipeData.meta.difficulty.charAt(0).toUpperCase() +
+                    recipeData.meta.difficulty.slice(1)}
                 </Button>
               </div>
             </DialogHeader>
 
-            <div className="flex flex-col xl:grid grid-cols-3 xl:grid-cols-3 gap-10 mx-4 mb-4">
+            <div className="flex flex-col xl:grid xl:grid-cols-3 gap-6 sm:gap-8 sm:mx-4 sm:mb-4">
               <Card className="shadow-2xs rounded-lg">
                 <CardContent>
                   <h3 className="text-xl font-semibold mb-4">Ingredients</h3>
                   <ul className="space-y-2 mt-4">
                     {recipeData.ingredients.map((ingredient, index) => (
-                      <li key={index} className="flex justify-between">
-                        <span className="text-muted-foreground">
+                      <li key={index} className="flex justify-between gap-4">
+                        <span className="min-w-0 break-words text-muted-foreground">
                           {ingredient.name}
                         </span>
-                        <span>{formatIngredientAmount(ingredient.quantity, ingredient.unit)}</span>
+                        <span className="shrink-0">
+                          {formatIngredientAmount(
+                            ingredient.quantity,
+                            ingredient.unit
+                          )}
+                        </span>
                       </li>
                     ))}
                   </ul>
@@ -188,66 +189,27 @@ const RecipeModel = () => {
                 </CardContent>
               </Card>
 
-              <div className="mt-1 col-span-2 flex flex-wrap items-center gap-3 text-md text-muted-foreground">
+              <div className="xl:col-span-3 flex flex-wrap items-center gap-3 text-md text-muted-foreground">
                 {[
-                  {
-                    label: "calories",
-                    value: recipeData.nutrition.calories,
-                    unit: "",
-                  },
-                  {
-                    label: "carbs",
-                    value: recipeData.nutrition.carbs,
-                    unit: "g",
-                  },
-                  { label: "fat", value: recipeData.nutrition.fat, unit: "g" },
-                  {
-                    label: "fiber",
-                    value: recipeData.nutrition.fiber,
-                    unit: "g",
-                  },
-                  {
-                    label: "protein",
-                    value: recipeData.nutrition.protein,
-                    unit: "g",
-                  },
-                  {
-                    label: "saturated fat",
-                    value: recipeData.nutrition.saturatedFat,
-                    unit: "g",
-                  },
-                  {
-                    label: "sodium",
-                    value: recipeData.nutrition.sodium,
-                    unit: "mg",
-                  },
-                  {
-                    label: "sugar",
-                    value: recipeData.nutrition.sugars,
-                    unit: "g",
-                  },
-                ].map((nutrient) => (
-                  <Button key={nutrient.label} variant="outline" size="sm">
-                    <span>
-                      {nutrient.value}
-                      {nutrient.unit} {nutrient.label}
-                    </span>
+                  ["calories", recipeData.nutrition.calories, ""],
+                  ["carbs", recipeData.nutrition.carbs, "g"],
+                  ["fat", recipeData.nutrition.fat, "g"],
+                  ["fiber", recipeData.nutrition.fiber, "g"],
+                  ["protein", recipeData.nutrition.protein, "g"],
+                  ["saturated fat", recipeData.nutrition.saturatedFat, "g"],
+                  ["sodium", recipeData.nutrition.sodium, "mg"],
+                  ["sugar", recipeData.nutrition.sugars, "g"],
+                ].map(([label, value, unit]) => (
+                  <Button
+                    key={label}
+                    variant="outline"
+                    size="sm"
+                    className="whitespace-nowrap"
+                  >
+                    {value}
+                    {unit} {label}
                   </Button>
                 ))}
-
-                {/* {recipeData.meta.dietaryPreferences &&
-                  recipeData.meta.dietaryPreferences.map((peference) => (
-                    <Button key={peference} variant="outline">
-                      <span>{peference.charAt(0).toLocaleUpperCase() + peference.slice(1)}</span>
-                    </Button>
-                  ))}
-
-                {recipeData.meta.mealTypes &&
-                  recipeData.meta.mealTypes.map((type) => (
-                    <Button key={type} variant="outline">
-                      <span>{type.charAt(0).toLocaleUpperCase() + type.slice(1)}</span>
-                    </Button>
-                  ))} */}
               </div>
             </div>
           </>
