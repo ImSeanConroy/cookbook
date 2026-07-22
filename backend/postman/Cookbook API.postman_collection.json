@@ -1,0 +1,204 @@
+{
+  "info": {
+    "_postman_id": "6c6239c3-adfb-45f8-9c2a-80c44ae9ca11",
+    "name": "Cookbook API",
+    "description": "Collection for Cookbook application API endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "16952858"
+  },
+  "item": [
+    {
+      "name": "Meal Plan",
+      "item": [
+        {
+          "name": "Generate Meal Plan",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cuisine\": [],\n  \"difficulty\": [],\n  \"cookTime\": [],\n  \"portionPreset\": \"2x2\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/meal-plan/generate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "meal-plan",
+                "generate"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Generate weekly meal plans from eligible recipes."
+    },
+    {
+      "name": "Recipes",
+      "item": [
+        {
+          "name": "Create Recipe",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Classic Spaghetti Bolognese\",\n    \"description\": \"A traditional Italian pasta dish with rich meat sauce.\",\n    \"prep_time\": 15,\n    \"cook_time\": 45,\n    \"servings\": 4,\n    \"difficulty\": \"intermediate\",\n    \"cuisine\": \"Italian\",\n    \"image_url\": \"https://example.com/images/spaghetti.jpg\",\n     \"ingredients\": [\n      { \"name\": \"Spaghetti\", \"quantity\": \"400g\" },\n      { \"name\": \"Ground beef\", \"quantity\": \"500g\" },\n      { \"name\": \"Onion\", \"quantity\": \"1, chopped\" },\n      { \"name\": \"Garlic\", \"quantity\": \"2 cloves, minced\" },\n      { \"name\": \"Tomato paste\", \"quantity\": \"2 tbsp\" },\n      { \"name\": \"Crushed tomatoes\", \"quantity\": \"400ml\" },\n      { \"name\": \"Olive oil\", \"quantity\": \"2 tbsp\" },\n      { \"name\": \"Salt\", \"quantity\": \"to taste\" },\n      { \"name\": \"Black pepper\", \"quantity\": \"to taste\" },\n      { \"name\": \"Fresh basil\", \"quantity\": \"a few leaves\" }\n     ],\n     \"steps\": [\"test 1\", \"test 2\", \"test 3\"]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/recipe",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "recipe"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Single Recipe",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/recipe/:recipeId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "recipe",
+                ":recipeId"
+              ],
+              "variable": [
+                {
+                  "key": "recipeId",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Recipes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/recipe",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "recipe"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Recipe",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"imageUrl\": \"https://images.pexels.com/photos/769969/pexels-photo-769969.jpeg?_gl=1*uty87k*_ga*MTgxMDA3NDYxNS4xNzUwNjAyMDUw*_ga_8JE65Q40S6*czE3NTEzNjEyNzAkbzIkZzEkdDE3NTEzNjEyODYkajQ0JGwwJGgw\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/recipe/:recipeId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "recipe",
+                ":recipeId"
+              ],
+              "variable": [
+                {
+                  "key": "recipeId",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Recipe",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/recipe/:recipeId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "recipe",
+                ":recipeId"
+              ],
+              "variable": [
+                {
+                  "key": "recipeId",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Create, read, update, and delete recipes."
+    },
+    {
+      "name": "System",
+      "item": [
+        {
+          "name": "Check Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "status"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Health and operational endpoints."
+    }
+  ]
+}
