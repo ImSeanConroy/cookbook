@@ -5,6 +5,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -168,6 +169,30 @@ const MetaTab = ({ form, isLoading }: MetaTabProps) => {
                     ))}
                   </SelectContent>
                 </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="includeInMealPlan"
+            render={({ field }) => (
+              <FormItem className="md:col-span-2">
+                <div className="flex items-center gap-3 rounded-md border p-3">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={(checked) => field.onChange(Boolean(checked))}
+                      disabled={isLoading}
+                    />
+                  </FormControl>
+                  <div className="space-y-1">
+                    <FormLabel>Include in meal plan</FormLabel>
+                    <p className="text-xs text-muted-foreground">
+                      Turn off for recipes you do not want in weekly meal generation.
+                    </p>
+                  </div>
+                </div>
                 <FormMessage />
               </FormItem>
             )}

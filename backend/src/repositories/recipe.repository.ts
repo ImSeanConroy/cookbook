@@ -17,11 +17,11 @@ export const create = async (
   const res = await query(
     `INSERT INTO recipes (
       title, subtitle, description, cook_time, servings, difficulty,
-      cuisine, image_url, meal_types, dietary_preferences,
+      cuisine, image_url, include_in_meal_plan, meal_types, dietary_preferences,
       calories, protein, carbs, fat, sugars, fiber, saturated_fat, sodium
     ) VALUES (
-      $1, $2, $3, $4, $5, $6, $7, $8, $9, $10,
-      $11, $12, $13, $14, $15, $16, $17, $18
+      $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11,
+      $12, $13, $14, $15, $16, $17, $18, $19
     )
     RETURNING *`,
     [
@@ -33,6 +33,7 @@ export const create = async (
       data.difficulty,
       data.cuisine,
       data.imageUrl,
+      data.includeInMealPlan,
       data.mealTypes,
       data.dietaryPreferences,
       data.calories,
@@ -275,6 +276,73 @@ export const getAll = async ({
   baseQuery += ` ${orderClause}
     LIMIT $${values.length - 1}
     OFFSET $${values.length}`;
+
+  const res = await query(baseQuery, values);
+
+  return res as RecipeEntity[];
+};
+
+/**
+ * Retrieves recipes used for meal-plan generation.
+ */
+export const getMealPlan = async ({
+  cuisine,
+  difficulty,
+  cookTime,
+}: {
+  cuisine?: string[];
+  difficulty?: string[];
+  cookTime?: string[];
+}): Promise<RecipeEntity[]> => {
+  const values: unknown[] = [true];
+  let baseQuery = `
+    SELECT id, title, subtitle, cook_time,
+    difficulty, cuisine, calories, image_url,
+    created_at
+    FROM recipes
+    WHERE include_in_meal_plan = $1
+  `;
+
+  const whereClauses: string[] = [];
+
+  if (cuisine?.length) {
+    values.push(cuisine);
+    whereClauses.push(`cuisine = ANY($${values.length})`);
+  }
+
+  if (difficulty?.length) {
+    values.push(difficulty);
+    whereClauses.push(`difficulty = ANY($${values.length})`);
+  }
+
+  if (cookTime?.length) {
+    const timeConditions: string[] = [];
+
+    cookTime.forEach((time) => {
+      switch (time) {
+        case "UNDER_15":
+          timeConditions.push("cook_time < 15");
+          break;
+        case "BETWEEN_15_AND_30":
+          timeConditions.push("cook_time BETWEEN 15 AND 30");
+          break;
+        case "BETWEEN_30_AND_60":
+          timeConditions.push("cook_time BETWEEN 30 AND 60");
+          break;
+        case "OVER_60":
+          timeConditions.push("cook_time > 60");
+          break;
+      }
+    });
+
+    if (timeConditions.length) {
+      whereClauses.push(`(${timeConditions.join(" OR ")})`);
+    }
+  }
+
+  if (whereClauses.length) {
+    baseQuery += " AND " + whereClauses.join(" AND ");
+  }
 
   const res = await query(baseQuery, values);
 

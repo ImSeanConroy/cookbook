@@ -18,6 +18,34 @@ const mockedRecipeRepo = vi.mocked(RecipeRepo);
 const mockedIngredientRepo = vi.mocked(IngredientRepo);
 const mockedStepRepo = vi.mocked(StepRepo);
 
+const buildRecipeEntity = (
+  overrides: Partial<RecipeEntity> = {},
+): RecipeEntity => ({
+  id: "1",
+  title: "Pasta",
+  subtitle: "Yummy Pasta",
+  description: "Delicious",
+  cookTime: 15,
+  servings: 2,
+  difficulty: "beginner",
+  includeInMealPlan: true,
+  mealTypes: ["lunch"],
+  dietaryPreferences: [],
+  cuisine: "Italian",
+  imageUrl: "http://image.com",
+  calories: 200,
+  protein: 10,
+  carbs: 30,
+  fat: 5,
+  sugars: 2,
+  fiber: 3,
+  saturatedFat: 1,
+  sodium: 100,
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
+  ...overrides,
+});
+
 describe("Recipe Service", () => {
   const sampleRecipeInput: RecipeInput = {
     title: "Pasta",
@@ -50,29 +78,7 @@ describe("Recipe Service", () => {
     steps: ["Boil water", "Cook pasta"],
   };
 
-  const sampleRecipeEntity: RecipeEntity = {
-    id: "1",
-    title: "Pasta",
-    subtitle: "Yummy Pasta",
-    description: "Delicious",
-    cookTime: 15,
-    servings: 2,
-    difficulty: "beginner" as DifficultyLevel,
-    cuisine: "Italian",
-    mealTypes: ["lunch"],
-    dietaryPreferences: [],
-    imageUrl: "http://image.com",
-    calories: 200,
-    protein: 10,
-    carbs: 30,
-    fat: 5,
-    sugars: 2,
-    fiber: 3,
-    saturatedFat: 1,
-    sodium: 100,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  };
+  const sampleRecipeEntity: RecipeEntity = buildRecipeEntity();
 
   beforeEach(() => {
     vi.clearAllMocks();

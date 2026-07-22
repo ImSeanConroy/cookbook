@@ -1,6 +1,6 @@
 "use client";
 
-import { X } from "lucide-react";
+import { CalendarDays, X } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -102,6 +102,14 @@ export function TableToolbar() {
           className="h-8 w-62.5"
         />
         <ThemeToggle />
+        <Button
+          size="sm"
+          variant="outline"
+          className="border-input cursor-pointer"
+          onClick={() => onOpen("generateMealPlan")}
+        >
+          <CalendarDays className="h-5 w-5" />
+        </Button>
         {config.READ_ONLY == false && (
           <Button
             size="sm"

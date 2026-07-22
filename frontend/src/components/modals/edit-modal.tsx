@@ -31,6 +31,7 @@ const toFormValues = (recipe: RecipeType): RecipeFormValues => ({
   cook_time: Math.max(1, recipe.meta.cookTime ?? 1),
   servings: Math.max(1, recipe.meta.servings ?? 1),
   difficulty: toDifficultyValue(recipe.meta.difficulty),
+  includeInMealPlan: recipe.meta.includeInMealPlan ?? true,
   mealTypes: recipe.meta.mealTypes ?? [],
   dietaryPreferences: recipe.meta.dietaryPreferences ?? [],
   cuisine: recipe.meta.cuisine,

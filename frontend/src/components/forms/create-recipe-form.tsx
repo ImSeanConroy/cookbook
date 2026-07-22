@@ -32,6 +32,7 @@ const defaultRecipeFormValues: RecipeFormValues = {
   cook_time: 1,
   servings: 1,
   difficulty: "beginner",
+  includeInMealPlan: true,
   cuisine: "",
   mealTypes: [],
   dietaryPreferences: [],

@@ -225,6 +225,7 @@ export const updateRecipeService = async (
     difficulty: body.meta?.difficulty || safeExistingRecipe.difficulty,
     cuisine: body.meta?.cuisine || safeExistingRecipe.cuisine,
     image_url: body.media?.imageUrl || safeExistingRecipe.imageUrl,
+    include_in_meal_plan: body.meta?.includeInMealPlan ?? safeExistingRecipe.includeInMealPlan,
   };
 
   const updatedRecipe = await RecipeRepo.update(mergedRecipe);

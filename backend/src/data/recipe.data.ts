@@ -13,9 +13,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "Asian",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: ["pescatarian"],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/honey-soy-salmon-rice-bowl.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/honey-soy-salmon-rice-bowl.png",
     },
     nutrition: {
       calories: 655,
@@ -66,9 +67,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "Asian",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/korean-steak-ramen.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/korean-steak-ramen.png",
     },
     nutrition: {
       calories: 820,
@@ -123,9 +125,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "European",
       mealTypes: ["breakfast", "lunch", "snack"],
       dietaryPreferences: ["vegan", "dairy-free"],
+      includeInMealPlan: false,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/sourdough.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/sourdough.png",
     },
     nutrition: {
       calories: 0,
@@ -151,9 +154,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "French",
       mealTypes: ["lunch"],
       dietaryPreferences: ["vegan", "dairy-free"],
+      includeInMealPlan: false,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/baguette.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/baguette.png",
     },
     nutrition: {
       calories: 0,
@@ -180,9 +184,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "French",
       mealTypes: ["snack", "lunch", "dinner"],
       dietaryPreferences: ["vegetarian"],
+      includeInMealPlan: false,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/traditional-french-boule.png"
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/traditional-french-boule.png"
     },
     nutrition: {
       calories: 1560,
@@ -226,9 +231,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "European",
       mealTypes: ["breakfast", "lunch"],
       dietaryPreferences: ["vegetarian"],
+      includeInMealPlan: false,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/sandwich-bread.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/sandwich-bread.png",
     },
     nutrition: {
       calories: 0,
@@ -254,9 +260,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "American",
       mealTypes: ["breakfast", "lunch"],
       dietaryPreferences: ["vegetarian"],
+      includeInMealPlan: false,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/bagels.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/bagels.png",
     },
     nutrition: {
       calories: 0,
@@ -283,9 +290,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "Asian",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/teriyaki-pulled-beef-bao.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/teriyaki-pulled-beef-bao.png",
     },
     nutrition: {
       calories: 744,
@@ -336,9 +344,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "British",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/chicken-curry-pasty.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/chicken-curry-pasty.png",
     },
     nutrition: {
       calories: 744,
@@ -386,9 +395,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "Asian",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/teriyaki-ginger-beef-noodles.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/teriyaki-ginger-beef-noodles.png",
     },
     nutrition: {
       calories: 674,
@@ -431,9 +441,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "Asian",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/sweet-chilli-beef.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/sweet-chilli-beef.png",
     },
     nutrition: {
       calories: 619,
@@ -481,9 +492,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "European",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/pork-schnitzel-plum-sauce.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/pork-schnitzel-plum-sauce.png",
     },
     nutrition: {
       calories: 694,
@@ -530,9 +542,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "African",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/peri-peri-chicken-thigh.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/peri-peri-chicken-thigh.png",
     },
     nutrition: {
       calories: 756,
@@ -581,9 +594,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "Asian",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/korma-spiced-chicken-skewers.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/korma-spiced-chicken-skewers.png",
     },
     nutrition: {
       calories: 610,
@@ -632,9 +646,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "African",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/peri-peri-chicken-traybake.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/peri-peri-chicken-traybake.png",
     },
     nutrition: {
       calories: 469,
@@ -681,9 +696,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "American",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: false,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/french-steak-sandwich.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/french-steak-sandwich.png",
     },
     nutrition: {
       calories: 1059,
@@ -731,9 +747,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "Asian",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: false,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/korean-glazed-steak.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/korean-glazed-steak.png",
     },
     nutrition: {
       calories: 915,
@@ -783,9 +800,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "Asian",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/tandoori-chicken-traybake.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/tandoori-chicken-traybake.png",
     },
     nutrition: {
       calories: 771,
@@ -832,9 +850,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "British",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/pan-fried-garlic-butter-chicken.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/pan-fried-garlic-butter-chicken.png",
     },
     nutrition: {
       calories: 712,
@@ -884,9 +903,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "British",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/pork-steak-peppercorn-sauce.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/pork-steak-peppercorn-sauce.png",
     },
     nutrition: {
       calories: 538,
@@ -932,9 +952,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "Italian",
       mealTypes: ["lunch"],
       dietaryPreferences: ["vegan", "dairy-free"],
+      includeInMealPlan: false,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/ciabatta.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/ciabatta.png",
     },
     nutrition: {
       calories: 0,
@@ -960,9 +981,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "French",
       mealTypes: ["breakfast", "lunch"],
       dietaryPreferences: ["vegetarian"],
+      includeInMealPlan: false,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/brioche-buns.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/brioche-buns.png",
     },
     nutrition: {
       calories: 0,
@@ -989,9 +1011,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "Middle Eastern",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: false,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/zahtar-roast-chicken.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/zahtar-roast-chicken.png",
     },
     nutrition: {
       calories: 916,
@@ -1044,9 +1067,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "British",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: false,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/crusted-roast-lamb.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/crusted-roast-lamb.png",
     },
     nutrition: {
       calories: 811,
@@ -1098,9 +1122,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "British",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/creamy-chive-meatballs.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/creamy-chive-meatballs.png",
     },
     nutrition: {
       calories: 797,
@@ -1149,9 +1174,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "Asian",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/soy-ginger-lime-pork-meatbaals.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/soy-ginger-lime-pork-meatbaals.png",
     },
     nutrition: {
       calories: 778,
@@ -1201,9 +1227,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "Asian",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/sweet-and-sticky-chicken.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/sweet-and-sticky-chicken.png",
     },
     nutrition: {
       calories: 608,
@@ -1256,9 +1283,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "Asian",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/teriyaki-lemongrass-beef.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/teriyaki-lemongrass-beef.png",
     },
     nutrition: {
       calories: 627,
@@ -1308,9 +1336,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "Asian",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/japanense-chicken.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/japanense-chicken.png",
     },
     nutrition: {
       calories: 874,
@@ -1358,9 +1387,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "Asian",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/thai-style-rice-bowl.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/thai-style-rice-bowl.png",
     },
     nutrition: {
       calories: 626,
@@ -1408,9 +1438,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "Asian",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/speedy-chciken-noodles.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/speedy-chciken-noodles.png",
     },
     nutrition: {
       calories: 551,
@@ -1457,9 +1488,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "Asian",
       mealTypes: ["dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/korean-bbq-burger.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/korean-bbq-burger.png",
     },
     nutrition: {
       calories: 1264,
@@ -1517,9 +1549,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "American",
       mealTypes: ["dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/truffle-burger.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/truffle-burger.png",
     },
     nutrition: {
       calories: 982,
@@ -1577,9 +1610,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "American",
       mealTypes: ["dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/spicy-honey-chicken.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/spicy-honey-chicken.png",
     },
     nutrition: {
       calories: 1013,
@@ -1634,9 +1668,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "American",
       mealTypes: ["dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/buffalo-chicken-tacos.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/buffalo-chicken-tacos.png",
     },
     nutrition: {
       calories: 1158,
@@ -1694,9 +1729,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "European",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/pesto-traybake.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/pesto-traybake.png",
     },
     nutrition: {
       calories: 623,
@@ -1747,9 +1783,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "Asian",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/teriyaki-sesame-chicken.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/teriyaki-sesame-chicken.png",
     },
     nutrition: {
       calories: 656,
@@ -1799,9 +1836,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "Asian",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/mango-chutney-wraps.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/mango-chutney-wraps.png",
     },
     nutrition: {
       calories: 958,
@@ -1852,9 +1890,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "Asian",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/bulgogi-pork-tacos.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/bulgogi-pork-tacos.png",
     },
     nutrition: {
       calories: 972,
@@ -1906,9 +1945,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "British",
       mealTypes: ["dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/chicken-chili-chive.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/chicken-chili-chive.png",
     },
     nutrition: {
       calories: 574,
@@ -1959,9 +1999,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "Asian",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/hoisin-traybake.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/hoisin-traybake.png",
     },
     nutrition: {
       calories: 765,
@@ -2010,9 +2051,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "American",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/hawaiian-cheeseburger.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/hawaiian-cheeseburger.png",
     },
     nutrition: {
       calories: 1073,
@@ -2066,9 +2108,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "British",
       mealTypes: ["dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/chicken-pie.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/chicken-pie.png",
     },
     nutrition: {
       calories: 1205,
@@ -2125,9 +2168,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "Italian",
       mealTypes: ["snack", "lunch", "dinner"],
       dietaryPreferences: ["vegetarian"],
+      includeInMealPlan: false,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/focaccia.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/focaccia.png",
     },
     nutrition: {
       calories: 586,
@@ -2175,9 +2219,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "Italian",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/carbonara.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/carbonara.png",
     },
     nutrition: {
       calories: 705,
@@ -2221,9 +2266,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "Italian",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: ["vegetarian"],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/pizza.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/pizza.png",
     },
     nutrition: {
       calories: 840,
@@ -2272,9 +2318,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "British",
       mealTypes: ["dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/panko-chicken.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/panko-chicken.png",
     },
     nutrition: {
       calories: 865,
@@ -2322,9 +2369,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "Italian",
       mealTypes: ["lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: true,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/pesto-chicken-pasta.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/pesto-chicken-pasta.png",
     },
     nutrition: {
       calories: 736,
@@ -2370,9 +2418,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "British",
       mealTypes: ["breakfast", "snack", "lunch", "dinner"],
       dietaryPreferences: [],
+      includeInMealPlan: false,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/sausage-rolls.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/sausage-rolls.png",
     },
     nutrition: {
       calories: 320,
@@ -2412,9 +2461,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "French",
       mealTypes: ["breakfast", "snack", "dessert"],
       dietaryPreferences: ["vegetarian"],
+      includeInMealPlan: false,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/gemini-crepes.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/gemini-crepes.png",
     },
     nutrition: {
       calories: 200,
@@ -2455,9 +2505,10 @@ export const recipes: RecipeInput[] = [
       cuisine: "British",
       mealTypes: ["snack", "dessert"],
       dietaryPreferences: ["vegetarian"],
+      includeInMealPlan: false,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/gemini-flapjacks.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/gemini-flapjacks.png",
     },
     nutrition: {
       calories: 320,
@@ -2499,9 +2550,10 @@ export const recipes: RecipeInput[] = [
 
       mealTypes: ["dessert"],
       dietaryPreferences: ["vegetarian"],
+      includeInMealPlan: false,
     },
     media: {
-      imageUrl: "https://imseanconroy-cookbook.s3.eu-central-1.amazonaws.com/gemini-cheese-cake.png",
+      imageUrl: "https://imseanconroy-cookbook-prod-images.s3.eu-central-1.amazonaws.com/gemini-cheese-cake.png",
     },
     nutrition: {
       calories: 420,

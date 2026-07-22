@@ -20,6 +20,7 @@ export const recipeFormSchema = z.object({
   difficulty: z.enum(["beginner", "intermediate", "advanced"], {
     message: "Difficulty is required",
   }),
+  includeInMealPlan: z.boolean(),
   mealTypes: z
     .array(z.string().trim().min(1))
     .min(1, "At least one meal type is required"),

@@ -1,7 +1,12 @@
 import { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
 
-export type ModalType = "showRecipe" | "createRecipe" | "editRecipe" | "deleteRecipe";
+export type ModalType =
+  | "showRecipe"
+  | "createRecipe"
+  | "editRecipe"
+  | "deleteRecipe"
+  | "generateMealPlan";
 
 interface ModalDataType {
   recipeId?: string;

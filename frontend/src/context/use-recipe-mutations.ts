@@ -4,6 +4,10 @@ import { useState } from "react";
 import axios from "axios";
 import { config } from "@/config";
 import { useRecipes } from "@/context/recipe-context";
+import type {
+  GenerateMealPlanInput,
+  WeeklyMealPlanType,
+} from "@/types/meal-plan";
 
 export type RecipeMutationInput = {
   title: string;
@@ -12,6 +16,7 @@ export type RecipeMutationInput = {
   cook_time: number;
   servings: number;
   difficulty: "beginner" | "intermediate" | "advanced";
+  includeInMealPlan: boolean;
   mealTypes: string[];
   dietaryPreferences: string[];
   cuisine: string;
@@ -40,6 +45,7 @@ type RecipeMutationPayload = {
     cookTime: number;
     servings: number;
     difficulty: "beginner" | "intermediate" | "advanced";
+    includeInMealPlan?: boolean;
     mealTypes: string[];
     dietaryPreferences: string[];
     cuisine: string;
@@ -91,6 +97,7 @@ const toRecipePayload = (payload: RecipeMutationInput): RecipeMutationPayload =>
     cookTime: payload.cook_time,
     servings: payload.servings,
     difficulty: payload.difficulty,
+    includeInMealPlan: payload.includeInMealPlan,
     mealTypes: payload.mealTypes,
     dietaryPreferences: payload.dietaryPreferences,
     cuisine: payload.cuisine,
@@ -165,10 +172,27 @@ export const useRecipeMutations = () => {
     }
   };
 
+  const generateMealPlan = async (payload: GenerateMealPlanInput): Promise<WeeklyMealPlanType> => {
+    setIsMutating(true);
+    setError(null);
+
+    try {
+      const response = await apiClient.post("/meal-plan/generate", payload);
+      return response.data.mealPlan;
+    } catch (err: unknown) {
+      const message = getErrorMessage(err, "Failed to generate meal prep plan");
+      setError(message);
+      throw err;
+    } finally {
+      setIsMutating(false);
+    }
+  };
+
   return {
     createRecipe,
     updateRecipe,
     deleteRecipe,
+    generateMealPlan,
     isMutating,
     error,
   };

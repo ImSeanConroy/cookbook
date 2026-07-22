@@ -41,6 +41,7 @@ export interface RecipeEntity {
   cookTime: number;
   servings: number;
   difficulty: DifficultyLevel;
+  includeInMealPlan: boolean;
   mealTypes: string[];
   dietaryPreferences: string[];
   cuisine: string;
@@ -70,6 +71,7 @@ export interface RecipeResponse {
     cookTime: number;
     servings: number;
     difficulty: DifficultyLevel;
+    includeInMealPlan: boolean;
     mealTypes: string[];
     dietaryPreferences: string[];
     cuisine: string;

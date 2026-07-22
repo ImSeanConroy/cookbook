@@ -20,6 +20,7 @@ export const toRecipeResponse = (
     cookTime: recipe.cookTime,
     servings: recipe.servings,
     difficulty: recipe.difficulty,
+    includeInMealPlan: recipe.includeInMealPlan,
     cuisine: recipe.cuisine,
     mealTypes: recipe.mealTypes,
     dietaryPreferences: recipe.dietaryPreferences,

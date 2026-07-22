@@ -9,6 +9,7 @@ import { errorHandler } from "./middleware/error-handler.middleware";
 
 import recipeRoutes from "./routes/recipe.route";
 import systemRoutes from "./routes/system.route";
+import mealPlanRoutes from "./routes/meal-plan.route";
 import { logger } from "./common/config/logger.config";
 import { morganMiddleware } from "./common/config/morgan.config";
 import { registerSwagger } from "./common/config/swagger.config";
@@ -59,6 +60,7 @@ registerSwagger(app);
 
 app.use(`${BASE_PATH}/status`, systemRoutes);
 app.use(`${BASE_PATH}/recipe`, recipeRoutes);
+app.use(`${BASE_PATH}/meal-plan`, mealPlanRoutes);
 
 // ---------------------------
 // Error handler

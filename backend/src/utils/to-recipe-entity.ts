@@ -9,6 +9,7 @@ export const toRecipeEntity = (
   cookTime: input.meta.cookTime,
   servings: input.meta.servings,
   difficulty: input.meta.difficulty,
+  includeInMealPlan: input.meta.includeInMealPlan ?? true,
   mealTypes: input.meta.mealTypes,
   dietaryPreferences: input.meta.dietaryPreferences,
   cuisine: input.meta.cuisine,

@@ -242,7 +242,7 @@ import { z } from "zod";
 // --------------------
 // Enums / constants
 // --------------------
-const cuisinesEnum = [
+export const cuisinesEnum = [
   "American",
   "African",
   "Asian",
@@ -255,9 +255,9 @@ const cuisinesEnum = [
   "Middle Eastern",
 ] as const;
 
-const difficultiesEnum = ["beginner", "intermediate", "advanced"] as const;
+export const difficultiesEnum = ["beginner", "intermediate", "advanced"] as const;
 
-const mealTypesEnum = [
+export const mealTypesEnum = [
   "breakfast",
   "brunch",
   "lunch",
@@ -267,7 +267,7 @@ const mealTypesEnum = [
   "appetizer",
 ] as const;
 
-const dietaryPreferencesEnum = [
+export const dietaryPreferencesEnum = [
   "vegetarian",
   "vegan",
   "gluten-free",
@@ -289,6 +289,7 @@ export const imageUrlSchema = z.string().url();
 
 export const cookTimeSchema = z.number().int().nonnegative();
 export const servingsSchema = z.number().int().positive();
+export const includeInMealPlanSchema = z.boolean().optional();
 
 export const difficultySchema = z.enum(difficultiesEnum);
 export const cuisineSchema = z.enum(cuisinesEnum);
@@ -316,6 +317,7 @@ export const createRecipeSchema = z.object({
     cookTime: cookTimeSchema,
     servings: servingsSchema,
     difficulty: difficultySchema,
+    includeInMealPlan: includeInMealPlanSchema,
     mealTypes: mealTypeSchema,
     dietaryPreferences: dietaryPreferenceSchema,
     cuisine: cuisineSchema,

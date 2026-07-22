@@ -32,6 +32,10 @@ export const swaggerOptions: Options = {
         description: "Create, read, update, and delete recipes.",
       },
       {
+        name: "Meal Plan",
+        description: "Generate weekly meal plans from eligible recipes.",
+      },
+      {
         name: "System",
         description: "Health and operational endpoints.",
       },

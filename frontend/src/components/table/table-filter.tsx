@@ -26,7 +26,7 @@ import { useRecipes } from "@/context/recipe-context";
 
 interface TableFilterProps {
   title: string;
-  filterKey:
+  filterKey?:
     | "cuisine"
     | "difficulty"
     | "mealTypes"
@@ -37,14 +37,29 @@ interface TableFilterProps {
     value: string;
     icon?: React.ComponentType<{ className?: string }>;
   }[];
+  value?: string[];
+  onChange?: (value: string[]) => void;
 }
 
-export function TableFilter({ title, filterKey, options }: TableFilterProps) {
+export function TableFilter({
+  title,
+  filterKey,
+  options,
+  value,
+  onChange,
+}: TableFilterProps) {
   const { filters, setFilters } = useRecipes();
+  const controlled = value !== undefined && onChange !== undefined;
 
-  const selectedValues = new Set(filters[filterKey] ?? []);
+  const selectedValues = new Set(controlled ? value : filterKey ? (filters[filterKey] ?? []) : []);
 
   const updateFilter = (newValues: string[]) => {
+    if (controlled) {
+      onChange(newValues);
+      return;
+    }
+
+    if (!filterKey) return;
     setFilters((prev) => ({
       ...prev,
       page: 1,

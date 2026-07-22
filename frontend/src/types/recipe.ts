@@ -18,6 +18,7 @@ export interface RecipeType {
     cookTime: number;
     servings: number;
     difficulty: DifficultyLevelType;
+    includeInMealPlan: boolean;
     mealTypes: MealTypeType[];
     dietaryPreferences: string[];
     cuisine: string;
