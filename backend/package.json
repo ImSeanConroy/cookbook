@@ -14,7 +14,8 @@
     "test": "NODE_ENV=test vitest run",
     "test:watch": "vitest --watch",
     "test:ui": "vitest --ui",
-    "seed": "ts-node src/seeders/recipe.seeder.ts"
+    "seed": "ts-node src/seeders/recipe.seeder.ts",
+    "seed:local": "ts-node src/seeders/recipe.local.seeder.ts"
   },
   "author": "Sean Conroy",
   "license": "MIT",

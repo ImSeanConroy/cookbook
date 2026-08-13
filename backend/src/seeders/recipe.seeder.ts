@@ -1,10 +1,10 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import { createRecipeService } from "../services/recipe.service";
 import connectDatabase from "../common/config/database.config";
-import { recipes } from "../data/recipe.data";
 import { logger } from "../common/config/logger.config";
+import { recipes } from "../data/recipe.data";
+import { createRecipeService } from "../services/recipe.service";
 
 /**
  * Seeds the database with initial recipe data.
