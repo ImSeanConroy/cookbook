@@ -7,6 +7,9 @@ import { config } from "./common/config/app.config";
 import connectDatabase from "./common/config/database.config";
 import { errorHandler } from "./middleware/error-handler.middleware";
 
+import { toNodeHandler } from "better-auth/node";
+
+import { auth } from "./lib/auth/auth";
 import recipeRoutes from "./routes/recipe.route";
 import systemRoutes from "./routes/system.route";
 import mealPlanRoutes from "./routes/meal-plan.route";
@@ -16,6 +19,7 @@ import { registerSwagger } from "./common/config/swagger.config";
 
 const app = express();
 const BASE_PATH = config.BASE_PATH;
+const trustedOrigins = config.TRUSTED_ORIGINS;
 
 logger.info("Starting application", {
   context: "Application",
@@ -23,27 +27,24 @@ logger.info("Starting application", {
   port: config.PORT,
 });
 
-if ((config.READ_ONLY || "").toLowerCase() === "true") {
-  logger.warn("Application running in READ_ONLY mode", {
-    context: "Application",
-  });
-}
-
 // ---------------------------
 // Middleware
 // ---------------------------
 
-// Parse JSON and URL-encoded bodies
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
 // Enable CORS
 app.use(
   cors({
-    origin: config.FRONTEND_ORIGIN,
+    origin: trustedOrigins,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     credentials: true,
   })
 );
+
+app.all(`${BASE_PATH}/auth/*s`, toNodeHandler(auth));
+
+// Parse JSON and URL-encoded bodies
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // HTTP request logging
 app.use(morganMiddleware);

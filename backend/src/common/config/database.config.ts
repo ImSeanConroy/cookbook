@@ -7,7 +7,7 @@ import { toCamelCase } from "../../utils/case-converter";
  * Create a PostgreSQL connection pool using environment configuration.
  * Using a pool allows for multiple concurrent queries and better performance.
  */
-const pool = new pg.Pool({
+export const pool = new pg.Pool({
   user: config.POSTGRES_USER,
   host: config.POSTGRES_HOST,
   database: config.POSTGRES_DB,
@@ -42,7 +42,13 @@ const connectDatabase = async () => {
       port: config.POSTGRES_PORT,
     });
 
-    await pool.connect();
+    const client = await pool.connect();
+
+    try {
+      await client.query("SELECT 1");
+    } finally {
+      client.release();
+    }
 
     logger.info("Database connection established successfully", {
       context: "Database",

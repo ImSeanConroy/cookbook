@@ -13,5 +13,6 @@ if (!parsed.success) {
 
 export const config = {
   BASE_URL: parsed.data.VITE_BASE_URL,
-  READ_ONLY: parsed.data.VITE_READ_ONLY ?? false,
+  FRONTEND_URL: import.meta.env.VITE_FRONTEND_URL || "http://localhost:5173",
+  BACKEND_URL: import.meta.env.VITE_BACKEND_URL || "http://localhost:9001",
 };

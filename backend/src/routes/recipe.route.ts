@@ -6,11 +6,11 @@ import {
   getRecipeByIdController,
   updateRecipeController,
 } from "../controllers/recipe.controller";
-import isReadOnly from "../middleware/read-only.middleware";
+import { requireAuth } from "../middleware/auth.middleware";
 
 /**
  * Router for recipe-related endpoints.
- * Includes CRUD operations with optional READ_ONLY middleware for write operations.
+ * Includes CRUD operations.
  */
 const recipeRoutes = Router();
 
@@ -35,7 +35,7 @@ const recipeRoutes = Router();
  *             schema:
  *               $ref: '#/components/schemas/RecipeMutationResponse'
  */
-recipeRoutes.post("/", isReadOnly, createRecipeController);
+recipeRoutes.post("/", requireAuth, createRecipeController);
 
 /**
  * @openapi
@@ -149,7 +149,7 @@ recipeRoutes.get("/:id", getRecipeByIdController);
  *             schema:
  *               $ref: '#/components/schemas/RecipeMutationResponse'
  */
-recipeRoutes.put("/:id", isReadOnly, updateRecipeController);
+recipeRoutes.put("/:id", requireAuth, updateRecipeController);
 
 /**
  * @openapi
@@ -172,6 +172,6 @@ recipeRoutes.put("/:id", isReadOnly, updateRecipeController);
  *             schema:
  *               $ref: '#/components/schemas/DeleteResponse'
  */
-recipeRoutes.delete("/:id", isReadOnly, deleteRecipeController);
+recipeRoutes.delete("/:id", requireAuth, deleteRecipeController);
 
 export default recipeRoutes;

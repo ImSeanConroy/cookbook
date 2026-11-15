@@ -3,7 +3,7 @@ import { RecipesProvider } from "@/context/recipe-context";
 import Header from "@/components/navigation/header";
 import { ModalProvider } from "@/context/modal-context";
 
-const BaseLayout = () => {
+const AppLayout = () => {
   return (
     <RecipesProvider>
       <ModalProvider>
@@ -18,4 +18,4 @@ const BaseLayout = () => {
   );
 };
 
-export default BaseLayout;
+export default AppLayout;

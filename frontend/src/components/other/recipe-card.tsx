@@ -61,49 +61,47 @@ const RecipeCard = ({
           </Badge>
         </div>
 
-        {config.READ_ONLY == false && (
-          <div className="absolute top-0 right-0 z-50 p-3">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="default"
-                  size="sm"
-                  className="data-[state=open]:bg-muted size-8 cursor-pointer"
-                >
-                  <MoreHorizontal />
-                  <span className="sr-only">Open menu</span>
-                </Button>
-              </DropdownMenuTrigger>
+        <div className="absolute top-0 right-0 z-50 p-3">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="default"
+                size="sm"
+                className="data-[state=open]:bg-muted size-8 cursor-pointer"
+              >
+                <MoreHorizontal />
+                <span className="sr-only">Open menu</span>
+              </Button>
+            </DropdownMenuTrigger>
 
-              <DropdownMenuContent align="end" className="w-40">
-                <DropdownMenuItem
-                  className="cursor-pointer"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onOpen("editRecipe", { recipeId: id });
-                  }}
-                >
-                  Edit
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  variant="destructive"
-                  className="cursor-pointer"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onOpen("deleteRecipe", {
-                      recipeId: id,
-                      recipeTitle: title,
-                    });
-                  }}
-                >
-                  Delete
-                  <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        )}
+            <DropdownMenuContent align="end" className="w-40">
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onOpen("editRecipe", { recipeId: id });
+                }}
+              >
+                Edit
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                variant="destructive"
+                className="cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onOpen("deleteRecipe", {
+                    recipeId: id,
+                    recipeTitle: title,
+                  });
+                }}
+              >
+                Delete
+                <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
 
         <img
           src={imageUrl}

@@ -110,15 +110,13 @@ export function TableToolbar() {
         >
           <CalendarDays className="h-5 w-5" />
         </Button>
-        {config.READ_ONLY == false && (
-          <Button
-            size="sm"
-            className="cursor-pointer"
-            onClick={() => onOpen("createRecipe")}
-          >
-            Create Recipe
-          </Button>
-        )}
+        <Button
+          size="sm"
+          className="cursor-pointer"
+          onClick={() => onOpen("createRecipe")}
+        >
+          Create Recipe
+        </Button>
       </div>
     </div>
   );
